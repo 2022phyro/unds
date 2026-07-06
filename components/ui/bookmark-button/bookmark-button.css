@@ -1,0 +1,191 @@
+/* ==========================================================================
+   BookmarkButton Styles
+   ========================================================================== */
+
+.bb-shape {
+  /* Design Tokens / Dimensions */
+  --bb-tail-w: 24px;   /* Width of the ribbon tail extension */
+  --bb-notch-d: 8px;   /* Depth of the swallowtail cut */
+  --bb-radius: 4px;    /* Rounded corners matching your screenshot */
+  --bb-bw: 1px;        /* Border width matching container border */
+  
+  position: relative;
+  box-sizing: border-box;
+  border-top-left-radius: var(--bb-radius);
+  border-bottom-left-radius: var(--bb-radius);
+  margin-right: var(--bb-tail-w); /* Reserves space so tail is clickable/visible */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Size Configurations */
+.bb-size-sm {
+  height: 2.25rem;
+  padding: 0 1.25rem;
+  font-size: 0.75rem;
+  --bb-tail-w: 18px;
+  --bb-notch-d: 6px;
+}
+.bb-size-md {
+  height: 2.75rem;
+  padding: 0 1.75rem;
+  font-size: 0.85rem;
+  --bb-tail-w: 24px;
+  --bb-notch-d: 8px;
+}
+.bb-size-lg {
+  height: 3.25rem;
+  padding: 0 2.25rem;
+  font-size: 0.95rem;
+  --bb-tail-w: 28px;
+  --bb-notch-d: 10px;
+}
+
+/* ==========================================================================
+   Color Themes 
+   ========================================================================== */
+.bb-color-primary {
+  --theme-main: #0b2b16;          /* Deep Forest Green */
+  --theme-tail: #071c0e;          /* Darker fold shade for depth */
+  --theme-border: #0b2b16;
+  --theme-text: #ffffff;
+  
+  --theme-outline-bg: #fcfbfa;    /* Off-white interior background */
+  --theme-outline-stroke: #586346;/* Muted olive border stroke */
+  --theme-outline-text: #414a33;
+}
+.bb-color-neutral {
+  --theme-main: #1f1f1f;
+  --theme-tail: #141414;
+  --theme-border: #1f1f1f;
+  --theme-text: #ffffff;
+  --theme-outline-bg: #ffffff;
+  --theme-outline-stroke: #737373;
+  --theme-outline-text: #404040;
+}
+
+/* ==========================================================================
+   Common Ribbon Tail Layout
+   ========================================================================== */
+.bb-tail {
+  position: absolute;
+  top: -1px;    
+  bottom: -1px; 
+  left: 100%;
+  width: var(--bb-tail-w);
+  pointer-events: none;
+  display: block;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Variants Implementation
+   ========================================================================== */
+
+/* --- FILLED VARIANT --- */
+.bb-filled {
+  background-color: var(--theme-main);
+  border: 1px solid var(--theme-border);
+  border-right: none;
+  color: var(--theme-text);
+}
+
+.bb-filled .bb-tail {
+  background-color: var(--theme-tail);
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--bb-notch-d)) 50%, 100% 100%, 20% 100%, 0 calc(100% - 6px), 0 0);
+}
+
+/* Creates the inner crease lines and shadows following the polygon angle */
+.bb-filled .bb-tail::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Dark divider gradient that flows straight down, then folds along the lower triangular seam */
+  background: linear-gradient(to right, rgba(0,0,0,0.45) 1px, transparent 1px);
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--bb-notch-d)) 50%, 100% 100%, 20% 100%, 0 calc(100% - 6px), 0 0);
+}
+
+.bb-filled:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+
+/* --- OUTLINE VARIANT --- */
+.bb-outline {
+  background-color: var(--theme-outline-bg);
+  border: 1px solid var(--theme-outline-stroke);
+  border-right: none; 
+  color: var(--theme-outline-text);
+}
+
+/* The base layer acts as the uniform outer frame stroke color */
+.bb-outline .bb-tail {
+  background-color: var(--theme-outline-stroke);
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--bb-notch-d)) 50%, 100% 100%, 20% 100%, 0 calc(100% - 6px), 0 0);
+}
+
+/* By dropping a second slightly offset layer inside, we create perfect borders
+   and ensure the vertical border trace cleanly matches the bottom triangular fold.
+*/
+.bb-outline .bb-tail::before {
+  content: "";
+  position: absolute;
+  top: var(--bb-bw);
+  bottom: var(--bb-bw);
+  right: var(--bb-bw);
+  left: var(--bb-bw); /* Leaving a 1px gap on the left creates the inner vertical divider line */
+  background-color: var(--theme-outline-bg);
+  display: block;
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--bb-notch-d)) 50%, 100% 100%, 20% 100%, 0 calc(100% - 6px), 0 0);
+}
+
+/* Hover transitions for Outline Variant */
+.bb-outline:hover:not(:disabled) {
+  --theme-outline-bg: color-mix(in srgb, var(--theme-outline-stroke) 5%, #fcfbfa);
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   Content & Layout Mechanics
+   ========================================================================== */
+.bb-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  height: 100%;
+  z-index: 2;
+}
+
+.bb-label {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.bb-icon-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bb-icon {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.bb-icon-spin {
+  animation: bb-spin 1s linear infinite;
+}
+
+@keyframes bb-spin {
+  to { transform: rotate(360deg); }
+}
+
+.bb-shape:active:not(:disabled) {
+  transform: translateY(1px);
+}

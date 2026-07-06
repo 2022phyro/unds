@@ -1,0 +1,133 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+type Testimonial = {
+  quote: string;
+  name: string;
+  role: string;
+  avatar: string;
+};
+
+type TestimonialsCarouselProps = {
+  testimonials: Testimonial[];
+};
+
+export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const previous = () => {
+    setActiveIndex((current) => (current - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const next = () => {
+    setActiveIndex((current) => (current + 1) % testimonials.length);
+  };
+
+  return (
+    <section 
+      className="w-full overflow-hidden py-12 relative"
+      aria-roledescription="carousel"
+      aria-label="Testimonials focus carousel"
+    >
+      {/* Header Info Grid */}
+      <div className="max-w-6xl mx-auto px-6 flex items-end justify-between gap-4 border-b border-border/40 pb-4 mb-12">
+        <div>
+          <p className="font-ui text-xs font-semibold uppercase tracking-[0.28em] text-text-muted">
+            Chamber Testimony
+          </p>
+          <h3 className="mt-1 font-serif text-3xl text-text-primary">Voices of Impact</h3>
+        </div>
+        <p className="font-ui text-xs uppercase tracking-[0.24em] text-text-muted">
+          {activeIndex + 1} / {testimonials.length}
+        </p>
+      </div>
+
+      {/* --- WIDESCREEN SLIDER TRACK --- */}
+      <div className="relative w-full h-[400px] flex items-center justify-center">
+        <div className="flex items-center justify-center w-full h-full relative">
+          {testimonials.map((testimonial, index) => {
+            // Calculate relative offset position from the active center index
+            let offset = index - activeIndex;
+            
+            // Loop calculations over the array bounds cleanly
+            if (offset < -1) offset += testimonials.length;
+            if (offset > 1) offset -= testimonials.length;
+
+            const isActive = offset === 0;
+            const isLeft = offset === -1;
+            const isRight = offset === 1;
+            const isHidden = !isActive && !isLeft && !isRight;
+
+            return (
+              <div
+                key={index}
+                onClick={() => !isActive && setActiveIndex(index)}
+                className={`absolute w-[90%] sm:w-[500px] transition-all duration-500 ease-out cursor-pointer select-none
+                  ${isActive ? "z-30 opacity-100 scale-100 blur-0 pointer-events-auto" : ""}
+                  ${isLeft ? "z-10 opacity-40 -translate-x-[60%] sm:-translate-x-[75%] scale-85 blur-[2px]" : ""}
+                  ${isRight ? "z-10 opacity-40 translate-x-[60%] sm:translate-x-[75%] scale-85 blur-[2px]" : ""}
+                  ${isHidden ? "opacity-0 scale-75 pointer-events-none z-0" : ""}
+                `}
+              >
+                {/* Book Themed Card Frame */}
+                <article className="surface border border-y-border border-r-border border-l-border/60 p-6 sm:p-8 rounded-r-2xl rounded-l-xs shadow-md relative min-h-[240px] flex flex-col justify-between before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-border/20 before:rounded-l-xs bg-[var(--surface)]">
+                  <p className="font-garamond text-lg sm:text-xl italic leading-relaxed text-text-secondary">
+                    “{testimonial.quote}”
+                  </p>
+
+                  <div className="mt-6 flex items-center gap-3 border-t border-border/40 pt-4">
+                    <img
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      className="h-10 w-10 rounded-full object-cover ring-1 ring-accent/35"
+                    />
+                    <div>
+                      <p className="text-sm font-semibold text-text-primary">{testimonial.name}</p>
+                      <p className="text-xs uppercase tracking-[0.2em] text-text-muted">{testimonial.role}</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* --- UTILITY BUTTON INTERFACES & TRACK INDICATORS --- */}
+      <div className="max-w-6xl mx-auto px-6 mt-8 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={previous}
+            className="inline-flex h-10 w-10 items-center justify-center border border-border bg-surface-muted text-text-primary transition-colors hover:bg-surface rounded-md"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={next}
+            className="inline-flex h-10 w-10 items-center justify-center border border-border bg-surface-muted text-text-primary transition-colors hover:bg-surface rounded-md"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Flat Minimal Progression Metrics */}
+        <div className="flex items-center gap-2">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setActiveIndex(index)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                index === activeIndex ? "w-8 bg-primary" : "w-2 bg-border hover:bg-text-muted/40"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
