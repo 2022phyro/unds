@@ -108,7 +108,7 @@ export default function SiteHeader() {
                   {item.label}
                 </Link>
               ))}
-              <ThemeToggle/>
+              <ThemeToggle />
               <BookmarkButton variant={"filled"} className="font-garamond">
                 Join Today
               </BookmarkButton>
@@ -131,7 +131,7 @@ export default function SiteHeader() {
               className="mt-4 border-t border-white/30 pt-4 lg:hidden"
             >
               <nav className="grid gap-3" aria-label="Mobile">
-                              <ThemeToggle className="self-right"/>
+                <ThemeToggle />
 
                 {navItems.map((item) => (
                   <Link
@@ -148,8 +148,7 @@ export default function SiteHeader() {
                     {item.label}
                   </Link>
                 ))}
-                <Button className="w-full h-12 font-garamond" color={"primary"}
-                >
+                <Button className="w-full h-12 font-garamond">
                   Join us
                 </Button>
               </nav>

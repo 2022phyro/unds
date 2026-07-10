@@ -38,7 +38,7 @@ export function Button({
           BOTH themes, whereas --surface sits too close to --background in dark mode.
       */}
       <span className={`
-        relative inline-flex items-center btn btn-accent justify-center rounded-xs border border-button-ink bg-button-surface 
+        relative inline-flex items-center btn btn-primary justify-center rounded-xs border border-button-ink bg-button-surface 
         px-6 py-2.5 text-lg! font-bold font-garamond! tracking-[0.16em] text-button-ink
         
         /* Smooth Desktop Transitions */

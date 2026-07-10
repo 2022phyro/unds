@@ -38,7 +38,7 @@ export function NewsletterForm({ source, className = "" }: NewsletterFormProps) 
         <button
           type="submit"
           disabled={isPending}
-          className="px-5 btn btn-accent rounded-xs! text-xs font-garamond!  tracking-wider font-bold transition-colors hover:bg-[#1f281b] disabled:opacity-50"
+          className="px-5 btn btn-primary rounded-xs! text-xs font-garamond!  tracking-wider font-bold transition-colors hover:bg-[#1f281b] disabled:opacity-50"
         >
           {isPending ? "..." : "Subscribe"}
         </button>

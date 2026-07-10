@@ -14,212 +14,249 @@
   color-scheme: light;
 
   /* Brand */
-  --evergreen:#002400;
-  --black-forest:#273b09;
-  --palm-leaf:#7b904b;
-  --lavender:#e4e3f5;
-  --lavender-2:#e4e2e4;
-  --evergreen-lighter:#3b4f2e;
-  --black-forest-white:#e6ebe3;
-  --evergreen-light:#586346;
-  --evergreen-dark:#1f2a1b;
-  --white:#ffffff;
-  --stone-50:#fafaf8;
-  --stone-100:#f5f4f1;
-  --stone-200:#e8e5df;
+  --evergreen: #002400;
+  --black-forest: #273b09;
+  --palm-leaf: #7b904b;
+  --lavender: #e4e3f5;
+  --lavender-2: #e4e2e4;
+  --evergreen-lighter: #3b4f2e;
+  --black-forest-white: #e6ebe3;
+  --evergreen-light: #586346;
+  --evergreen-dark: #1f2a1b;
+  --white: #ffffff;
+  --stone-50: #fafaf8;
+  --stone-100: #f5f4f1;
+  --stone-200: #e8e5df;
 
   /* Semantic */
   --background: var(--lavender);
-  --foreground:var(--evergreen);
+  --foreground: var(--evergreen);
 
-  --surface:var(--white);
-  --surface-muted:#f4f2f8;
+  --surface: var(--white);
+  --surface-muted: #f4f2f8;
 
-  --primary:var(--black-forest);
-  --primary-hover:var(--evergreen);
+  --primary: var(--black-forest);
+  --primary-hover: var(--evergreen);
 
-  --secondary:var(--lavender);
-  --accent:var(--palm-leaf);
+  --secondary: var(--lavender);
+  --accent: var(--palm-leaf);
 
-  --border:rgb(39 59 9 / 12%);
-  --ring:rgb(123 144 75 / 35%);
+  --border: rgb(39 59 9 / 12%);
+  --ring: rgb(123 144 75 / 35%);
 
-  --text-primary:var(--black-forest);
-  --text-primary-dark:var(--evergreen);
-  --text-secondary:#425237;
-  --text-muted:#6b7280;
-  --text-inverse:#fff;
+  --text-primary: var(--black-forest);
+  --text-primary-dark: var(--evergreen);
+  --text-secondary: #425237;
+  --text-muted: #6b7280;
+  --text-inverse: #fff;
 
   /* Theme-aware selection color (was hardcoded to light-mode lavender) */
-  --selection-bg:var(--lavender);
-  --selection-fg:var(--evergreen);
+  --selection-bg: var(--lavender);
+  --selection-fg: var(--evergreen);
 
   /* Dedicated "plaque" pair for offset-frame buttons (e.g. Join Today).
      Distinct from --surface/--text-primary because these need to stay
      visibly separated from --background in BOTH themes, which surface
      alone can't guarantee once background and surface sit close together
      in dark mode. */
-  --button-surface:var(--white);
-  --button-ink:var(--black-forest);
+  --button-surface: var(--white);
+  --button-ink: var(--black-forest);
 
   /* Complementary CTA accent — deep indigo-violet, a saturated version of
      the same blue-violet hue --lavender already sits at (desaturated).
      Use for a second CTA voice (e.g. Register) distinct from the green/
      white Join Today button. Dark-on-light text pairing throughout. */
-  --btn-accent:#4b4a86;
-  --btn-accent-hover:#3a3968;
-  --btn-accent-active:#2c2b52;
-  --btn-accent-text:#f5f4fb;
-  --btn-accent-ring:rgb(75 74 134 / 35%);
+  --btn-accent: #4b4a86;
+  --btn-accent-hover: #3a3968;
+  --btn-accent-active: #2c2b52;
+  --btn-accent-text: #f5f4fb;
+  --btn-accent-ring: rgb(75 74 134 / 35%);
 
   /* Typography */
-  --font-heading: var(--font-playfair), serif;    /* Editorial Prestige */
-  --font-body: var(--font-manrope), sans-serif;    /* Clinical, Clean Reading */
+  --font-heading: var(--font-playfair), serif; /* Editorial Prestige */
+  --font-body: var(--font-manrope), sans-serif; /* Clinical, Clean Reading */
   --font-ui: var(--font-manrope), sans-serif;
 
   /* Radius */
-  --radius-xs:.25rem;
-  --radius-sm:.5rem;
-  --radius-md:.75rem;
-  --radius-lg:1rem;
-  --radius-xl:1.5rem;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
 
   /* Shadows */
-  --shadow-xs:0 1px 2px rgb(0 0 0 /.05);
-  --shadow-sm:0 2px 6px rgb(0 0 0 /.06);
-  --shadow-md:0 8px 20px rgb(0 0 0 /.08);
-  --shadow-lg:0 14px 32px rgb(0 36 0 /.08);
+  --shadow-xs: 0 1px 2px rgb(0 0 0 /0.05);
+  --shadow-sm: 0 2px 6px rgb(0 0 0 /0.06);
+  --shadow-md: 0 8px 20px rgb(0 0 0 /0.08);
+  --shadow-lg: 0 14px 32px rgb(0 36 0 /0.08);
 
   /* Motion */
-  --transition-fast:150ms;
-  --transition:220ms;
-  --transition-slow:320ms;
-  --ease-standard:cubic-bezier(.2,.8,.2,1);
+  --transition-fast: 150ms;
+  --transition: 220ms;
+  --transition-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
 
   /* Layout */
-  --header-height:4.5rem;
-  --container-sm:42rem;
-  --container-md:64rem;
-  --container-lg:80rem;
-  --section-spacing:clamp(4rem,8vw,7rem);
+  --header-height: 4.5rem;
+  --container-sm: 42rem;
+  --container-md: 64rem;
+  --container-lg: 80rem;
+  --section-spacing: clamp(4rem, 8vw, 7rem);
+
+  --btn-primary: #23432f; /* Deep Forest */
+  --btn-primary-hover: #2c5339;
+  --btn-primary-active: #1b3525;
+  --btn-primary-text: #f7f5ef; /* Warm Ivory */
 }
 
-.dark{
+.dark {
   color-scheme: dark;
 
-  --background:#10140f;
-  --foreground:#edf2ea;
+  --background: #10140f;
+  --foreground: #edf2ea;
 
-  --surface:#182017;
-  --surface-muted:#222a20;
+  --surface: #182017;
+  --surface-muted: #222a20;
 
-  --primary:#b8d09a;
-  --primary-hover:#d2e4bb;
+  --primary: #b8d09a;
+  --primary-hover: #d2e4bb;
 
-  --secondary:#3b3646;
-  --accent:#9fb96d;
+  --secondary: #3b3646;
+  --accent: #9fb96d;
 
-  --border:rgb(184 208 154 / 14%);
-  --ring:rgb(159 185 109 / 40%);
+  --border: rgb(184 208 154 / 14%);
+  --ring: rgb(159 185 109 / 40%);
 
-  --text-primary:#edf2ea;
-  --text-primary-dark:#edf2ea;
-  --text-secondary:#c7d3c3;
-  --text-muted:#9ca7a0;
-  --text-inverse:#10140f;
+  --text-primary: #edf2ea;
+  --text-primary-dark: #edf2ea;
+  --text-secondary: #c7d3c3;
+  --text-muted: #9ca7a0;
+  --text-inverse: #10140f;
 
-  --selection-bg:#3b3646;
-  --selection-fg:#edf2ea;
+  --selection-bg: #3b3646;
+  --selection-fg: #edf2ea;
 
   /* Parchment plaque: light bg-forest-white against dark ink, so buttons
      visibly separate from the near-black page instead of blending into it. */
-  --button-surface:var(--black-forest-white);
-  --button-ink:var(--evergreen-dark);
+  --button-surface: var(--black-forest-white);
+  --button-ink: var(--evergreen-dark);
 
   /* Complementary CTA accent — deep indigo-violet, a saturated version of
      the same blue-violet hue --lavender already sits at (desaturated).
      Use for a second CTA voice (e.g. Register) distinct from the green/
      parchment Join Today button. Light-on-dark text pairing throughout. */
-  --btn-accent:#8f8dc7;
-  --btn-accent-hover:#a7a5d6;
-  --btn-accent-active:#6d6bb0;
-  --btn-accent-text:#14121f;
-  --btn-accent-ring:rgb(143 141 199 / 40%);
+  --btn-accent: #8f8dc7;
+  --btn-accent-hover: #a7a5d6;
+  --btn-accent-active: #6d6bb0;
+  --btn-accent-text: #14121f;
+  --btn-accent-ring: rgb(143 141 199 / 40%);
 
-  --shadow-xs:0 1px 2px rgb(0 0 0 /.35);
-  --shadow-sm:0 2px 8px rgb(0 0 0 /.4);
-  --shadow-md:0 8px 24px rgb(0 0 0 /.45);
-  --shadow-lg:0 18px 40px rgb(0 0 0 /.5);
+
+
+  /* Dark Mode */
+  --btn-primary: #a8c17a; /* Sage */
+  --btn-primary-hover: #b6cc8c;
+  --btn-primary-active: #97b06a;
+  --btn-primary-text: #142015; /* Deep Forest */
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 /0.35);
+  --shadow-sm: 0 2px 8px rgb(0 0 0 /0.4);
+  --shadow-md: 0 8px 24px rgb(0 0 0 /0.45);
+  --shadow-lg: 0 18px 40px rgb(0 0 0 /0.5);
 }
 
 /* Tailwind theme */
 
 @theme inline {
-  --color-background:var(--background);
-  --color-foreground:var(--foreground);
-  --color-surface:var(--surface);
-  --color-surface-muted:var(--surface-muted);
-  --color-primary:var(--primary);
-  --color-primary-hover:var(--primary-hover);
-  --color-secondary:var(--secondary);
-  --color-accent:var(--accent);
-  --color-border:var(--border);
-  --color-ring:var(--ring);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
 
-  --color-text-primary:var(--text-primary);
-  --color-text-secondary:var(--text-secondary);
-  --color-text-muted:var(--text-muted);
-  --color-text-inverse:var(--text-inverse);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverse: var(--text-inverse);
 
-  --color-button-surface:var(--button-surface);
-  --color-button-ink:var(--button-ink);
+  --color-button-surface: var(--button-surface);
+  --color-button-ink: var(--button-ink);
 
-  --color-btn-accent:var(--btn-accent);
-  --color-btn-accent-hover:var(--btn-accent-hover);
-  --color-btn-accent-active:var(--btn-accent-active);
-  --color-btn-accent-text:var(--btn-accent-text);
+  --color-btn-accent: var(--btn-accent);
+  --color-btn-accent-hover: var(--btn-accent-hover);
+  --color-btn-accent-active: var(--btn-accent-active);
+  --color-btn-accent-text: var(--btn-accent-text);
 
-  --font-heading:var(--font-heading);
-  --font-body:var(--font-body);
-  --font-ui:var(--font-ui);
-  --font-garamond:var(--font-garamond);
-  --font-playfair:var(--font-playfair);
-  --font-manrope:var(--font-manrope);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-ui: var(--font-ui);
+  --font-garamond: var(--font-garamond);
+  --font-playfair: var(--font-playfair);
+  --font-manrope: var(--font-manrope);
 
-  --radius-xs:var(--radius-xs);
-  --radius-sm:var(--radius-sm);
-  --radius-md:var(--radius-md);
-  --radius-lg:var(--radius-lg);
-  --radius-xl:var(--radius-xl);
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
 
-  --shadow-xs:var(--shadow-xs);
-  --shadow-sm:var(--shadow-sm);
-  --shadow-md:var(--shadow-md);
-  --shadow-lg:var(--shadow-lg);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
 }
 
 /* Reset */
 
-*,*::before,*::after{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth}
-body{
-  min-height:100vh;
-  background:var(--background);
-  color:var(--foreground);
-  font-family:var(--font-body);
-  text-rendering:optimizeLegibility;
-  -webkit-font-smoothing:antialiased;
-  transition:background-color var(--transition) var(--ease-standard),
-             color var(--transition) var(--ease-standard);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
 }
-img,picture,video,canvas,svg{display:block;max-width:100%}
-button{cursor:pointer}
-button:disabled{cursor:not-allowed}
-table{border-collapse:collapse;width:100%}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color var(--transition) var(--ease-standard),
+    color var(--transition) var(--ease-standard);
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
 /* Typography */
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-heading);
   color: var(--text-primary);
   line-height: 1.15;
@@ -228,7 +265,9 @@ h1, h2, h3 {
 }
 
 /* Sub-headings drop down to Sans-Serif to kill the "over-serifed" look */
-h4, h5, h6 {
+h4,
+h5,
+h6 {
   font-family: var(--font-body);
   color: var(--text-primary);
   font-weight: 700;
@@ -237,15 +276,30 @@ h4, h5, h6 {
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(2.8rem, 6vw, 4.5rem); }
-h2 { font-size: clamp(2.2rem, 5vw, 3.5rem); }
-h3 { font-size: clamp(1.8rem, 4vw, 2.5rem); }
-h4 { font-size: 1.35rem; letter-spacing: 0.05em; }
-h5 { font-size: 1.15rem; }
-h6 { font-size: 1rem; }
+h1 {
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+}
+h2 {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+}
+h3 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+h4 {
+  font-size: 1.35rem;
+  letter-spacing: 0.05em;
+}
+h5 {
+  font-size: 1.15rem;
+}
+h6 {
+  font-size: 1rem;
+}
 
 /* Paragraph Body Text */
-p, li, blockquote {
+p,
+li,
+blockquote {
   font-family: var(--font-body);
   color: var(--text-secondary);
   line-height: 1.75;
@@ -256,77 +310,105 @@ input,
 textarea,
 select,
 label,
-.font-ui{
- font-family: var(--font-ui);
+.font-ui {
+  font-family: var(--font-ui);
 }
-.font-heading{font-family:var(--font-heading)}
-.font-body{font-family:var(--font-body)}
-.font-garamond{font-family:var(--font-garamond)}
-.font-playfair{font-family:var(--font-playfair)}
-.font-manrope{font-family:var(--font-manrope)}
-a{
-  color:inherit;
-  text-decoration:none;
-  transition:color var(--transition) var(--ease-standard);
+.font-heading {
+  font-family: var(--font-heading);
 }
-a:hover{color:var(--accent)}
+.font-body {
+  font-family: var(--font-body);
+}
+.font-garamond {
+  font-family: var(--font-garamond);
+}
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+.font-manrope {
+  font-family: var(--font-manrope);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition) var(--ease-standard);
+}
+a:hover {
+  color: var(--accent);
+}
 
-:focus-visible{
-  outline:none;
+:focus-visible {
+  outline: none;
 }
 
 /* Inputs: remove ring and only darken border on focus */
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
   box-shadow: none;
   border-color: color-mix(in srgb, var(--text-primary) 90%, transparent);
 }
 
 /* Typography overrides: labels use Garamond, body uses Manrope */
-label, .label {
+label,
+.label {
   font-family: var(--font-garamond);
 }
 
-body, input, textarea, select {
+body,
+input,
+textarea,
+select {
   font-family: var(--font-manrope);
 }
 
-::selection{
-  background:var(--selection-bg);
-  color:var(--selection-fg);
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
 }
 
-.container-reading{max-width:var(--container-sm);margin-inline:auto}
-.container{max-width:var(--container-md);margin-inline:auto}
-.container-wide{max-width:var(--container-lg);margin-inline:auto}
-
-.section{
-  padding-block:var(--section-spacing);
+.container-reading {
+  max-width: var(--container-sm);
+  margin-inline: auto;
+}
+.container {
+  max-width: var(--container-md);
+  margin-inline: auto;
+}
+.container-wide {
+  max-width: var(--container-lg);
+  margin-inline: auto;
 }
 
-.surface{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-sm);
+.section {
+  padding-block: var(--section-spacing);
 }
 
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    transition-duration:.01ms!important;
-    scroll-behavior:auto!important;
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-@media print{
-  body{
-    background:#fff;
-    color:#000;
+@media print {
+  body {
+    background: #fff;
+    color: #000;
   }
 }
-
 
 /* Staggered entrance transitions */
 .reveal-in {
@@ -347,8 +429,12 @@ body, input, textarea, select {
     transform: translateY(105vh) translateX(0) scale(1);
     opacity: 0;
   }
-  10% { opacity: 0.12; }
-  90% { opacity: 0.12; }
+  10% {
+    opacity: 0.12;
+  }
+  90% {
+    opacity: 0.12;
+  }
   100% {
     transform: translateY(-5vh) translateX(40px) scale(0.7);
     opacity: 0;
@@ -366,17 +452,26 @@ body, input, textarea, select {
 }
 
 /* Delay Utilites for Natural Spacing */
-.delay-1 { animation-delay: 2s; }
-.delay-2 { animation-delay: 5s; }
-.delay-3 { animation-delay: 9s; }
-.delay-4 { animation-delay: 14s; }
+.delay-1 {
+  animation-delay: 2s;
+}
+.delay-2 {
+  animation-delay: 5s;
+}
+.delay-3 {
+  animation-delay: 9s;
+}
+.delay-4 {
+  animation-delay: 14s;
+}
 
 /* ==========================================================================
    UNDS Debate Cacophony Speech Animations
    ========================================================================== */
 
 @keyframes vocalBurst {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1) translateY(0) rotate(var(--base-rot));
     z-index: var(--base-z);
     box-shadow: var(--shadow-xs);
@@ -392,13 +487,36 @@ body, input, textarea, select {
   }
 }
 
-.animate-speech-1 { --base-rot: -2deg; --base-z: 10; animation: vocalBurst 6.5s ease-in-out infinite; }
-.animate-speech-2 { --base-rot: 3deg;  --base-z: 15; animation: vocalBurst 5.0s ease-in-out infinite 0.8s; }
-.animate-speech-3 { --base-rot: -4deg; --base-z: 20; animation: vocalBurst 7.5s ease-in-out infinite 1.8s; }
-.animate-speech-4 { --base-rot: 2deg;  --base-z: 25; animation: vocalBurst 5.8s ease-in-out infinite 0.4s; }
-.animate-speech-5 { --base-rot: 4deg;  --base-z: 30; animation: vocalBurst 8.2s ease-in-out infinite 2.8s; }
-.animate-speech-6 { --base-rot: -3deg; --base-z: 35; animation: vocalBurst 6.0s ease-in-out infinite 1.2s; }
-
+.animate-speech-1 {
+  --base-rot: -2deg;
+  --base-z: 10;
+  animation: vocalBurst 6.5s ease-in-out infinite;
+}
+.animate-speech-2 {
+  --base-rot: 3deg;
+  --base-z: 15;
+  animation: vocalBurst 5s ease-in-out infinite 0.8s;
+}
+.animate-speech-3 {
+  --base-rot: -4deg;
+  --base-z: 20;
+  animation: vocalBurst 7.5s ease-in-out infinite 1.8s;
+}
+.animate-speech-4 {
+  --base-rot: 2deg;
+  --base-z: 25;
+  animation: vocalBurst 5.8s ease-in-out infinite 0.4s;
+}
+.animate-speech-5 {
+  --base-rot: 4deg;
+  --base-z: 30;
+  animation: vocalBurst 8.2s ease-in-out infinite 2.8s;
+}
+.animate-speech-6 {
+  --base-rot: -3deg;
+  --base-z: 35;
+  animation: vocalBurst 6s ease-in-out infinite 1.2s;
+}
 
 @layer utilities {
   .btn {
@@ -419,7 +537,7 @@ body, input, textarea, select {
 
     /* Typography Control */
     font-size: var(--text-lg); /* text-sm */
-    font-weight: 600;    /* font-semibold */
+    font-weight: 600; /* font-semibold */
     line-height: 1.25rem;
     font-family: var(--font-garamond);
     letter-spacing: 0.025em;
@@ -452,13 +570,18 @@ body, input, textarea, select {
 
   /* Primary Action variant */
   .btn-primary {
-    background-color: var(--text-primary);
-    color: var(--surface);
-    border-color: var(--text-primary);
+    background-color: var(--btn-primary);
+    color: var(--btn-primary-text);
+    border-color: var(--primary);
   }
   .btn-primary:hover {
-    background-color: var(--text-secondary);
-    border-color: var(--text-secondary);
+    background-color: var(--btn-primary-hover);
+    border-color: var(--primary);
+      color: var(--btn-primary-text);
+  }
+  .btn-primary:active {
+    background-color: var(--btn-primary-active);
+    border-color: var(--primary);
   }
 
   /* Secondary / Bordered Outline Variant */
@@ -494,5 +617,4 @@ body, input, textarea, select {
     outline: 2px solid var(--btn-accent-ring);
     outline-offset: 2px;
   }
-
 }

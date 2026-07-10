@@ -48,7 +48,7 @@ export default function LoginPage() {
         <Button
           type="submit"
           disabled={isPending}
-          className="w-full px-5 py-3 btn btn-accent text-[#fcfbf9] text-xs font-ui tracking-wider font-bold transition-colors hover:bg-[#1f281b] disabled:opacity-50"
+          className="w-full px-5 py-3 btn btn-primary text-[#fcfbf9] text-xs font-ui tracking-wider font-bold transition-colors hover:bg-[#1f281b] disabled:opacity-50"
         >
           {isPending ? "Signing in..." : "Sign In"}
         </Button>

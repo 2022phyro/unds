@@ -45,7 +45,7 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
           ))}
         </nav>
         <form action={logoutAction} className="pt-4 border-t border-[#2e3a28]/10">
-          <button type="submit" className="text-xs font-ui btn btn-accent tracking-wider text-red-500 cursor-pointer">
+          <button type="submit" className="text-xs font-ui btn btn-primary tracking-wider text-red-500 cursor-pointer">
             Sign Out
           </button>
         </form>
