@@ -100,7 +100,7 @@ export default function HomePage() {
         </SectionReveal>
 
         {/* TESTIMONIALS REPUTATION MODULE */}
-        {/* <SectionReveal>
+        <SectionReveal>
           <div className="border-b border-border py-16">
             <div className="mb-8">
               <h2 className="mt-1 text-lg font-garamond font-semibold text-text-primary tracking-wide m-0">
@@ -109,7 +109,7 @@ export default function HomePage() {
             </div>
             <TestimonialsCarousel testimonials={TESTIMONIALS} />
           </div>
-        </SectionReveal> */}
+        </SectionReveal>
 
         {/* JOURNAL ARCHIVE DESK */}
         <SectionReveal>
