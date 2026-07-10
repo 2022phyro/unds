@@ -32,38 +32,37 @@ export const metadata: Metadata = {
     "University of Nigeria Debating Society", 
     "The Spartans", 
     "Debate Union Nigeria", 
-    "British Parliamentary Debate", 
-    "Competitive Forensics"
+    "British Parliamentary Debate"
   ],
   authors: [{ name: "UNDS Executive Council" }],
-  creator: "UNDS Debating Union",
+  creator: "UNDS Technical team",
   publisher: "University of Nigeria Debating Society",
   metadataBase: new URL("https://unds.org"), // Replace with your final Vercel or custom domain
-  
+
   // Open Graph (Facebook, WhatsApp, LinkedIn, Discord previews)
   openGraph: {
-    title: "Welcome to UNDS Debating Union",
+    title: "Welcome to University of Nigeria Debating Society",
     description: "The proving ground for the sharpest minds. Discover competitive forensics excellence and intellectual discourse.",
     url: "https://unds.org",
-    siteName: "UNDS Debating Union",
+    siteName: "University of Nigeria Debating Society",
     locale: "en_NG",
     type: "website",
     images: [
       {
-        url: "/og-image.jpg", // Place an elegant, dark-forest/academic banner image in your public folder
+        url: "/logo.png", // Place an elegant, dark-forest/academic banner image in your public folder
         width: 1200,
         height: 630,
-        alt: "UNDS Debating Union - The Spartans",
-      },
-    ],
+          alt: "University of Nigeria Debating Society - The Spartans",
+        },
+      ],
   },
 
   // Twitter Cards (X Previews)
   twitter: {
     card: "summary_large_image",
-    title: "UNDS Debating Union // Home of the Spartans",
+    title: "University of Nigeria Debating Society // Home of the Spartans",
     description: "Forge analytical clarity, master forensic speech, and compete on international debating circuits.",
-    images: ["/og-image.jpg"],
+    images: ["/logo.png"],
   },
 
   // Robots & Crawlers instructions
@@ -82,8 +81,8 @@ export const metadata: Metadata = {
   // Browser icons configuration
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
+    // shortcut: "/favicon-16x16.png",
+    // apple: "/apple-touch-icon.png",
   },
 };
 
