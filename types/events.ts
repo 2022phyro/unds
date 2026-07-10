@@ -1,0 +1,30 @@
+export type EventType = "INTERNAL_HOST" | "EXTERNAL_MAJOR" | "RECURRING_LOOP";
+export type EventStatus =
+  | "REGISTRATION_OPEN"
+  | "REGISTRATION_LOCKED"
+  | "COMPLETED"
+  | "ONGOING"
+  | "CLOSING_SOON";
+export type DeliveryMode = "ONLINE" | "OFFLINE" | "HYBRID";
+
+export interface UNDSEvent {
+  id: string;
+  type: EventType;
+  status: EventStatus;
+  title: string;
+  dateString: string; // e.g., "OCT 22-25, 2026"
+  sortDate: string; // ISO format string for timeline sequencing
+  location: string; // e.g., "SUB CHAMBERS / UNN" or "ACCRA, GH"
+  format: string; // e.g., "BRITISH PARLIAMENTARY" or "POLICY LAB"
+  deliveryMode: DeliveryMode;
+  description: string;
+  registrationUrl?: string; // Presence of this dynamically triggers the CTA
+}
+
+export interface ChampionshipWin {
+  year: string;
+  title: string;
+  tier: string;
+  circuit: string;
+  imageUrl: string;
+}

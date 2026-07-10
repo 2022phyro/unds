@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "align": "left",
+    "label": "// Chair",
+    "text": "Rankings; from first position to fourth, we have OG, OO...",
+    "fontClass": "font-garamond text-text-primary",
+    "bubbleClass": "left-[5%] top-[3%] w-[74%] sm:w-[52%] md:w-[45%] bg-surface border-border/80 animate-speech-1"
+  },
+  {
+    "id": 2,
+    "align": "right",
+    "label": "// Gov whip",
+    "text": "POI! Are you saying victims of rape consent to conception!",
+    "fontClass": "font-manrope font-bold uppercase tracking-[0.08em]",
+    "bubbleClass": "right-[4%] top-[18%] sm:top-[15%] w-[72%] sm:w-[48%] md:w-[42%] bg-(--black-forest) border-transparent animate-speech-2",
+    "style": { "color": "#ffffff" }
+  },
+  {
+    "id": 3,
+    "align": "left",
+    "label": "// Prime Minister",
+    "text": "This House believes that every country should have nuclear weapons.",
+    "fontClass": "font-body text-text-secondary",
+    "bubbleClass": "left-[7%] top-[35%] sm:top-[32%] w-[76%] sm:w-[54%] md:w-[48%] bg-surface border-border/80 animate-speech-3"
+  },
+  {
+    "id": 4,
+    "align": "right",
+    "label": "// Opp Whip",
+    "text": "Panel, in the vast majority of instances, epistemic access can only be attained by self actualization.",
+    "fontClass": "font-garamond italic text-[#002400]",
+    "bubbleClass": "right-[5%] top-[51%] sm:top-[47%] w-[72%] sm:w-[50%] md:w-[44%] bg-(--lavender) border-accent/40 animate-speech-4",
+    "style": { "color": "#002400" }
+
+  },
+  {
+    "id": 5,
+    "align": "left",
+    "label": "// Panel",
+    "text": "Honestly, CO had no extensions. They were derivative",
+    "fontClass": "font-heading text-text-primary",
+    "bubbleClass": "left-[4%] bottom-[15%] w-[74%] sm:w-[50%] md:w-[46%] bg-surface border-border/80 animate-speech-5"
+  }
+]

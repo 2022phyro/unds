@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------- RBAC ----------
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  passwordHash String
+  role         Role          @default(USER)
+  isStaff      Boolean       @default(false)
+  memberships  UserToGroup[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Group {
+  id      String        @id @default(cuid())
+  name    String        @unique
+  members UserToGroup[]
+}
+
+model UserToGroup {
+  userId  String
+  groupId String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([userId, groupId])
+}
+
+// ---------- Gallery (standalone "memories" domain — no relation to tournaments) ----------
+enum AlbumCategory {
+  TOURNAMENTS
+  TRAININGS
+  SOCIALS
+  AWARDS
+}
+
+model Album {
+  id               String        @id @default(cuid())
+  slug             String        @unique
+  category         AlbumCategory
+  year             Int
+  title            String
+  subtitle         String
+  dateString       String
+  location         String
+  imageUrl         String
+  institutions     String[]      @default([])
+  cloudinaryFolder String        @unique
+  photoCount       Int           @default(0)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+// ---------- Tournaments / Events ----------
+enum EventType {
+  INTERNAL_HOST
+  EXTERNAL_MAJOR
+  RECURRING_LOOP
+}
+
+enum EventStatus {
+  REGISTRATION_OPEN
+  REGISTRATION_LOCKED
+  COMPLETED
+  ONGOING
+  CLOSING_SOON
+}
+
+enum DeliveryMode {
+  ONLINE
+  OFFLINE
+  HYBRID
+}
+
+enum RegistrationType {
+  NONE
+  INDIVIDUAL
+  TEAM
+}
+
+enum AdjudicatorPolicy {
+  N_PLUS_ONE
+  FIXED
+  NONE
+}
+
+model TournamentConfig {
+  id                         String                      @id @default(cuid())
+  slug                       String                      @unique
+  type                       EventType
+  status                     EventStatus
+  statusText                 String
+  scopeText                  String
+  title                      String
+  description                String
+  debateFormat               String
+  deliveryMode               DeliveryMode                @default(OFFLINE)
+  location                   String
+  dateString                 String
+  sortDate                   DateTime
+  deadlineText               String?
+  registrationUrl            String?
+  registrationType           RegistrationType            @default(NONE)
+  adjudicatorPolicy          AdjudicatorPolicy           @default(NONE)
+  fixedAdjudicatorCount      Int?
+  includesPS                 Boolean                     @default(false)
+  psAdjudicatorsAllowed      Boolean                     @default(false)
+  whoShouldAttend            String[]                    @default([])
+  schedule                   Json
+  faqs                       Json
+  isFeatured                 Boolean                     @default(false)
+  teamRegistrations          TeamRegistration[]
+  adjudicatorRegistrations   AdjudicatorRegistration[]
+  individualRegistrations    IndividualRegistration[]
+  psRegistrations            PSRegistration[]
+  psAdjudicatorRegistrations PSAdjudicatorRegistration[]
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+}
+
+model TeamRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  institution  String
+  teamName     String
+  player1Name  String
+  player1Email String
+  player2Name  String
+  player2Email String
+  createdAt    DateTime         @default(now())
+
+  @@unique([tournamentId, teamName])
+}
+
+model AdjudicatorRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  name         String
+  email        String
+  createdAt    DateTime         @default(now())
+
+  @@unique([tournamentId, email])
+}
+
+model IndividualRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  name         String
+  email        String
+  createdAt    DateTime         @default(now())
+
+  @@unique([tournamentId, email])
+}
+
+// Public Speaking is always individual — separate from the debate roster above.
+model PSRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  name         String
+  email        String
+  institution  String
+  createdAt    DateTime         @default(now())
+
+  @@unique([tournamentId, email])
+}
+
+model PSAdjudicatorRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  name         String
+  email        String
+  createdAt    DateTime         @default(now())
+
+  @@unique([tournamentId, email])
+}
+
+// ---------- Contact / Newsletter ----------
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String?
+  createdAt DateTime @default(now())
+}

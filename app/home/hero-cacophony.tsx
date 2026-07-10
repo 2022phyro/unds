@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { HERO_CACOPHONY } from "./home-data";
+import HERO_CACOPHONY from "./data/hero.json";
 
 export function HeroCacophony() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

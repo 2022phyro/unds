@@ -1,0 +1,30 @@
+[
+  {
+    "year": "2026",
+    "title": "Open Champions",
+    "tier": "Nigerian National Universities Debating Championship (NAUDC)",
+    "circuit": "National Circuit",
+    "imageUrl": "https://images.unsplash.com/photo-1567057419565-4349c49d8a04?q=80&w=600"
+  },
+  {
+    "year": "2026",
+    "title": "Novice Champions",
+    "tier": "Pan-African Universities Debating Championship (PAUDC)",
+    "circuit": "Continental Arena",
+    "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600"
+  },
+  {
+    "year": "2025",
+    "title": "Main Break Finalists",
+    "tier": "West African Universities Debating Championship",
+    "circuit": "Regional Circuit",
+    "imageUrl": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600"
+  },
+  {
+    "year": "2025",
+    "title": "Overall Best Speaker",
+    "tier": "The Ghana Open Forensics Shield",
+    "circuit": "International Invitational",
+    "imageUrl": "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=600"
+  }
+]

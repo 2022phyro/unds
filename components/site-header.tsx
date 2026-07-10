@@ -5,12 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { BookmarkButton } from "@/components/ui/bookmark-button";
+import { BookmarkButton, Button } from "@/components/ui/bookmark-button";
+import ThemeToggle from "./ui/theme-toggle/theme-toggle";
 const navItems = [
   { href: "/about", label: "About" },
   { href: "/events", label: "Events" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/support", label: "Support" },
+  // { href: "/support", label: "Support" },
 ];
 
 export default function SiteHeader() {
@@ -61,8 +62,8 @@ export default function SiteHeader() {
         <div
           className={`relative overflow-hidden  border px-4 py-3 transition-all duration-300 ${
             scrolled
-              ? "border-white/40 shadow-[0_10px_35px_rgba(0,0,0,0.08)]  bg-[rgba(219,210,224,0.82)] backdrop-blur-2xl"
-              : "border-transparent lg:bg-inherit sm:bg-(--lavender-2)"
+              ? "border-white/40 shadow-[0_10px_35px_rgba(0,0,0,0.08)]  bg-[color-mix(in_srgb,var(--surface)_92%,black)] backdrop-blur-2xl"
+              : "border-transparent bg-inherit"
           }`}
         >
           <div className="absolute inset-x-[10%] bottom-0 h-px bg-primary/70" />
@@ -107,6 +108,7 @@ export default function SiteHeader() {
                   {item.label}
                 </Link>
               ))}
+              <ThemeToggle/>
               <BookmarkButton variant={"filled"} className="font-garamond">
                 Join Today
               </BookmarkButton>
@@ -129,6 +131,8 @@ export default function SiteHeader() {
               className="mt-4 border-t border-white/30 pt-4 lg:hidden"
             >
               <nav className="grid gap-3" aria-label="Mobile">
+                              <ThemeToggle className="self-right"/>
+
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
@@ -144,12 +148,10 @@ export default function SiteHeader() {
                     {item.label}
                   </Link>
                 ))}
-                <button
-                  type="button"
-                  className="border border-primary/10 bg-primary px-4 py-3 font-ui text-sm font-semibold uppercase tracking-[0.16em] text-text-inverse"
+                <Button className="w-full h-12 font-garamond" color={"primary"}
                 >
                   Join us
-                </button>
+                </Button>
               </nav>
             </div>
           ) : null}

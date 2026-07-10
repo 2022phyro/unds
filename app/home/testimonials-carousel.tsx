@@ -27,25 +27,12 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
 
   return (
     <section 
-      className="w-full overflow-hidden py-12 relative"
+      className="w-full overflow-hidden relative"
       aria-roledescription="carousel"
       aria-label="Testimonials focus carousel"
     >
-      {/* Header Info Grid */}
-      <div className="max-w-6xl mx-auto px-6 flex items-end justify-between gap-4 border-b border-border/40 pb-4 mb-12">
-        <div>
-          <p className="font-ui text-xs font-semibold uppercase tracking-[0.28em] text-text-muted">
-            Chamber Testimony
-          </p>
-          <h3 className="mt-1 font-serif text-3xl text-text-primary">Voices of Impact</h3>
-        </div>
-        <p className="font-ui text-xs uppercase tracking-[0.24em] text-text-muted">
-          {activeIndex + 1} / {testimonials.length}
-        </p>
-      </div>
-
       {/* --- WIDESCREEN SLIDER TRACK --- */}
-      <div className="relative w-full h-[400px] flex items-center justify-center">
+      <div className="relative w-full h-100 flex items-center justify-center">
         <div className="flex items-center justify-center w-full h-full relative">
           {testimonials.map((testimonial, index) => {
             // Calculate relative offset position from the active center index

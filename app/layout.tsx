@@ -3,7 +3,7 @@ import { Playfair_Display, EB_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
-
+import { ThemeProvider } from "next-themes";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
@@ -30,16 +30,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html
-      lang="en"
-      className={`${playfairDisplay.variable} ${ebGaramond.variable} ${manrope.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+return (
+  <html
+    lang="en"
+    suppressHydrationWarning
+    className={`${playfairDisplay.variable} ${ebGaramond.variable} ${manrope.variable} h-full antialiased`}
+  >
+    <body className="min-h-full flex flex-col bg-background text-foreground">
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
-      </body>
-    </html>
-  );
+      </ThemeProvider>
+    </body>
+  </html>
+);
 }

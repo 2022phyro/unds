@@ -9,6 +9,7 @@ interface ButtonProps {
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   className?: string;
+  disabled?: boolean;
 }
 
 export function Button({
@@ -17,42 +18,42 @@ export function Button({
   onClick,
   type = "button",
   className = "",
+  disabled = false,
 }: ButtonProps) {
-  
-  // Outer relative container that reserves the physical space for the 4px translation offset
+
+  // Outer interactive boundary. Handles layout context without padding styles.
   const baseClasses = `
     group relative inline-flex items-center justify-center 
-    p-[4px] select-none focus:outline-none
-    ${className}
+    p-[4px] select-none focus:outline-none w-full sm:w-auto
   `;
 
   const innerContent = (
     <>
-      {/* The Sophisticated Floating Grid Frame:
-        Remains dead static in the background. It uses a clean, thin-ruled border 
-        colored to your dark slate/forest brand palette.
+      {/* The Sophisticated Floating Grid Frame */}
+      <span className="absolute bottom-0 right-0 top-[4px] left-[4px] btn  rounded-xs border border-button-ink/25 bg-foreground/5" />
+
+      {/* The Dynamic Foreground Plaque
+          Uses --button-surface / --button-ink rather than --surface / --text-primary:
+          those two tokens are guaranteed to separate visibly from --background in
+          BOTH themes, whereas --surface sits too close to --background in dark mode.
       */}
-      <span className="absolute bottom-0 right-0 top-[4px] left-[4px] rounded-xs border border-[#2e3a28]/30 bg-[#101913]/5" />
-      
-      {/* The Dynamic Foreground Plaque:
-        - Hover: Background fills to solid dark forest green, and text crisp-inverts to white.
-        - Active (:active): Translates exactly down and right to perfectly flatten onto the shadow plate.
-      */}
-      <span className="
-        relative inline-flex items-center justify-center rounded-xs border border-[#2e3a28] bg-white 
-        px-6 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-[#2e3a28] font-garamond
+      <span className={`
+        relative inline-flex items-center btn btn-accent justify-center rounded-xs border border-button-ink bg-button-surface 
+        px-6 py-2.5 text-lg! font-bold font-garamond! tracking-[0.16em] text-button-ink
         
         /* Smooth Desktop Transitions */
         transition-all duration-200 ease-out 
         -translate-x-[4px] -translate-y-[4px]
         
         /* High-End Hover State */
-        group-hover:bg-[#2e3a28] group-hover:text-white
+        group-hover:bg-button-ink group-hover:text-button-surface
         
-        /* The Mechanical Press Fix: Resolves the image_1b89a2.png static issue */
+        /* The Mechanical Press Fix */
         group-active:translate-x-0 group-active:translate-y-0
-      ">
-        {/* Micro-scale adjustment on the text node itself for a physical stamp feeling */}
+        
+        ${className ? className : "font-garamond"}
+      `}>
+        {/* Micro-scale adjustment on the text node itself */}
         <span className="inline-block transition-transform duration-100 group-active:scale-[0.97]">
           {children}
         </span>
@@ -69,7 +70,7 @@ export function Button({
   }
 
   return (
-    <button type={type} onClick={onClick} className={baseClasses}>
+    <button type={type} onClick={onClick} disabled={disabled} className={`${baseClasses} disabled:opacity-50`}>
       {innerContent}
     </button>
   );
