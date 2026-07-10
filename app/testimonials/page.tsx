@@ -123,7 +123,7 @@ export default function TestimonialsPage() {
       {/* --- SECTION 3: LINEAR SCHOLARLY ARCHIVE GRID --- */}
       <section className="relative py-16 lg:py-24 mx-auto max-w-7xl px-6 flex flex-col gap-5 sm:px-8 z-10">
         <h2 className="font-heading text-xs  tracking-[0.3em] text-text-muted mb-12">
-          From all over
+          What people saying
         </h2>
 
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-12">
