@@ -15,7 +15,7 @@ export function ChampionshipWins() {
   if (!CHAMPIONSHIP_WINS || CHAMPIONSHIP_WINS.length === 0) return null;
 
   return (
-    <div className="w-full space-y-16 lg:space-y-24">
+    <div className="w-full space-y-16 flex flex-col gap-6 lg:gap-0 md:gap-6 lg:space-y-24">
       {CHAMPIONSHIP_WINS.map((win, idx) => {
         const isEven = idx % 2 === 0;
         const rotationClass = ROTATIONS[idx % ROTATIONS.length];
@@ -23,7 +23,7 @@ export function ChampionshipWins() {
         return (
           <div 
             key={`${win.title}-${idx}`}
-            className={`flex flex-col gap-10 items-center justify-center md:justify-end ${
+            className={`flex flex-col md:gap-10 sm:gap-3 items-center justify-center md:justify-end ${
               isEven ? "md:flex-row" : "md:flex-row-reverse"
             }`}
           >

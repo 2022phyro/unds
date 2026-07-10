@@ -4,6 +4,7 @@ import "./globals.css";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import { ThemeProvider } from "next-themes";
+import { HeroFireflies } from "@/components/fireflies";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
@@ -30,24 +31,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-return (
-  <html
-    lang="en"
-    suppressHydrationWarning
-    className={`${playfairDisplay.variable} ${ebGaramond.variable} ${manrope.variable} h-full antialiased`}
-  >
-    <body className="min-h-full flex flex-col bg-background text-foreground">
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-      </ThemeProvider>
-    </body>
-  </html>
-);
+  return (
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${playfairDisplay.variable} ${ebGaramond.variable} ${manrope.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col bg-background text-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SiteHeader />
+          <main className="relative flex-1">
+            <HeroFireflies />
+            {children}
+          </main>
+          <SiteFooter />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }
