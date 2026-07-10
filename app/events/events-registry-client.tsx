@@ -385,7 +385,7 @@ export default function EventsRegistryClient({ events }: EventsRegistryClientPro
           </div>
           <div className="md:col-span-4 flex md:justify-end justify-start z-10">
             <button
-              onClick={() => (window.location.href = "/docs/freshman-guide")}
+              onClick={() => (window.location.href = "/Ottawa WUDC Debating & Judging Manual.pdf")}
               className="px-6 py-3 border border-[#2e3a28] bg-text-primary text-text-inverse text-xs font-ui  tracking-wider font-bold transition-colors hover:bg-[#2e3a28] hover:text-[#fcfbf9]"
             >
               Read the Manual →
