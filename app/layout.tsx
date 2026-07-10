@@ -23,8 +23,8 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "UNDS Debating Union // The Spartans",
-    template: "%s | UNDS Debating Union",
+    default: "University of Nigeria Debating Society // The Spartans",
+    template: "%s | University of Nigeria Debating Society",
   },
   description: "Home of intellectual discourse, forensic excellence, and competitive speech. We forge analytical thinkers and public advocates commanding global tournament circuits.",
   keywords: [
