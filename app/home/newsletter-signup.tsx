@@ -11,9 +11,8 @@ export function NewsletterSignup() {
         <h3 className="font-garamond text-2xl font-light tracking-tight text-text-primary">
           Never miss an opening.
         </h3>
-        <p className="font-garamond text-sm text-text-secondary max-w-sm mx-auto leading-relaxed">
-          Receive precise institutional briefings regarding tournament registry schedules, workshop
-          lists, and public round alerts.
+        <p className="font-garamond text-md  text-text-secondary max-w-sm mx-auto leading-relaxed">
+          Stay up to date with the latest news, events, and opportunities from the UNDS. Sign up for our newsletter and be the first to know about upcoming debates, workshops, and exclusive content.
         </p>
       </div>
       <NewsletterForm source="home" className="max-w-md mx-auto" />

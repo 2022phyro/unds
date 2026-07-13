@@ -16,6 +16,10 @@ const footerLinks = [
   { href: "/events", label: "Events" },
   { href: "/gallery", label: "Gallery" },
   { href: "/testimonials", label: "Testimonials" },
+  {
+    href: "/Ottawa WUDC Debating & Judging Manual.pdf",
+    label: "WUDC Debating Manual",
+  },
 ];
 
 const contactLinks = [
@@ -60,14 +64,19 @@ export default function SiteFooter() {
               </p>
             </div>
             <div className="flex flex-col gap-6 items-start">
-            <p className="max-w-md text-sm text-text-secondary">
-              Building bridges, fostering dialogue, and cultivating the next generation of articulate leaders through debate and public speaking.
-            </p>
-            <Button className="font-garamond w-full sm:w-auto" aria-label="Join UNDS">
-              Join Today
-            </Button>
+              <p className="max-w-md text-sm text-text-secondary">
+                A home for curious minds, courageous voices, and meaningful
+                conversations. Whether you're here to learn, to compete, or
+                simply to explore new ideas, there's always a place for you at
+                UNDS.
+              </p>
+              <Button
+                className="font-garamond w-full sm:w-auto"
+                aria-label="Join UNDS"
+              >
+                Join Today
+              </Button>
             </div>
-
           </div>
         </div>
 
@@ -80,7 +89,7 @@ export default function SiteFooter() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm text-text-primary transition-opacity hover:opacity-70"
+                className="text-sm text-text-primary cursor-pointer transition-opacity hover:opacity-70"
               >
                 {item.label}
               </Link>
@@ -94,21 +103,36 @@ export default function SiteFooter() {
           <div className="mt-4 grid gap-4 text-sm text-text-body">
             <div className="grid gap-2">
               <span className="inline-flex items-center gap-2">
-                <Mail className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
+                <Mail
+                  className="h-4 w-4 shrink-0 text-text-muted"
+                  aria-hidden="true"
+                />
                 <span>unds@unn.edu.ng</span>
               </span>
               <span className="inline-flex items-center gap-2">
-                <Phone className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
+                <Phone
+                  className="h-4 w-4 shrink-0 text-text-muted"
+                  aria-hidden="true"
+                />
                 <span>+234 803 123 4567</span>
               </span>
               <span className="inline-flex items-start justify-start gap-2">
-                <MapPin className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
-                <span className="break-words max-w-[22rem] sm:max-w-none">Fifth Year Classroom, Pharmacy Complex, University of Nigeria, Nsukka Campus</span>
-              </span>
-                <span className="inline-flex items-start justify-start gap-2">
-                <Calendar className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
-                <span>Fridays, 4:00pm-6:00pm</span>
+                <MapPin
+                  className="h-4 w-4 shrink-0 text-text-muted"
+                  aria-hidden="true"
+                />
+                <span className="wrap-break-word max-w-88 sm:max-w-none">
+                  Fifth Year Classroom, Pharmacy Complex, University of Nigeria,
+                  Nsukka Campus
                 </span>
+              </span>
+              <span className="inline-flex items-start justify-start gap-2">
+                <Calendar
+                  className="h-4 w-4 shrink-0 text-text-muted"
+                  aria-hidden="true"
+                />
+                <span>Fridays, 4:00pm-6:00pm</span>
+              </span>
             </div>
             <div className="flex gap-4 flex-wrap items-center justify-start">
               {contactLinks.map((item) => {
@@ -122,9 +146,12 @@ export default function SiteFooter() {
                     title={item.label}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-text-primary transition-opacity hover:opacity-70"
+                    className="text-text-primary cursor-pointer transition-opacity hover:opacity-70"
                   >
-                    <Icon className="h-6 w-6 shrink-0 text-text-primary" aria-hidden="true" />
+                    <Icon
+                      className="h-6 w-6 shrink-0 text-text-primary"
+                      aria-hidden="true"
+                    />
                   </Link>
                 );
               })}
@@ -134,7 +161,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="border-t border-primary/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 text-sm text-text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full flex-col gap-3 px-4 py-4 text-sm text-text-muted sm:flex-row justify-end sm:px-6 lg:px-8">
           <p className="text-center sm:text-left">© 2026 UNDS Technical Team</p>
         </div>
       </div>

@@ -36,7 +36,11 @@ export default function RegisterFormClient({
   const bothTracksAvailable = debateAvailable && psAvailable;
 
   const [track, setTrack] = useState<"DEBATE" | "PS">(
-    initialTrack === "PS" && psAvailable ? "PS" : debateAvailable ? "DEBATE" : "PS",
+    initialTrack === "PS" && psAvailable
+      ? "PS"
+      : debateAvailable
+        ? "DEBATE"
+        : "PS",
   );
   const [mode, setMode] = useState<"PARTICIPANT" | "ADJUDICATOR">(initialMode);
 
@@ -48,21 +52,25 @@ export default function RegisterFormClient({
     registerIndividualAction.bind(null, tournamentId),
     initialState,
   );
-  const [adjudicatorState, adjudicatorAction, adjudicatorPending] = useActionState(
-    registerAdjudicatorAction.bind(null, tournamentId),
-    initialState,
-  );
+  const [adjudicatorState, adjudicatorAction, adjudicatorPending] =
+    useActionState(
+      registerAdjudicatorAction.bind(null, tournamentId),
+      initialState,
+    );
   const [psState, psAction, psPending] = useActionState(
     registerPSAction.bind(null, tournamentId),
     initialState,
   );
-  const [psAdjudicatorState, psAdjudicatorAction, psAdjudicatorPending] = useActionState(
-    registerPSAdjudicatorAction.bind(null, tournamentId),
-    initialState,
-  );
+  const [psAdjudicatorState, psAdjudicatorAction, psAdjudicatorPending] =
+    useActionState(
+      registerPSAdjudicatorAction.bind(null, tournamentId),
+      initialState,
+    );
 
   const showAdjudicatorToggle =
-    track === "PS" ? event.psAdjudicatorsAllowed : event.adjudicatorPolicy !== "NONE";
+    track === "PS"
+      ? event.psAdjudicatorsAllowed
+      : event.adjudicatorPolicy !== "NONE";
 
   const activeState =
     track === "PS"
@@ -105,18 +113,30 @@ export default function RegisterFormClient({
               </h2>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-[#2e3a28]/5 font-manrope text-xs text-text-secondary">
-              <div className="flex justify-between">
-                <span className="text-text-muted font-manrope text-xs">Format:</span>
-                <span className="font-bold text-text-primary text-sm">{event.format}</span>
+            <div className="space-y-2 pt-2 border-t border-[#2e3a28]/5 font-manrope text-xs text-text-secondary flex flex-col gap-2">
+              <div className="flex flex-col justify-center items-start">
+                <span className="text-text-muted font-manrope text-xs">
+                  Format:
+                </span>
+                <span className="font-bold text-text-primary text-sm">
+                  {event.format}
+                </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-text-muted font-manrope text-xs">Venue:</span>
-                <span className="font-bold text-text-primary text-sm">{event.location}</span>
+              <div className="flex flex-col justify-center items-start">
+                <span className="text-text-muted font-manrope text-xs">
+                  Venue:
+                </span>
+                <span className="font-bold text-text-primary text-sm">
+                  {event.location}
+                </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-text-muted font-manrope text-xs">Timeline:</span>
-                <span className="font-bold text-text-primary text-sm">{event.date}</span>
+              <div className="flex flex-col justify-center items-start">
+                <span className="text-text-muted font-manrope text-xs">
+                  Timeline:
+                </span>
+                <span className="font-bold text-text-primary text-sm">
+                  {event.date}
+                </span>
               </div>
             </div>
           </div>
@@ -144,8 +164,9 @@ export default function RegisterFormClient({
             <div className="flex gap-2 items-start text-primary">
               <ShieldCheck className="w-4 h-4 shrink-0" />
               <span>
-                Roster slots are locked upon entry verification. Ensure spelling matches government or
-                university credentials for proper certificate issuance.
+                Take a moment to double-check your details before submitting.
+                We'll use the information you provide for registrations,
+                certificates, and event communication.
               </span>
             </div>
           </div>
@@ -195,20 +216,22 @@ export default function RegisterFormClient({
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-garamond text-xl font-bold text-sm tracking-wide">
-                    Registry Verification Secured
+                  <h4 className="font-garamond text-xl font-bold tracking-wide">
+                    You're Registered!
                   </h4>
+
                   <p className="font-garamond text-sm text-text-secondary max-w-sm mx-auto leading-relaxed">
-                    Your roster parameters have been cleanly written to our database. A confirmation
-                    dispatch has been routed to your contact email.
+                    Thank you for registering. We've received your details, and
+                    a confirmation email is on its way. We look forward to
+                    welcoming you at the event.
                   </p>
                 </div>
                 <div className="pt-4">
                   <Link
                     href="/events"
-                    className="px-5 py-2.5 border border-[#2e3a28] font-manrope text-xs text-sm tracking-wider font-bold hover:bg-[#2e3a28] hover:text-white transition-all"
+                    className="px-5 py-2.5 border border-[#2e3a28] font-manrope text-sm tracking-wider font-bold hover:bg-[#2e3a28] hover:text-white transition-all"
                   >
-                    Return to Registry Ledger
+                    Explore More Events
                   </Link>
                 </div>
               </motion.div>
@@ -216,33 +239,75 @@ export default function RegisterFormClient({
               mode === "ADJUDICATOR" ? (
                 <form action={psAdjudicatorAction} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field label="Full Name" name="name" placeholder="Your First & Last Name" />
-                    <Field label="Contact Email" name="email" type="email" placeholder="you@example.com" />
+                    <Field
+                      label="Full Name"
+                      name="name"
+                      placeholder="Your First & Last Name"
+                    />
+                    <Field
+                      label="Contact Email"
+                      name="email"
+                      type="email"
+                      placeholder="you@example.com"
+                    />
                   </div>
                   {psAdjudicatorState.error && (
-                    <p className="text-xs font-manrope text-red-700">{psAdjudicatorState.error}</p>
+                    <p className="text-xs font-manrope text-red-700">
+                      {psAdjudicatorState.error}
+                    </p>
                   )}
                   <SubmitRow isPending={psAdjudicatorPending} />
                 </form>
               ) : (
-                <form action={psAction} className="space-y-6">
+                <form
+                  action={psAction}
+                  className="space-y-6 flex flex-col gap-3"
+                >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field label="Full Legal Name" name="name" placeholder="Your First & Last Name" />
-                    <Field label="Contact Email Address" name="email" type="email" placeholder="you@example.com" />
+                    <Field
+                      label="Full Legal Name"
+                      name="name"
+                      placeholder="Your First & Last Name"
+                    />
+                    <Field
+                      label="Contact Email Address"
+                      name="email"
+                      type="email"
+                      placeholder="you@example.com"
+                    />
                   </div>
-                  <Field label="Institution" name="institution" placeholder="e.g., University of Nigeria, Nsukka" />
-                  {psState.error && <p className="text-xs font-manrope text-red-700">{psState.error}</p>}
+                  <Field
+                    label="Institution / Chapter/ Faculty"
+                    name="institution"
+                    placeholder="e.g., University of Nigeria, Nsukka"
+                  />
+                  {psState.error && (
+                    <p className="text-xs font-manrope text-red-700">
+                      {psState.error}
+                    </p>
+                  )}
                   <SubmitRow isPending={psPending} />
                 </form>
               )
             ) : mode === "ADJUDICATOR" ? (
               <form action={adjudicatorAction} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="Full Name" name="name" placeholder="Your First & Last Name" />
-                  <Field label="Contact Email" name="email" type="email" placeholder="you@example.com" />
+                  <Field
+                    label="Full Name"
+                    name="name"
+                    placeholder="Your First & Last Name"
+                  />
+                  <Field
+                    label="Contact Email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                  />
                 </div>
                 {adjudicatorState.error && (
-                  <p className="text-xs font-manrope text-red-700">{adjudicatorState.error}</p>
+                  <p className="text-xs font-manrope text-red-700">
+                    {adjudicatorState.error}
+                  </p>
                 )}
                 <SubmitRow isPending={adjudicatorPending} />
               </form>
@@ -250,29 +315,70 @@ export default function RegisterFormClient({
               <form action={teamAction} className="space-y-6">
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field label="Institution / Chapter" name="institution" placeholder="e.g., University of Nigeria, Nsukka" />
-                    <Field label="Team Name" name="teamName" placeholder="e.g., UNN Alpha" />
+                    <Field
+                      label="Institution / Chapter / Faculty"
+                      name="institution"
+                      placeholder="e.g., University of Nigeria, Nsukka"
+                    />
+                    <Field
+                      label="Team Name"
+                      name="teamName"
+                      placeholder="e.g., UNN Alpha"
+                    />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2e3a28]/5 pt-4">
-                    <Field label="Speaker 1 Name" name="player1Name" placeholder="Full Name" />
-                    <Field label="Speaker 1 Email" name="player1Email" type="email" placeholder="speaker1@example.com" />
+                    <Field
+                      label="Speaker 1 Name"
+                      name="player1Name"
+                      placeholder="Full Name"
+                    />
+                    <Field
+                      label="Speaker 1 Email"
+                      name="player1Email"
+                      type="email"
+                      placeholder="speaker1@example.com"
+                    />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2e3a28]/5 pt-4">
-                    <Field label="Speaker 2 Name" name="player2Name" placeholder="Full Name" />
-                    <Field label="Speaker 2 Email" name="player2Email" type="email" placeholder="speaker2@example.com" />
+                    <Field
+                      label="Speaker 2 Name"
+                      name="player2Name"
+                      placeholder="Full Name"
+                    />
+                    <Field
+                      label="Speaker 2 Email"
+                      name="player2Email"
+                      type="email"
+                      placeholder="speaker2@example.com"
+                    />
                   </div>
                 </div>
-                {teamState.error && <p className="text-xs font-manrope text-red-700">{teamState.error}</p>}
+                {teamState.error && (
+                  <p className="text-xs font-manrope text-red-700">
+                    {teamState.error}
+                  </p>
+                )}
                 <SubmitRow isPending={teamPending} />
               </form>
             ) : (
               <form action={individualAction} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="Full Legal Name" name="name" placeholder="Your First & Last Name" />
-                  <Field label="Contact Email Address" name="email" type="email" placeholder="you@example.com" />
+                  <Field
+                    label="Full Legal Name"
+                    name="name"
+                    placeholder="Your First & Last Name"
+                  />
+                  <Field
+                    label="Contact Email Address"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                  />
                 </div>
                 {individualState.error && (
-                  <p className="text-xs font-manrope text-red-700">{individualState.error}</p>
+                  <p className="text-xs font-manrope text-red-700">
+                    {individualState.error}
+                  </p>
                 )}
                 <SubmitRow isPending={individualPending} />
               </form>

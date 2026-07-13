@@ -106,7 +106,6 @@ export default function RootLayout({
         >
           <SiteHeader />
           <main className="relative flex-1">
-            <HeroFireflies />
             {children}
           </main>
           <SiteFooter />

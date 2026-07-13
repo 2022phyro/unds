@@ -16,49 +16,26 @@ export default function HeroSection() {
       bg-background
       "
     >
-      {/* Subtle paper-grain texture */}
-      <div
-        className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
-
       <HeroFireflies />
 
       <div className="relative z-20 mx-auto max-w-7xl w-full px-6 sm:px-8 py-24 lg:py-32">
-        
         {/* Core Layout Grid */}
         <div className="grid grid-cols-1 gap-12 items-center lg:grid-cols-12 lg:gap-8">
-          
           {/* Text Content Block */}
           <div className="max-w-3xl flex flex-col gap-3 lg:col-span-7">
-            <span
-              className="
-              uppercase
-              tracking-[0.35em]
-              text-xs
-              font-semibold
-              text-text-muted
-              "
-            >
-              University of Nigeria Debating Society
-            </span>
-
             <h1
               className="
               mt-4 lg:mt-6
               font-heading
+              font-semibold!
               leading-[0.95]
               tracking-tight
-              text-[clamp(3rem,7vw,6.5rem)]
+              text-5xl!
               text-text-primary
               "
             >
-              Welcome
-              <br />
-              to <span className="italic font-normal text-primary">UNDS.</span>
+              University of Nigeria{" "}
+              <span className="text-primary">Debating Society</span>
             </h1>
 
             <p
@@ -72,7 +49,7 @@ export default function HeroSection() {
               text-text-primary
               "
             >
-              Home of intellectual discourse & competitive forensic excellence.
+              Speak your mind
             </p>
 
             <p
@@ -84,13 +61,15 @@ export default function HeroSection() {
               text-text-secondary
               "
             >
-              We forge analytical thinkers, master advocates, and public leaders
-              capable of competing on the world's most prestigious parliamentary
-              debating circuits.
+              Whether you're just discovering the world of opinions or preparing
+              for your next medal, you'll find a community that welcomes
+              thoughtful questions, celebrates spirited discussion, and helps
+              you grow into a confident speaker, critical thinker, and
+              principled leader. Here, every conversation is an opportunity to
+              learn, challenge ideas, and discover your own voice.
             </p>
 
-            {/* CTA Interaction Block */}
-            <div className="mt-8 lg:mt-10 flex flex-wrap gap-4 items-center">
+            <div className="mt-8 lg:mt-10 flex flex-wrap gap-6 items-center">
               <Link
                 href="/join"
                 className="
@@ -155,7 +134,7 @@ export default function HeroSection() {
               {/* The Exhibition Frame */}
               <div className="relative rounded-xs border border-border bg-surface p-3 shadow-xl z-20">
                 {/* Image Element Box forced into Landscape Aspect Mapping */}
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[2px] bg-neutral-900">
+                <div className="relative aspect-4/3 overflow-hidden rounded-[2px] bg-neutral-900">
                   <img
                     src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80"
                     alt="The UNDS Spartans"
@@ -165,35 +144,15 @@ export default function HeroSection() {
                   <div className="absolute inset-0 bg-primary mix-blend-color opacity-[0.22] pointer-events-none" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
                 </div>
-                
-                {/* Subtle Editorial Label */}
-                <p className="mt-3 text-center font-garamond italic text-xs sm:text-sm text-text-secondary">
-                  The Spartans — Est. 2011
+
+                {/* Subtle Editorial Label */}  
+                <p className="inline-flex flex-row items-center justify-center w-full mt-3 text-center gap-3 font-garamond italic text-xs sm:text-sm text-text-secondary">
+                  The Spartans <span className="text-primary rounded-full h-1 w-1 bg-primary"></span> Est. 2011
                 </p>
               </div>
             </div>
           </div>
-
         </div>
-
-        {/* Marginal Footer Stats Boundary Bar */}
-        <div
-          className="
-          mt-16 lg:mt-20
-          pt-6
-          border-t border-border/60
-          flex
-          justify-between
-          text-[11px]
-          uppercase
-          tracking-[0.28em]
-          text-text-muted
-          "
-        >
-          <span>Since 2011</span>
-          <span>Meet the Spartans</span>
-        </div>
-        
       </div>
     </section>
   );

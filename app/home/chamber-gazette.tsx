@@ -29,38 +29,36 @@ export async function ChamberGazette() {
 
           {/* Clean, high-contrast accessible list */}
           <div className="divide-y divide-border/40">
-{events.map((event) => (
-  <Link
-    href={`/events/${event.id}`}
-    key={event.id}
-    className="block group"
-  >
-    <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 py-3.5 px-2 rounded-lg cursor-pointer transition-colors hover:bg-surface-muted/30">
-      
-      {/* Fixed structural timestamp column */}
-      <span className="text-xs font-bold tracking-wide text-text-secondary min-w-17.5 shrink-0">
-        {event.date}
-      </span>
+            {events.map((event) => (
+              <Link
+                href={`/events/${event.id}`}
+                key={event.id}
+                className="block group"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 py-3.5 px-2 rounded-lg cursor-pointer transition-colors hover:bg-surface-muted/30">
+                  {/* Fixed structural timestamp column */}
+                  <span className="text-xs font-bold tracking-wide text-text-secondary min-w-17.5 shrink-0">
+                    {event.date}
+                  </span>
 
-      <div className="flex-1 flex items-baseline justify-between gap-4">
-        <div>
-          <p className="font-medium text-lg font-garamond leading-snug text-text-primary transition-transform duration-200 group-hover:translate-x-0.5">
-            {event.title}
-          </p>
-          <span className="mt-0.5 block text-[11px] text-text-muted">
-            {event.time}
-          </span>
-        </div>
+                  <div className="flex-1 flex items-baseline justify-between gap-4">
+                    <div>
+                      <p className="font-medium text-lg font-garamond leading-snug text-text-primary transition-transform duration-200 group-hover:translate-x-0.5">
+                        {event.title}
+                      </p>
+                      <span className="mt-0.5 block text-[11px] text-text-muted">
+                        {event.time}
+                      </span>
+                    </div>
 
-        {/* Minimalist, high-density styled text element */}
-        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-accent opacity-0 group-hover:opacity-100 transition-all duration-200 shrink-0 transform translate-x-1 group-hover:translate-x-0">
-          See More →
-        </span>
-      </div>
-      
-    </div>
-  </Link>
-))}
+                    {/* Minimalist, high-density styled text element */}
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-accent opacity-0 group-hover:opacity-100 transition-all duration-200 shrink-0 transform translate-x-1 group-hover:translate-x-0">
+                      See More →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -75,27 +73,25 @@ export async function ChamberGazette() {
       {/* Right Side: Wider Mission Layer with Attributed Blockquote (7 Columns out of 12) */}
       <div className="flex flex-col justify-evenly bg-surface-muted/40 p-6 lg:col-span-7 lg:p-10 gap-8">
         <div className="space-y-4">
-          <span className="block text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-text-secondary">
-            // Institutional Creed
-          </span>
           <blockquote className="border-l-2 border-accent pl-4 m-0 space-y-2">
-            <p className="font-heading text-xl font-semibold italic leading-relaxed text-text-primary sm:text-2xl m-0">
-              "Eloquence without strict structural logic is merely a dangerous
-              ornament. We command both."
+            <p className="font-heading text-xl font-semibold leading-relaxed text-text-primary sm:text-2xl m-0">
+              "Debating is a reading sport before it's a speaking sport."
             </p>
             <cite className="block text-xs font-mono not-italic text-text-muted">
-              — Raymond, LDO Champion & Chief Inquisitor
+              — Raymond, ANUDC Champion '25
             </cite>
           </blockquote>
         </div>
 
         <div className="flex flex-col gap-3 items-start">
           <p className="mb-4 text-sm leading-relaxed text-text-secondary max-w-xl m-0">
-            The University of Nigeria Debating Society functions as an active
-            intellectual laboratory. Championship legacy is built on unyielding
-            critical rigor.
+            In a world where people have so much to say, we bring you a platform
+            that ensures you get to say it
           </p>
-          <Button>Register Today</Button>
+          <div>
+                      <Button>Register Today</Button>
+
+          </div>
         </div>
       </div>
     </div>

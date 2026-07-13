@@ -2,21 +2,25 @@
   {
     "role": "President",
     "name": "Chidi Okafor",
-    "spec": "Directs strategic institutional growth, external alliance lines, and general assembly mandates."
+    "nickname": "Lead Houseboy",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
   },
   {
     "role": "Director of Training",
     "name": "Amarachi Ugwu",
-    "spec": "Oversees curriculum architecture, weekly motion matrices, and tournament preparation rigor."
+    "nickname": "Nwanyi",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
   },
   {
     "role": "General Secretary",
     "name": "Kelechi Nnadi",
-    "spec": "Manages asset lockers, internal structural logs, and institutional briefings."
+    "nickname": "Ethics and Principles",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
   },
   {
     "role": "PRO",
     "name": "Blessing Adebayo",
-    "spec": "Handles community dispatch streams, external public speaking invitations, and social network media."
+    "nickname": "PM",
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
   }
 ]

@@ -18,10 +18,10 @@ export default function HomePage() {
         </SectionReveal>
 
         {/* ACCOLADES SHOWCASE LEDGER — Plain HTML container avoids execution hangs */}
-          <div className="border-b border-border py-16">
+          <div className="border-b border-border py-16 flex flex-col gap-4">
             <div className="mb-12 lg:mb-20">
               <h2 className="mt-1 font-garamond text-lg text-text-primary font-semibold tracking-wide m-0">
-                Proven Track Records
+                A Tradition of Excellence
               </h2>
             </div>
 
@@ -33,7 +33,7 @@ export default function HomePage() {
           <div className="border-b border-border py-16">
             <div className="mb-12">
               <h2 className="mt-1 font-garamond font-semibold text-lg text-text-primary tracking-wide m-0">
-                Inside the Rooms
+                What We Do
               </h2>
             </div>
 
@@ -63,7 +63,7 @@ export default function HomePage() {
           <div className="border-b border-border py-16">
             <div className="mb-8">
               <h2 className="mt-1 text-lg font-garamond font-semibold text-text-primary tracking-wide m-0">
-                What they say
+                Don't just take our word for it
               </h2>
             </div>
             <TestimonialsCarousel testimonials={TESTIMONIALS} />

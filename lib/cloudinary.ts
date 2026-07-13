@@ -25,13 +25,13 @@ interface CloudinaryResource {
 
 /** Folder-as-album strategy: photos + captions come straight from Cloudinary context metadata, no per-asset DB rows. */
 export async function getAlbumPhotos(folder: string): Promise<AlbumPhoto[]> {
+  console.log("Booyakhjfdhjhf")
   try {
-    const result = await cloudinary.api.resources({
-      type: "upload",
-      prefix: folder,
-      context: true,
-      max_results: 500,
-    });
+  const result = await cloudinary.search
+    .expression(`folder="${folder}/*"`) // Matches the real path structure
+    .max_results(500)
+    .with_field('context')                  // CRITICAL: Tells Cloudinary to return context data
+    .execute();
 
     const resources: CloudinaryResource[] = result.resources ?? [];
     return resources.map((resource) => {

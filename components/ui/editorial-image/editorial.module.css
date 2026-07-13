@@ -1,0 +1,212 @@
+/* ==========================================================================
+   EditorialProfileCard
+   Portrait-first, no card body — the photograph is the card.
+   Falls back to hardcoded values if used outside a project defining
+   these CSS custom properties, but picks up your theme automatically
+   when they exist (e.g. --evergreen, --font-heading from globals.css).
+   ========================================================================== */
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+  background: #0a0d0a;
+  outline: none;
+}
+
+/* Custom focus ring since outline:none above removes the default —
+   keyboard users get an explicit, visible indicator instead of nothing. */
+.card:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--background, #ffffff),
+    0 0 0 4px var(--accent, #7b904b);
+}
+
+.imageWrap {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.card:hover .image,
+.card:focus-visible .image {
+  transform: scale(1.05);
+}
+
+/* ---------- Layer 1: brand tint ----------
+   mix-blend-mode: color preserves the photo's luminance/detail while
+   pulling its hue toward the brand green — a wash, not a filter. */
+.tint {
+  position: absolute;
+  inset: 0;
+  background: var(--evergreen, #002400);
+  opacity: 0.16;
+  mix-blend-mode: color;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.card:hover .tint,
+.card:focus-visible .tint {
+  opacity: 0.24;
+}
+
+/* ---------- Layer 2: radial spotlight behind the caption ----------
+   Anchored bottom-left where the text sits, fading out well before
+   the upper half so the face is never obscured. */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    75% 65% at 14% 100%,
+    rgba(0, 10, 0, 0.55) 0%,
+    rgba(0, 10, 0, 0.28) 45%,
+    rgba(0, 10, 0, 0) 75%
+  );
+  opacity: 0.9;
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.card:hover .spotlight,
+.card:focus-visible .spotlight {
+  opacity: 1;
+  background: radial-gradient(
+    78% 68% at 14% 100%,
+    rgba(0, 10, 0, 0.68) 0%,
+    rgba(0, 10, 0, 0.36) 45%,
+    rgba(0, 10, 0, 0) 78%
+  );
+}
+
+/* ---------- Layer 3: bottom readability gradient ----------
+   Near-opaque at the very bottom (guarantees AA contrast for the
+   caption regardless of source photo brightness), fully transparent
+   by the upper half so the portrait reads clean up top. */
+.bottomFade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.55) 28%,
+    rgba(0, 0, 0, 0) 58%
+  );
+  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.card:hover .bottomFade,
+.card:focus-visible .bottomFade {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.94) 0%,
+    rgba(0, 0, 0, 0.62) 32%,
+    rgba(0, 0, 0, 0) 62%
+  );
+}
+
+/* ---------- Layer 4: edge vignette ----------
+   Very subtle — pulls the eye toward center, doesn't read as its own
+   effect. No hover state; it's structural, not part of the reveal. */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 58%,
+    rgba(0, 0, 0, 0.28) 100%
+  );
+  pointer-events: none;
+}
+
+/* ---------- Caption ---------- */
+
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transform: translateY(0);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card:hover .caption,
+.card:focus-visible .caption {
+  transform: translateY(-4px);
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-heading, Georgia, "Times New Roman", serif);
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: #fdfdfb;
+}
+
+.nickname {
+  margin: 0;
+  font-family: var(--font-garamond, Georgia, serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--accent, #9fb96d);
+  opacity: 0.8;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card:hover .nickname,
+.card:focus-visible .nickname {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.role {
+  margin: 0.1rem 0 0;
+  font-family: var(--font-ui, -apple-system, "Segoe UI", sans-serif);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #e7e6ec;
+  opacity: 0.68;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card:hover .role,
+.card:focus-visible .role {
+  opacity: 0.92;
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .tint,
+  .spotlight,
+  .bottomFade,
+  .caption,
+  .nickname,
+  .role {
+    transition: none !important;
+  }
+  .card:hover .image,
+  .card:focus-visible .image {
+    transform: none;
+  }
+}

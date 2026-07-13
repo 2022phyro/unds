@@ -9,10 +9,14 @@ interface EventDetailsPageProps {
   params: Promise<{ eventId: string }>;
 }
 
-export default async function EventDetailsPage({ params }: EventDetailsPageProps) {
+export default async function EventDetailsPage({
+  params,
+}: EventDetailsPageProps) {
   const { eventId } = await params;
 
-  const tournament = await db.tournamentConfig.findUnique({ where: { slug: eventId } });
+  const tournament = await db.tournamentConfig.findUnique({
+    where: { slug: eventId },
+  });
   if (!tournament) notFound();
 
   const event = toEventDetail(tournament);
@@ -49,7 +53,9 @@ export default async function EventDetailsPage({ params }: EventDetailsPageProps
                 <span className="block font-ui text-[9px] text-text-muted  tracking-wider">
                   Chronology
                 </span>
-                <span className="font-bold text-text-primary">{event.date}</span>
+                <span className="font-bold text-text-primary">
+                  {event.date}
+                </span>
               </div>
             </div>
             <div className="flex items-start gap-2.5">
@@ -70,7 +76,9 @@ export default async function EventDetailsPage({ params }: EventDetailsPageProps
                   <span className="block font-ui text-[9px] text-text-muted  tracking-wider">
                     Registration Clock
                   </span>
-                  <span className="font-bold text-red-700">{event.deadlineText}</span>
+                  <span className="font-bold text-red-700">
+                    {event.deadlineText}
+                  </span>
                 </div>
               </div>
             )}
@@ -82,31 +90,39 @@ export default async function EventDetailsPage({ params }: EventDetailsPageProps
           <div className="bg-[color-mix(in_srgb,var(--surface)_95%,black)]  border border-[#2e3a28] p-6 sm:p-8 rounded-xs shadow-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
             <div className="space-y-1">
               <h3 className="font-garamond text-xl font-bold text-text-primary">
-                {event.registration_type === "NONE" && !event.includesPS && "Open Gate Event"}
-                {event.registration_type === "INDIVIDUAL" && "Individual Registration Open"}
-                {event.registration_type === "TEAM" && "Institutional Team Matrix Open"}
+                {event.registration_type === "NONE" &&
+                  !event.includesPS &&
+                  "Everyone's Welcome"}
+                {event.registration_type === "INDIVIDUAL" &&
+                  "Individual Registration"}
+                {event.registration_type === "TEAM" && "Team Registration"}
                 {event.registration_type === "NONE" &&
                   event.includesPS &&
-                  "Public Speaking Registration Open"}
+                  "Public Speaking Registration"}
               </h3>
+
               <p className="font-garamond text-sm text-text-secondary max-w-xl leading-relaxed">
                 {event.registration_type === "NONE" &&
                   !event.includesPS &&
-                  "No pre-registration indices required. Show up at the lecture theater with a writing pad."}
+                  "This event is open to everyone. No registration is required—just come along with your curiosity, a notebook if you'd like, and be ready to take part."}
+
                 {event.registration_type === "INDIVIDUAL" &&
-                  "Independent entries are cataloged directly. Filling out the roster form requires roughly 2 minutes."}
+                  "Register as an individual to reserve your place. The process only takes a couple of minutes, and we'll send you everything you need before the event."}
+
                 {event.registration_type === "TEAM" &&
-                  "Requires custom roster parameters for speakers, institution name, and designated chapter judges."}
+                  "Register your team together. You'll be asked to provide your team members' details so we can prepare the tournament draw and event schedule."}
+
                 {event.includesPS &&
                   event.registration_type !== "NONE" &&
-                  " This tournament also runs a Public Speaking track — register separately below."}
+                  " If you're interested in the Public Speaking category, you'll need to complete a separate registration for that event as well."}
+
                 {event.registration_type === "NONE" &&
                   event.includesPS &&
-                  "Independent Public Speaking entries are cataloged directly. Filling out the roster form requires roughly 2 minutes."}
+                  "The Public Speaking event requires a quick individual registration so we can organise speaking slots and keep you updated with event information."}
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row  flex-wrap gap-3">
               {event.registration_type === "NONE" && !event.includesPS ? (
                 event.registrationUrl ? (
                   <a
@@ -134,7 +150,9 @@ export default async function EventDetailsPage({ params }: EventDetailsPageProps
                       className="font-manrope h-12 lg:w-80 capitalize font-medium sm:w-auto"
                       aria-label="Register for Debate"
                     >
-                      {event.registration_type === "TEAM" ? "Register Your Team" : "Secure spot"}
+                      {event.registration_type === "TEAM"
+                        ? "Register Your Team"
+                        : "Secure spot"}
                     </Button>
                   )}
                   {event.includesPS && (
