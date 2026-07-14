@@ -140,6 +140,11 @@ model TeamRegistration {
   player1Email String
   player2Name  String
   player2Email String
+  
+  // Dynamic institutional adjudicator fields (Required for N+1 or Fixed policy)
+  adjName      String?          // Nullable in case the policy is NONE
+  adjEmail     String?
+  
   createdAt    DateTime         @default(now())
 
   @@unique([tournamentId, teamName])

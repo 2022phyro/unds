@@ -37,7 +37,9 @@ export async function createTournamentAction(
 
   const parsed = tournamentSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid tournament data." };
+    return {
+      error: parsed.error.issues[0]?.message ?? "Invalid tournament data.",
+    };
   }
 
   await db.tournamentConfig.create({ data: parsed.data });
@@ -56,10 +58,15 @@ export async function updateTournamentAction(
 
   const parsed = tournamentSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid tournament data." };
+    return {
+      error: parsed.error.issues[0]?.message ?? "Invalid tournament data.",
+    };
   }
 
-  await db.tournamentConfig.update({ where: { id: tournamentId }, data: parsed.data });
+  await db.tournamentConfig.update({
+    where: { id: tournamentId },
+    data: parsed.data,
+  });
 
   revalidatePath("/admin/dashboard/tournaments");
   revalidatePath(`/events/${parsed.data.slug}`);
@@ -84,15 +91,32 @@ export async function registerTeamAction(
   const allowed = await checkRateLimit("register-team");
   if (!allowed) return { error: "Too many attempts. Try again in a minute." };
 
-  const parsed = teamRegistrationSchema.safeParse(Object.fromEntries(formData));
+  const rawData = Object.fromEntries(formData);
+  const parsed = teamRegistrationSchema.safeParse(rawData);
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid registration." };
+    return {
+      error: parsed.error.issues[0]?.message ?? "Invalid registration.",
+    };
   }
 
+  const { adjName, adjEmail, ...teamData } = parsed.data;
+
   try {
-    await db.teamRegistration.create({ data: { tournamentId, ...parsed.data } });
-  } catch {
-    return { error: "A team with that name is already registered for this tournament." };
+    await db.teamRegistration.create({
+      data: {
+        tournamentId,
+        ...teamData,
+        // Convert empty strings to null for database cleanliness
+        adjName: adjName?.trim() || null,
+        adjEmail: adjEmail?.trim() || null,
+      },
+    });
+  } catch (error) {
+    // Helpful log for debugging local integration issues
+    console.error("Team registration error:", error);
+    return {
+      error: "A team with that name is already registered for this tournament.",
+    };
   }
 
   revalidatePath("/admin/dashboard/tournaments");
@@ -113,15 +137,20 @@ export async function registerAdjudicatorAction(
   }
 
   try {
-    await db.adjudicatorRegistration.create({ data: { tournamentId, ...parsed.data } });
-  } catch {
-    return { error: "This email is already registered as an adjudicator for this tournament." };
+    await db.adjudicatorRegistration.create({ 
+      data: { 
+        tournamentId, 
+        ...parsed.data 
+      } 
+    });
+  } catch (error) {
+    console.error("Adjudicator registration error:", error);
+    return { error: "An adjudicator with this email is already registered." };
   }
 
   revalidatePath("/admin/dashboard/tournaments");
   return { success: true };
 }
-
 export async function registerIndividualAction(
   tournamentId: string,
   _prevState: ActionState,
@@ -130,13 +159,19 @@ export async function registerIndividualAction(
   const allowed = await checkRateLimit("register-individual");
   if (!allowed) return { error: "Too many attempts. Try again in a minute." };
 
-  const parsed = individualRegistrationSchema.safeParse(Object.fromEntries(formData));
+  const parsed = individualRegistrationSchema.safeParse(
+    Object.fromEntries(formData),
+  );
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid registration." };
+    return {
+      error: parsed.error.issues[0]?.message ?? "Invalid registration.",
+    };
   }
 
   try {
-    await db.individualRegistration.create({ data: { tournamentId, ...parsed.data } });
+    await db.individualRegistration.create({
+      data: { tournamentId, ...parsed.data },
+    });
   } catch {
     return { error: "This email is already registered for this tournament." };
   }
@@ -155,13 +190,18 @@ export async function registerPSAction(
 
   const parsed = psRegistrationSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid registration." };
+    return {
+      error: parsed.error.issues[0]?.message ?? "Invalid registration.",
+    };
   }
 
   try {
     await db.pSRegistration.create({ data: { tournamentId, ...parsed.data } });
   } catch {
-    return { error: "This email is already registered for Public Speaking at this tournament." };
+    return {
+      error:
+        "This email is already registered for Public Speaking at this tournament.",
+    };
   }
 
   revalidatePath("/admin/dashboard/tournaments");
@@ -176,15 +216,24 @@ export async function registerPSAdjudicatorAction(
   const allowed = await checkRateLimit("register-ps-adjudicator");
   if (!allowed) return { error: "Too many attempts. Try again in a minute." };
 
-  const parsed = psAdjudicatorRegistrationSchema.safeParse(Object.fromEntries(formData));
+  const parsed = psAdjudicatorRegistrationSchema.safeParse(
+    Object.fromEntries(formData),
+  );
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid registration." };
+    return {
+      error: parsed.error.issues[0]?.message ?? "Invalid registration.",
+    };
   }
 
   try {
-    await db.pSAdjudicatorRegistration.create({ data: { tournamentId, ...parsed.data } });
+    await db.pSAdjudicatorRegistration.create({
+      data: { tournamentId, ...parsed.data },
+    });
   } catch {
-    return { error: "This email is already registered as a Public Speaking adjudicator for this tournament." };
+    return {
+      error:
+        "This email is already registered as a Public Speaking adjudicator for this tournament.",
+    };
   }
 
   revalidatePath("/admin/dashboard/tournaments");

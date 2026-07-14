@@ -2,8 +2,9 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, ShieldCheck } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ShieldCheck, Info } from "lucide-react";
 import {
   registerTeamAction,
   registerIndividualAction,
@@ -31,19 +32,52 @@ export default function RegisterFormClient({
   initialTrack,
   initialMode,
 }: RegisterFormClientProps) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const debateAvailable = event.registrationType !== "NONE";
   const psAvailable = event.includesPS;
   const bothTracksAvailable = debateAvailable && psAvailable;
 
-  const [track, setTrack] = useState<"DEBATE" | "PS">(
-    initialTrack === "PS" && psAvailable
-      ? "PS"
-      : debateAvailable
-        ? "DEBATE"
-        : "PS",
-  );
-  const [mode, setMode] = useState<"PARTICIPANT" | "ADJUDICATOR">(initialMode);
+  // Resolve Track from URL query params or Fallback properties
+  const urlTrack = searchParams.get("track")?.toUpperCase();
+  const resolvedInitialTrack = 
+    urlTrack === "DEBATE" && debateAvailable
+      ? "DEBATE"
+      : urlTrack === "PS" && psAvailable
+        ? "PS"
+        : initialTrack;
 
+  // Resolve Mode from URL query params or Fallback properties
+  const urlMode = searchParams.get("mode")?.toUpperCase();
+  const resolvedInitialMode = 
+    urlMode === "ADJUDICATOR" || urlMode === "PARTICIPANT"
+      ? (urlMode as "PARTICIPANT" | "ADJUDICATOR")
+      : initialMode;
+
+  const [track, setTrack] = useState<"DEBATE" | "PS">(resolvedInitialTrack);
+  const [mode, setMode] = useState<"PARTICIPANT" | "ADJUDICATOR">(resolvedInitialMode);
+
+  // Helper to update URL params cleanly on interaction without triggering re-render loops
+  const updateUrlParams = (newTrack: "DEBATE" | "PS", newMode: "PARTICIPANT" | "ADJUDICATOR") => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("track", newTrack.toLowerCase());
+    params.set("mode", newMode.toLowerCase());
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
+  const handleTrackChange = (nextTrack: "DEBATE" | "PS") => {
+    setTrack(nextTrack);
+    setMode("PARTICIPANT");
+    updateUrlParams(nextTrack, "PARTICIPANT");
+  };
+
+  const handleModeChange = (nextMode: "PARTICIPANT" | "ADJUDICATOR") => {
+    setMode(nextMode);
+    updateUrlParams(track, nextMode);
+  };
+
+  // Form State Actions Hooks
   const [teamState, teamAction, teamPending] = useActionState(
     registerTeamAction.bind(null, tournamentId),
     initialState,
@@ -52,20 +86,18 @@ export default function RegisterFormClient({
     registerIndividualAction.bind(null, tournamentId),
     initialState,
   );
-  const [adjudicatorState, adjudicatorAction, adjudicatorPending] =
-    useActionState(
-      registerAdjudicatorAction.bind(null, tournamentId),
-      initialState,
-    );
+  const [adjudicatorState, adjudicatorAction, adjudicatorPending] = useActionState(
+    registerAdjudicatorAction.bind(null, tournamentId),
+    initialState,
+  );
   const [psState, psAction, psPending] = useActionState(
     registerPSAction.bind(null, tournamentId),
     initialState,
   );
-  const [psAdjudicatorState, psAdjudicatorAction, psAdjudicatorPending] =
-    useActionState(
-      registerPSAdjudicatorAction.bind(null, tournamentId),
-      initialState,
-    );
+  const [psAdjudicatorState, psAdjudicatorAction, psAdjudicatorPending] = useActionState(
+    registerPSAdjudicatorAction.bind(null, tournamentId),
+    initialState,
+  );
 
   const showAdjudicatorToggle =
     track === "PS"
@@ -84,59 +116,49 @@ export default function RegisterFormClient({
           : individualState;
   const isSuccess = activeState.success === true;
 
-  function selectTrack(next: "DEBATE" | "PS") {
-    setTrack(next);
-    setMode("PARTICIPANT");
-  }
+  // Rule: N+1 or FIXED policies require team-associated adjudicators
+  const requiresInstitutionalAdjudicator = 
+    track === "DEBATE" && 
+    event.registrationType === "TEAM" && 
+    (event.adjudicatorPolicy === "N_PLUS_ONE" || event.adjudicatorPolicy === "FIXED");
 
   return (
-    <div className="w-full  text-text-primary min-h-screen flex flex-col">
+    <div className="w-full text-text-primary min-h-screen flex flex-col">
       <header className="w-full px-6 py-4 border-b border-[#2e3a28]/10 flex items-center justify-between shadow-2xs">
         <Link
           href={`/events/${eventId}`}
-          className="group inline-flex items-center gap-1.5 font-manrope text-xs text-sm tracking-widest text-text-muted hover:text-text-primary transition-colors"
+          className="group inline-flex items-center gap-1.5 font-manrope text-sm tracking-widest text-text-muted hover:text-text-primary transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
           Cancel & Return to Details
         </Link>
-        <span className="font-manrope text-[9px] text-sm tracking-widest text-text-muted bg-[color-mix(in_srgb,var(--surface)_95%,black)]  px-2.5 py-1 border border-[#2e3a28]/10 rounded-xs">
+        <span className="font-manrope text-xs tracking-widest text-text-muted bg-[color-mix(in_srgb,var(--surface)_95%,black)] px-2.5 py-1 border border-[#2e3a28]/10 rounded-xs">
           Terminal ID // {eventId}
         </span>
       </header>
 
       <div className="flex-1 max-w-6xl w-full md:flex md:flex-col items-stretch md:gap-10 mx-auto p-4 sm:p-8 lg:p-12 lg:grid grid-cols-1 lg:grid-cols-12 lg:gap-5 lg:items-start">
+        {/* Left Side: Tournament Metadata */}
         <div className="lg:col-span-4 space-y-6">
           <div className="border border-[#2e3a28]/20 bg-[color-mix(in_srgb,var(--surface)_95%,black)] p-6 rounded-xs space-y-4 shadow-3xs text-left">
             <div>
-              <h2 className="font-playfair text-4xl! font-bold text-text-primary tracking-tight leading-relaxed">
+              <h2 className="font-playfair text-3xl font-bold text-text-primary tracking-tight leading-relaxed">
                 {event.title}
               </h2>
             </div>
 
             <div className="space-y-2 pt-2 border-t border-[#2e3a28]/5 font-manrope text-xs text-text-secondary flex flex-col gap-2">
               <div className="flex flex-col justify-center items-start">
-                <span className="text-text-muted font-manrope text-xs">
-                  Format:
-                </span>
-                <span className="font-bold text-text-primary text-sm">
-                  {event.format}
-                </span>
+                <span className="text-text-muted font-manrope text-xs">Format:</span>
+                <span className="font-bold text-text-primary text-sm">{event.format}</span>
               </div>
               <div className="flex flex-col justify-center items-start">
-                <span className="text-text-muted font-manrope text-xs">
-                  Venue:
-                </span>
-                <span className="font-bold text-text-primary text-sm">
-                  {event.location}
-                </span>
+                <span className="text-text-muted font-manrope text-xs">Venue:</span>
+                <span className="font-bold text-text-primary text-sm">{event.location}</span>
               </div>
               <div className="flex flex-col justify-center items-start">
-                <span className="text-text-muted font-manrope text-xs">
-                  Timeline:
-                </span>
-                <span className="font-bold text-text-primary text-sm">
-                  {event.date}
-                </span>
+                <span className="text-text-muted font-manrope text-xs">Timeline:</span>
+                <span className="font-bold text-text-primary text-sm">{event.date}</span>
               </div>
             </div>
           </div>
@@ -145,14 +167,14 @@ export default function RegisterFormClient({
             <div className="flex bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28]/10 p-0.5 text-xs font-manrope rounded-xs">
               <button
                 type="button"
-                onClick={() => selectTrack("DEBATE")}
+                onClick={() => handleTrackChange("DEBATE")}
                 className={`flex-1 px-2.5 py-1.5 transition-all cursor-pointer ${track === "DEBATE" ? "bg-[#2e3a28] text-white font-bold" : "text-text-muted"}`}
               >
                 Debate
               </button>
               <button
                 type="button"
-                onClick={() => selectTrack("PS")}
+                onClick={() => handleTrackChange("PS")}
                 className={`flex-1 px-2.5 py-1.5 transition-all cursor-pointer ${track === "PS" ? "bg-[#2e3a28] text-white font-bold" : "text-text-muted"}`}
               >
                 Public Speaking
@@ -164,45 +186,42 @@ export default function RegisterFormClient({
             <div className="flex gap-2 items-start text-primary">
               <ShieldCheck className="w-4 h-4 shrink-0" />
               <span>
-                Take a moment to double-check your details before submitting.
-                We'll use the information you provide for registrations,
-                certificates, and event communication.
+                Double-check details before submitting. Registered names are utilized for official rosters and certification pipelines.
               </span>
             </div>
           </div>
         </div>
 
-        <div className="lg:col-span-8 bg-[color-mix(in_srgb,var(--surface)_95%,black)]  border border-[#2e3a28] rounded-xs shadow-xs overflow-hidden">
+        {/* Right Side: Dynamic Form Layout */}
+        <div className="lg:col-span-8 bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28] rounded-xs shadow-xs overflow-hidden">
           <div className="p-4 border-b border-[#2e3a28]/10 bg-[color-mix(in_srgb,var(--surface)_95%,black)] text-left flex items-center justify-between gap-4">
-            <h3 className="font-manrope  text-sm tracking-wider text-primary">
+            <h3 className="font-manrope text-sm tracking-wider text-primary">
               {mode === "ADJUDICATOR"
                 ? track === "PS"
-                  ? "Public Speaking Adjudicator"
-                  : "Independent Adjudicator"
+                  ? "Public Speaking Adjudicator (Independent)"
+                  : "Independent Adjudicator (IA)"
                 : track === "PS"
                   ? "Public Speaking Signup"
                   : event.registrationType === "TEAM"
                     ? "Team Signup"
                     : "Individual Signup"}
             </h3>
-            {showAdjudicatorToggle && (
-              <div className="flex bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28]/10 p-0.5 text-xs   font-manrope rounded-xs shrink-0">
+              <div className="flex bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28]/10 p-0.5 text-xs font-manrope rounded-xs shrink-0">
                 <button
                   type="button"
-                  onClick={() => setMode("PARTICIPANT")}
+                  onClick={() => handleModeChange("PARTICIPANT")}
                   className={`px-2.5 py-1 transition-all cursor-pointer ${mode === "PARTICIPANT" ? "bg-[#2e3a28] text-white font-bold" : "text-text-muted"}`}
                 >
                   Participant
                 </button>
                 <button
                   type="button"
-                  onClick={() => setMode("ADJUDICATOR")}
+                  onClick={() => handleModeChange("ADJUDICATOR")}
                   className={`px-2.5 py-1 transition-all cursor-pointer ${mode === "ADJUDICATOR" ? "bg-[#2e3a28] text-white font-bold" : "text-text-muted"}`}
                 >
-                  Adjudicator
+                  Independent Adj
                 </button>
               </div>
-            )}
           </div>
 
           <div className="p-6 sm:p-8 text-left">
@@ -216,14 +235,9 @@ export default function RegisterFormClient({
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-garamond text-xl font-bold tracking-wide">
-                    You're Registered!
-                  </h4>
-
+                  <h4 className="font-garamond text-xl font-bold tracking-wide">Registration Captured</h4>
                   <p className="font-garamond text-sm text-text-secondary max-w-sm mx-auto leading-relaxed">
-                    Thank you for registering. We've received your details, and
-                    a confirmation email is on its way. We look forward to
-                    welcoming you at the event.
+                    Check your inbox for your confirmation and registration receipt.
                   </p>
                 </div>
                 <div className="pt-4">
@@ -237,81 +251,45 @@ export default function RegisterFormClient({
               </motion.div>
             ) : track === "PS" ? (
               mode === "ADJUDICATOR" ? (
+                /* Public Speaking Adjudicator Form */
                 <form action={psAdjudicatorAction} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field
-                      label="Full Name"
-                      name="name"
-                      placeholder="Your First & Last Name"
-                    />
-                    <Field
-                      label="Contact Email"
-                      name="email"
-                      type="email"
-                      placeholder="you@example.com"
-                    />
+                    <Field label="Full Name" name="name" placeholder="Your First & Last Name" />
+                    <Field label="Contact Email" name="email" type="email" placeholder="you@example.com" />
                   </div>
                   {psAdjudicatorState.error && (
-                    <p className="text-xs font-manrope text-red-700">
-                      {psAdjudicatorState.error}
-                    </p>
+                    <p className="text-xs font-manrope text-red-700">{psAdjudicatorState.error}</p>
                   )}
                   <SubmitRow isPending={psAdjudicatorPending} />
                 </form>
               ) : (
-                <form
-                  action={psAction}
-                  className="space-y-6 flex flex-col gap-3"
-                >
+                /* Public Speaking Participant Form */
+                <form action={psAction} className="space-y-6 flex flex-col gap-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field
-                      label="Full Legal Name"
-                      name="name"
-                      placeholder="Your First & Last Name"
-                    />
-                    <Field
-                      label="Contact Email Address"
-                      name="email"
-                      type="email"
-                      placeholder="you@example.com"
-                    />
+                    <Field label="Full Legal Name" name="name" placeholder="Your First & Last Name" />
+                    <Field label="Contact Email Address" name="email" type="email" placeholder="you@example.com" />
                   </div>
                   <Field
-                    label="Institution / Chapter/ Faculty"
+                    label="Institution / Chapter / Faculty"
                     name="institution"
                     placeholder="e.g., University of Nigeria, Nsukka"
                   />
-                  {psState.error && (
-                    <p className="text-xs font-manrope text-red-700">
-                      {psState.error}
-                    </p>
-                  )}
+                  {psState.error && <p className="text-xs font-manrope text-red-700">{psState.error}</p>}
                   <SubmitRow isPending={psPending} />
                 </form>
               )
             ) : mode === "ADJUDICATOR" ? (
+              /* Independent Debate Adjudicator Form (IA) */
               <form action={adjudicatorAction} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field
-                    label="Full Name"
-                    name="name"
-                    placeholder="Your First & Last Name"
-                  />
-                  <Field
-                    label="Contact Email"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                  />
+                  <Field label="Full Name" name="name" placeholder="Your First & Last Name" />
+                  <Field label="Contact Email" name="email" type="email" placeholder="you@example.com" />
                 </div>
-                {adjudicatorState.error && (
-                  <p className="text-xs font-manrope text-red-700">
-                    {adjudicatorState.error}
-                  </p>
-                )}
+                {adjudicatorState.error && <p className="text-xs font-manrope text-red-700">{adjudicatorState.error}</p>}
                 <SubmitRow isPending={adjudicatorPending} />
               </form>
             ) : event.registrationType === "TEAM" ? (
+              /* Team Registration Form (Plus Optional N+1/Fixed Institutional Adj) */
               <form action={teamAction} className="space-y-6">
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -320,66 +298,48 @@ export default function RegisterFormClient({
                       name="institution"
                       placeholder="e.g., University of Nigeria, Nsukka"
                     />
-                    <Field
-                      label="Team Name"
-                      name="teamName"
-                      placeholder="e.g., UNN Alpha"
-                    />
+                    <Field label="Team Name" name="teamName" placeholder="e.g., UNN Alpha" />
                   </div>
+                  
+                  {/* Speaker 1 Details */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2e3a28]/5 pt-4">
-                    <Field
-                      label="Speaker 1 Name"
-                      name="player1Name"
-                      placeholder="Full Name"
-                    />
-                    <Field
-                      label="Speaker 1 Email"
-                      name="player1Email"
-                      type="email"
-                      placeholder="speaker1@example.com"
-                    />
+                    <Field label="Speaker 1 Name" name="player1Name" placeholder="Full Name" />
+                    <Field label="Speaker 1 Email" name="player1Email" type="email" placeholder="speaker1@example.com" />
                   </div>
+                  
+                  {/* Speaker 2 Details */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2e3a28]/5 pt-4">
-                    <Field
-                      label="Speaker 2 Name"
-                      name="player2Name"
-                      placeholder="Full Name"
-                    />
-                    <Field
-                      label="Speaker 2 Email"
-                      name="player2Email"
-                      type="email"
-                      placeholder="speaker2@example.com"
-                    />
+                    <Field label="Speaker 2 Name" name="player2Name" placeholder="Full Name" />
+                    <Field label="Speaker 2 Email" name="player2Email" type="email" placeholder="speaker2@example.com" />
                   </div>
+
+                  {/* Institutional Adjudicator Dynamic Section */}
+                  {requiresInstitutionalAdjudicator && (
+                    <div className="border-t border-[#2e3a28]/10 pt-5 mt-5 space-y-4">
+                      <div className="flex items-start gap-2 text-xs text-text-muted bg-[color-mix(in_srgb,var(--surface)_90%,black)] p-3 rounded-xs border border-[#2e3a28]/10">
+                        <Info className="w-4 h-4 shrink-0 text-primary" />
+                        <div>
+                          <strong className="text-text-primary">Institutional Adjudicator Required:</strong> This tournament enforces an <strong>{event.adjudicatorPolicy?.replace('_', ' ')}</strong> policy. Your team's registration must register an associated institutional adjudicator below.
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <Field label="Adjudicator Full Name" name="adjName" placeholder="Adj Name" />
+                        <Field label="Adjudicator Email" name="adjEmail" type="email" placeholder="adj@example.com" />
+                      </div>
+                    </div>
+                  )}
                 </div>
-                {teamState.error && (
-                  <p className="text-xs font-manrope text-red-700">
-                    {teamState.error}
-                  </p>
-                )}
+                {teamState.error && <p className="text-xs font-manrope text-red-700">{teamState.error}</p>}
                 <SubmitRow isPending={teamPending} />
               </form>
             ) : (
+              /* Individual Debate Participant Form */
               <form action={individualAction} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field
-                    label="Full Legal Name"
-                    name="name"
-                    placeholder="Your First & Last Name"
-                  />
-                  <Field
-                    label="Contact Email Address"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                  />
+                  <Field label="Full Legal Name" name="name" placeholder="Your First & Last Name" />
+                  <Field label="Contact Email Address" name="email" type="email" placeholder="you@example.com" />
                 </div>
-                {individualState.error && (
-                  <p className="text-xs font-manrope text-red-700">
-                    {individualState.error}
-                  </p>
-                )}
+                {individualState.error && <p className="text-xs font-manrope text-red-700">{individualState.error}</p>}
                 <SubmitRow isPending={individualPending} />
               </form>
             )}
@@ -411,7 +371,7 @@ function Field({
         name={name}
         required
         placeholder={placeholder}
-        className="w-full rounded-xs border border-gray-700 bg-[color-mix(in_srgb,var(--surface)_90%,black)]  px-3 py-2 text-xs text-text-primary focus:outline-hidden focus:border-[#2e3a28] font-manrope transition-colors"
+        className="w-full rounded-xs border border-gray-700 bg-[color-mix(in_srgb,var(--surface)_90%,black)] px-3 py-2 text-xs text-text-primary focus:outline-hidden focus:border-[#2e3a28] font-manrope transition-colors"
       />
     </div>
   );

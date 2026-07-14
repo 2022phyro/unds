@@ -7,6 +7,10 @@ export const teamRegistrationSchema = z.object({
   player1Email: z.email({ error: "Enter a valid email for Speaker 1." }),
   player2Name: z.string().min(1, { error: "Speaker 2 name is required." }),
   player2Email: z.email({ error: "Enter a valid email for Speaker 2." }),
+
+  // Optional institutional adjudicator fields (used for N+1 or FIXED policies)
+  adjName: z.string().optional().or(z.literal("")),
+  adjEmail: z.string().optional().or(z.literal("")),
 });
 
 export const adjudicatorRegistrationSchema = z.object({

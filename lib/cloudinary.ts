@@ -26,7 +26,7 @@ interface CloudinaryResource {
 /** Folder-as-album strategy: photos + captions come straight from Cloudinary context metadata, no per-asset DB rows. */
 export async function getAlbumPhotos(folder: string): Promise<AlbumPhoto[]> {
   console.log("Booyakhjfdhjhf")
-  try {
+  try { 
   const result = await cloudinary.search
     .expression(`folder="${folder}/*"`) // Matches the real path structure
     .max_results(500)
