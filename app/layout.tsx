@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     default: "University of Nigeria Debating Society // The Spartans",
     template: "%s | University of Nigeria Debating Society",
   },
-  description: "Home of intellectual discourse, forensic excellence, and competitive speech. We forge analytical thinkers and public advocates commanding global tournament circuits.",
+  description: "Home of intellectual discourse, oratorial excellence, and public speaking. We forge analytical thinkers and public advocates commanding global tournament circuits.",
   keywords: [
     "UNDS", 
     "University of Nigeria Debating Society", 
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   // Open Graph (Facebook, WhatsApp, LinkedIn, Discord previews)
   openGraph: {
     title: "Welcome to University of Nigeria Debating Society",
-    description: "The proving ground for the sharpest minds. Discover competitive forensics excellence and intellectual discourse.",
+    description: "The proving ground for the sharpest minds. Discover  and intellectual discourse.",
     url: "https://unds-nigeria.vercel.app",
     siteName: "University of Nigeria Debating Society",
     locale: "en_NG",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "University of Nigeria Debating Society // Home of the Spartans",
-    description: "Forge analytical clarity, master forensic speech, and compete on international debating circuits.",
+    description: "Forge analytical clarity, master public speaking, and compete on international debating circuits.",
     images: ["/banner.png"], // Your newly generated PNG banner from /public
   },
 
