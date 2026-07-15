@@ -91,19 +91,17 @@ export default async function EventDetailsPage({
             <div className="space-y-1">
               <h3 className="font-garamond text-xl font-bold text-text-primary">
                 {event.registration_type === "NONE" &&
-                  !event.includesPS &&
                   "Everyone's Welcome"}
                 {event.registration_type === "INDIVIDUAL" &&
                   "Individual Registration"}
                 {event.registration_type === "TEAM" && "Team Registration"}
-                {event.registration_type === "NONE" &&
+                {event.registration_type === "INDIVIDUAL" &&
                   event.includesPS &&
                   "Public Speaking Registration"}
               </h3>
 
               <p className="font-garamond text-sm text-text-secondary max-w-xl leading-relaxed">
                 {event.registration_type === "NONE" &&
-                  !event.includesPS &&
                   "This event is open to everyone. No registration is required—just come along with your curiosity, a notebook if you'd like, and be ready to take part."}
 
                 {event.registration_type === "INDIVIDUAL" &&
@@ -116,7 +114,7 @@ export default async function EventDetailsPage({
                   event.registration_type !== "NONE" &&
                   " If you're interested in the Public Speaking category, you'll need to complete a separate registration for that event as well."}
 
-                {event.registration_type === "NONE" &&
+                {event.registration_type === "INDIVIDUAL" &&
                   event.includesPS &&
                   "The Public Speaking event requires a quick individual registration so we can organise speaking slots and keep you updated with event information."}
               </p>
@@ -129,12 +127,12 @@ export default async function EventDetailsPage({
                     href={event.registrationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2e3a28] border border-[#2e3a28] text-white font-ui text-xs  tracking-wider font-bold rounded-xs hover:bg-[#1f281b] transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 btn bg-primary dark:bg-white border border-[#2e3a28] font-ui! text-xs! text-(--evergreen)! tracking-wider font-bold rounded-xs"
                   >
                     View External Listing
                   </a>
                 ) : (
-                  <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2e3a28]/5 border border-[#2e3a28]/20 text-primary font-ui text-xs  tracking-wider font-bold rounded-xs">
+                  <div className="inline-flex items-center gap-2 px-4 py-2.5 btn bg-primary dark:bg-white border border-[#2e3a28] font-ui! text-xs! text-(--evergreen)! tracking-wider font-bold rounded-xs">
                     Just Attend
                   </div>
                 )
@@ -155,7 +153,7 @@ export default async function EventDetailsPage({
                         : "Secure spot"}
                     </Button>
                   )}
-                  {event.includesPS && (
+                  {event.registration_type !== "NONE" && event.includesPS && (
                     <Button
                       href={`/events/${eventId}/register?track=ps`}
                       className="font-manrope h-12 lg:w-80 capitalize font-medium sm:w-auto"

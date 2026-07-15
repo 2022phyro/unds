@@ -422,19 +422,19 @@ export default function EventsRegistryClient({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
           {[
             {
-              title: "PAUDC Deployment 2025",
-              metric: "Grand Finalists",
-              desc: "Secured structural knockout out-round positions in international divisions on the continental floor.",
-            },
-            {
-              title: "National Forensics Open",
+              title: "ANUDC 2023",
               metric: "Overall Champions",
-              desc: "Swept team ranking indices and individual speaker logs across elite national brackets.",
+              desc: "Swept away the competion in both open and novice streams.",
             },
             {
-              title: "Interfaculty League",
-              metric: "Institutional Host",
-              desc: "Coordinated internal tracking parameters across 14 campus delegations to foster debate depth.",
+              title: "ANUDC 2025",
+              metric: "Novice Runners-Up",
+              desc: "100% breaks into the outrounds, presented award-winning adjudicators, and novice runnerups",
+            },
+            {
+              title: "Meet The Spartans 2.0",
+              metric: "Internals",
+              desc: "Organized and hosted the largest internal debate tournament in the society's history yet, with 40+ participants.",
             },
           ].map((item, idx) => (
             <div

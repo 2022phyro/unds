@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { HeroFireflies } from "@/components/fireflies";
+import { CloudinaryImage } from "@/components/cl-image";
 
 export default function HeroSection() {
   return (
@@ -135,8 +136,8 @@ export default function HeroSection() {
               <div className="relative rounded-xs border border-border bg-surface p-3 shadow-xl z-20">
                 {/* Image Element Box forced into Landscape Aspect Mapping */}
                 <div className="relative aspect-4/3 overflow-hidden rounded-[2px] bg-neutral-900">
-                  <img
-                    src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80"
+                  <CloudinaryImage
+                    src="https://res.cloudinary.com/boo1tgkf/image/upload/v1784069444/PXL_20240209_180951576.MV_rpc3vj.jpg"
                     alt="The UNDS Spartans"
                     className="h-full w-full object-cover"
                   />

@@ -8,6 +8,7 @@ import timeline from "./data/timeline.json";
 import execCouncil from "./data/exec-council.json";
 import pillars from "./data/pillars.json";
 import { EditorialProfileCard } from "@/components/ui/editorial-image";
+import { CloudinaryImage } from "@/components/cl-image";
 
 /* -------------------------------------------------------------------------- */
 /* THE BOOK MOTIF / SHEAF OF NOTES CARD COMPONENT                            */
@@ -46,10 +47,9 @@ export default function AboutPage() {
             <div className="col-span-12 relative group p-1">
               <NoteSheafCard>
                 <div className="relative w-full h-72 sm:h-96 rounded-xs overflow-hidden border border-border">
-                  <Image
-                    src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80"
+                  <CloudinaryImage
+                    src="https://res.cloudinary.com/boo1tgkf/image/upload/v1784069440/PXL_20240209_180423869.MV_tv0roj.jpg"
                     alt="Collegiate Assembly"
-                    fill
                     className="object-cover"
                   />
                 </div>
@@ -60,10 +60,10 @@ export default function AboutPage() {
 
         {/* Legacy In Numbers / Active Metrics */}
         <SectionReveal className="border-t border-border/40 pt-16 pb-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-left md:text-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-left md:text-center">
             <div className="flex flex-col gap-2">
               <span className="block font-serif text-4xl sm:text-5xl font-black text-primary">
-                150+
+                60+
               </span>
               <span className="block text-xs font-manrope font-bold tracking-wider uppercase text-text-secondary mt-1">
                 Active Members
@@ -71,7 +71,7 @@ export default function AboutPage() {
             </div>
             <div className="flex flex-col gap-2">
               <span className="block font-serif text-4xl sm:text-5xl font-black text-primary">
-                40+
+                10+
               </span>
               <span className="block text-xs font-manrope font-bold tracking-wider uppercase text-text-secondary mt-1">
                 Tournament Titles
@@ -79,18 +79,10 @@ export default function AboutPage() {
             </div>
             <div className="flex flex-col gap-2">
               <span className="block font-serif text-4xl sm:text-5xl font-black text-primary">
-                25+
+                4+
               </span>
               <span className="block text-xs font-manrope font-bold tracking-wider uppercase text-text-secondary mt-1">
                 Years of Debate
-              </span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <span className="block font-serif text-4xl sm:text-5xl font-black text-primary">
-                7
-              </span>
-              <span className="block text-xs font-manrope font-bold tracking-wider uppercase text-text-secondary mt-1">
-                Countries Represented
               </span>
             </div>
           </div>

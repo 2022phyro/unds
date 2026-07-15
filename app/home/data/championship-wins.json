@@ -3,11 +3,11 @@
     "year": "2023",
     "tournamentName": "All Nigerian Universities Debating Championship (ANUDC)",
     "circuit": "National Circuit",
-    "imageUrl": "https://images.unsplash.com/photo-1567057419565-4349c49d8a04?q=80&w=600",
+    "imageUrl": "https://res.cloudinary.com/boo1tgkf/image/upload/v1784022700/IMG_5540_ztmcbf.jpg",
     "titles": [
       {
         "type": "Open Champions",
-        "speakers": "Raymond Chuma & Chinedu Okafor"
+        "speakers": "Raymond Chuma & Jeremy Noel"
       },
       {
         "type": "Novice Champions",
@@ -19,7 +19,7 @@
     "year": "2025",
     "tournamentName": "All Nigerian Youth Debating Championship (ANYDC)",
     "circuit": "National Circuit",
-    "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600",
+    "imageUrl": "https://res.cloudinary.com/boo1tgkf/image/upload/v1784022029/117_c5fga8.jpg",
     "titles": [
       {
         "type": "First Runnerups Public Speaking, 4th Best Adjudicator",
@@ -27,7 +27,7 @@
       },
       {
         "type": "10th Best Speaker",
-        "speakers": "Chinedu Okafor"
+        "speakers": "Emmanuel Nwafor"
       }
     ]
   },
@@ -35,7 +35,7 @@
     "year": "2025",
     "tournamentName": "All Nigerian Universities Debating Championship (ANUDC)",
     "circuit": "National Circuit",
-    "imageUrl": "https://images.unsplash.com/photo-1567057419565-4349c49d8a04?q=80&w=600",
+    "imageUrl": "https://res.cloudinary.com/boo1tgkf/image/upload/v1783936489/user-uploads/GAV05445_cjgfuk.jpg",
     "titles": [
       {
         "type": "Novice Runner-ups",
@@ -51,7 +51,7 @@
     "year": "2026",
     "tournamentName": "All Nigerian Youth Debating Championship (ANYDC)",
     "circuit": "National Circuit",
-    "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600",
+    "imageUrl": "https://res.cloudinary.com/boo1tgkf/image/upload/v1783937929/unds/IMG_0507.jpg",
     "titles": [
       {
         "type": "PS Finalist, 5th Best Adjudicator, 7th Best Public Speaker",

@@ -2,6 +2,7 @@
 
 import React from "react";
 import CHAMPIONSHIP_WINS from "./data/championship-wins.json";
+import { CloudinaryImage } from "@/components/cl-image";
 
 const ROTATIONS = [
   "group-hover:-rotate-2 rotate-1",
@@ -59,7 +60,7 @@ export function ChampionshipWins() {
               <div 
                 className={`relative w-full h-52 sm:h-60 md:h-64 lg:h-68 rounded-xl border border-border bg-surface overflow-hidden shadow-xs transition-all duration-500 ease-out ${rotationClass}`}
               >
-                <img 
+                <CloudinaryImage 
                   src={tournament.imageUrl} 
                   alt={`${tournament.tournamentName} Campaign Snapshot`}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
