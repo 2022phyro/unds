@@ -6,6 +6,7 @@ import { SectionReveal } from "@/components/ui/section-reveal";
 import HourglassLoader from "@/components/ui/hourglass";
 import NoteSheafCard from "@/components/ui/sheaf-cards";
 import { Search, ArrowRight } from "lucide-react";
+import { CloudinaryImage } from "@/components/cl-image";
 
 export interface AlbumMeta {
   id: string;
@@ -95,7 +96,7 @@ export default function GalleryRegistryClient({ albums }: GalleryRegistryClientP
             <NoteSheafCard>
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                 <div className="lg:col-span-7 relative h-64 sm:h-80 bg-stone-900 rounded-xs overflow-hidden">
-                  <img
+                  <CloudinaryImage
                     src={featuredAlbum.imageUrl}
                     alt={featuredAlbum.title}
                     className="w-full h-full object-cover opacity-90"
@@ -183,8 +184,7 @@ export default function GalleryRegistryClient({ albums }: GalleryRegistryClientP
           </div>
         ) : filteredAlbums.length === 0 ? (
           <div className="w-full py-16 text-center font-mono text-xs text-text-muted border border-dashed border-[#2e3a28]/10">
-            No archival records matched the request.
-          </div>
+Nothing matched your search this time. Try a different keyword or browse all events.          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 text-left">
             {filteredAlbums.map((album) => (
@@ -198,7 +198,7 @@ export default function GalleryRegistryClient({ albums }: GalleryRegistryClientP
                     <div className="space-y-4">
                       {/* Album Snapshot */}
                       <div className="relative h-40 bg-[color-mix(in_srgb,var(--surface)_95%,black)]  rounded-xs overflow-hidden shrink-0">
-                        <img
+                        <CloudinaryImage  
                           src={album.imageUrl || "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=600"}
                           alt={album.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
@@ -235,8 +235,8 @@ export default function GalleryRegistryClient({ albums }: GalleryRegistryClientP
 
                       <div className="pt-2 border-t border-[#2e3a28]/5 flex items-center justify-between font-mono text-[10px]">
                         <span className="text-text-muted">{album.photoCount} Photographs</span>
-                        <span className="text-primaryfont-bold inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                          Open Document &rarr;
+                        <span className="text-primary text-sm font-manrope p-2 border rounded-sm inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                          View
                         </span>
                       </div>
                     </div>

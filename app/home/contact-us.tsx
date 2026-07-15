@@ -28,7 +28,9 @@ export function HomeContactBlock() {
           <p className="text-sm inline text-text-secondary leading-relaxed max-w-xl m-0">
             Whether you're interested in joining UNDS, inviting us to an event,
             exploring partnerships, or simply learning more about what we do,
-            we're always happy to start a conversation. Reach out to us via the form below, and we'll get back to you as soon as possible, or send an email at 
+            we're always happy to start a conversation. Reach out to us via the
+            form below, and we'll get back to you as soon as possible, or send
+            an email at
             <span className="font-manrope  pl-1 font-semibold text-text-primary block sm:inline mt-1 sm:mt-0">
               registry@unn.edu.ng
             </span>
@@ -39,7 +41,8 @@ export function HomeContactBlock() {
         <div className="lg:col-span-7 w-full bg-surface border border-border/80 rounded-xl p-6 sm:p-8 shadow-xs text-left">
           {state.success ? (
             <p className="font-garamond text-sm text-text-primary py-8 text-center">
-              Thank you — your message has been logged with the registry desk.
+              Thank you for reaching out. Your message is with our team, and
+              we'll be in touch soon.
             </p>
           ) : (
             <form action={formAction} className="space-y-5 flex flex-col gap-3">
@@ -126,15 +129,14 @@ export function HomeContactBlock() {
                 </span>
                 <div className="hidden lg:block flex-1" />
                 <div>
-                <Button
-                  type="submit"
-                  disabled={isPending}
-                  className="font-garamond tracking-wider w-40 font-bold"
-                >
-                  {isPending ? "Submitting..." : "Submit"}
-                </Button>                  
+                  <Button
+                    type="submit"
+                    disabled={isPending}
+                    className="font-garamond tracking-wider w-40 font-bold"
+                  >
+                    {isPending ? "Submitting..." : "Submit"}
+                  </Button>
                 </div>
-
               </div>
             </form>
           )}
