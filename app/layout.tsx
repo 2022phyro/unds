@@ -21,6 +21,7 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
+
 export const metadata: Metadata = {
   title: {
     default: "University of Nigeria Debating Society // The Spartans",
@@ -37,24 +38,24 @@ export const metadata: Metadata = {
   authors: [{ name: "UNDS Executive Council" }],
   creator: "UNDS Technical team",
   publisher: "University of Nigeria Debating Society",
-  metadataBase: new URL("https://unds.org"), // Replace with your final Vercel or custom domain
+  metadataBase: new URL("https://unds-nigeria.vercel.app"), // Swap to your staging URL (e.g., Vercel) while testing if needed
 
   // Open Graph (Facebook, WhatsApp, LinkedIn, Discord previews)
   openGraph: {
     title: "Welcome to University of Nigeria Debating Society",
     description: "The proving ground for the sharpest minds. Discover competitive forensics excellence and intellectual discourse.",
-    url: "https://unds.org",
+    url: "https://unds-nigeria.vercel.app",
     siteName: "University of Nigeria Debating Society",
     locale: "en_NG",
     type: "website",
     images: [
       {
-        url: "/logo.png", // Place an elegant, dark-forest/academic banner image in your public folder
+        url: "/banner.png", // Your newly generated PNG banner from /public
         width: 1200,
         height: 630,
-          alt: "University of Nigeria Debating Society - The Spartans",
-        },
-      ],
+        alt: "University of Nigeria Debating Society - The Spartans",
+      },
+    ],
   },
 
   // Twitter Cards (X Previews)
@@ -62,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "University of Nigeria Debating Society // Home of the Spartans",
     description: "Forge analytical clarity, master forensic speech, and compete on international debating circuits.",
-    images: ["/logo.png"],
+    images: ["/banner.png"], // Your newly generated PNG banner from /public
   },
 
   // Robots & Crawlers instructions
@@ -81,10 +82,13 @@ export const metadata: Metadata = {
   // Browser icons configuration
   icons: {
     icon: "/favicon.ico",
-    // shortcut: "/favicon-16x16.png",
-    // apple: "/apple-touch-icon.png",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
   },
 };
+
+
+
 
 export default function RootLayout({
   children,
