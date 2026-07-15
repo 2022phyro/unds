@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   // Open Graph (Facebook, WhatsApp, LinkedIn, Discord previews)
   openGraph: {
     title: "Welcome to University of Nigeria Debating Society",
-    description: "The proving ground for the sharpest minds. Discover  and intellectual discourse.",
+    description: "The proving ground for the sharpest minds. Speak, learn, grow, and win",
     url: "https://unds-nigeria.vercel.app",
     siteName: "University of Nigeria Debating Society",
     locale: "en_NG",
