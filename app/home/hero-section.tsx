@@ -11,17 +11,16 @@ export default function HeroSection() {
       relative
       isolate
       overflow-hidden
-      min-h-screen
       border-b border-border
-      flex items-center
+      flex flex-col items-center
       bg-background
       "
     >
       <HeroFireflies />
 
-      <div className="relative z-20 mx-auto max-w-7xl w-full px-6 sm:px-8 py-24 lg:py-32">
+      <div className="relative z-20 mx-0 w-full px-2 sm:px-2 py-10 lg:py-20">
         {/* Core Layout Grid */}
-        <div className="grid grid-cols-1 gap-12 items-center lg:grid-cols-12 lg:gap-8">
+        <div className="lg:grid flex flex-col-reverse justify-center  gap-12 items-center lg:grid-cols-12 lg:gap-8">
           {/* Text Content Block */}
           <div className="max-w-3xl flex flex-col gap-3 lg:col-span-7">
             <h1
@@ -31,12 +30,13 @@ export default function HeroSection() {
               font-semibold!
               leading-[0.95]
               tracking-tight
-              text-5xl!
+              text-4xl!
+              lg:text-start
+              text-center
               text-text-primary
               "
             >
-              University of Nigeria{" "}
-              <span className="text-primary">Debating Society</span>
+              University of Nigeria Debating Society
             </h1>
 
             <p
@@ -48,6 +48,8 @@ export default function HeroSection() {
               italic
               leading-tight
               text-text-primary
+                            lg:text-start
+              text-center
               "
             >
               Speak your mind
@@ -56,8 +58,10 @@ export default function HeroSection() {
             <p
               className="
               mt-4 lg:mt-6
-              max-w-xl
+              w-full
               text-sm sm:text-base
+                            lg:text-start
+              text-center
               leading-relaxed sm:leading-8
               text-text-secondary
               "
@@ -70,7 +74,7 @@ export default function HeroSection() {
               learn, challenge ideas, and discover your own voice.
             </p>
 
-            <div className="mt-8 lg:mt-10 flex flex-wrap gap-6 items-center">
+            <div className="mt-8 lg:mt-10 flex w-full justify-evenly md:justify-start flex-wrap gap-6 items-center">
               <Link
                 href="/join"
                 className="
@@ -78,6 +82,7 @@ export default function HeroSection() {
                 text-(--btn-primary-text)!
                 h-14
                 px-8
+                w-full sm:w-auto
                 text-sm
                 font-medium
                 tracking-[.16em]
@@ -94,6 +99,7 @@ export default function HeroSection() {
                 href="/about"
                 className="
                 inline-flex
+                                w-full sm:w-auto
                 h-14
                 btn btn-outline
                 items-center
@@ -126,9 +132,6 @@ export default function HeroSection() {
               "
             >
               {/* Washi tape pin strips */}
-              <div className="absolute -top-3 left-10 w-14 h-5 bg-btn-accent/70 rotate-[-6deg] shadow-xs z-30" />
-              <div className="absolute -top-2.5 right-12 w-12 h-5 bg-btn-accent/50 rotate-[8deg] shadow-xs z-30" />
-
               {/* Stacked background paper detail */}
               <div className="absolute inset-0 translate-x-2 translate-y-2 rotate-[1.5deg] rounded-xs border border-border bg-surface shadow-xs" />
 
@@ -146,9 +149,11 @@ export default function HeroSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
                 </div>
 
-                {/* Subtle Editorial Label */}  
+                {/* Subtle Editorial Label */}
                 <p className="inline-flex flex-row items-center justify-center w-full mt-3 text-center gap-3 font-garamond italic text-xs sm:text-sm text-text-secondary">
-                  The Spartans <span className="text-primary rounded-full h-1 w-1 bg-primary"></span> Est. 2011
+                  The Spartans{" "}
+                  <span className="text-primary rounded-full h-1 w-1 bg-primary"></span>{" "}
+                  Est. 2011
                 </p>
               </div>
             </div>

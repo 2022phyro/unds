@@ -11,55 +11,52 @@ export async function ChamberGazette() {
   const events = tournaments.map(toUpcomingEvent);
 
   return (
-    <div className="grid grid-cols-1 overflow-hidden rounded-xl border border-border bg-surface-muted/30 shadow-md lg:grid-cols-12">
+    <div className="grid grid-cols-1 overflow-hidden rounded-none sm:rounded-xl border border-border bg-surface-muted/30 shadow-md lg:grid-cols-12">
       {/* Left Side: Thinner Calendar Agenda (5 Columns out of 12) */}
       <div className="p-6 lg:col-span-5 border-b border-border lg:border-b-0 lg:border-r lg:p-8 flex flex-col justify-between">
         <div>
-          <div className="mb-6 flex items-center justify-between pb-2 border-b border-border/60">
-            <h4 className="text-lg font-light tracking-tight text-text-primary font-garamond">
-              Up Next
-            </h4>
+          <div className="mb-6 flex items-center justify-end h-10   border-b border-border/60">
             <Link
               href="/events"
-              className="text-[11px] font-bold uppercase tracking-wider text-accent transition-colors hover:text-text-primary"
+              className="text-[11px] font-bold uppercase self-end h-full inline-flex items-center border-border border p-2  tracking-wider text-accent transition-colors hover:text-text-primary"
             >
               Full Calendar →
             </Link>
           </div>
 
           {/* Clean, high-contrast accessible list */}
-          <div className="divide-y divide-border/40">
-            {events.map((event) => (
-              <Link
-                href={`/events/${event.id}`}
-                key={event.id}
-                className="block group"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 py-3.5 px-2 rounded-lg cursor-pointer transition-colors hover:bg-surface-muted/30">
-                  {/* Fixed structural timestamp column */}
-                  <span className="text-xs font-bold tracking-wide text-text-secondary min-w-17.5 shrink-0">
-                    {event.date}
-                  </span>
+<div className="divide-y divide-border/40">
+  {events.map((event) => (
+    <Link
+      href={`/events/${event.id}`}
+      key={event.id}
+      className="group block"
+    >
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4 py-3.5 px-2 rounded-lg transition-colors hover:bg-surface-muted/30">
+        <span className="text-xs font-bold tracking-wide text-text-secondary sm:min-w-17.5 shrink-0">
+          {event.date}
+        </span>
 
-                  <div className="flex-1 flex items-baseline justify-between gap-4">
-                    <div>
-                      <p className="font-medium text-lg font-garamond leading-snug text-text-primary transition-transform duration-200 group-hover:translate-x-0.5">
-                        {event.title}
-                      </p>
-                      <span className="mt-0.5 block text-[11px] text-text-muted">
-                        {event.time}
-                      </span>
-                    </div>
-
-                    {/* Minimalist, high-density styled text element */}
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-accent opacity-0 group-hover:opacity-100 transition-all duration-200 shrink-0 transform translate-x-1 group-hover:translate-x-0">
-                      See More →
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+        <div className="flex flex-1 min-w-0 items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="m-0 truncate font-garamond text-lg font-medium leading-snug text-text-primary">
+              {event.title}
+            </p>
+            {event.time && (
+              <span className="mt-0.5 block text-[11px] text-text-muted">
+                {event.time}
+              </span>
+            )}
           </div>
+
+          <span className="hidden shrink-0 translate-x-1 text-[10px] font-mono font-bold uppercase tracking-wider text-accent opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 sm:inline-flex">
+            See More →
+          </span>
+        </div>
+      </div>
+    </Link>
+  ))}
+</div>
         </div>
 
         <div className="mt-6 pt-4 border-t border-border/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">

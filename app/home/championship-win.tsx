@@ -1,76 +1,103 @@
 "use client";
 
-import React from "react";
 import CHAMPIONSHIP_WINS from "./data/championship-wins.json";
 import { CloudinaryImage } from "@/components/cl-image";
+import { Trophy } from "lucide-react";
 
 const ROTATIONS = [
-  "group-hover:-rotate-2 rotate-1",
-  "group-hover:rotate-3 -rotate-1",
-  "group-hover:-rotate-3 rotate-2",
-  "group-hover:rotate-2 -rotate-2"
+  "lg:rotate-1 lg:group-hover:-rotate-2",
+  "lg:-rotate-1 lg:group-hover:rotate-2",
+  "lg:rotate-2 lg:group-hover:-rotate-2",
+  "lg:-rotate-2 lg:group-hover:rotate-2",
 ];
 
 export function ChampionshipWins() {
-  // Graceful fallback to prevent blank loads during async parsing
-  if (!CHAMPIONSHIP_WINS || CHAMPIONSHIP_WINS.length === 0) return null;
+  if (!CHAMPIONSHIP_WINS?.length) return null;
 
   return (
-    <div className="w-full space-y-16 flex flex-col gap-6 lg:space-y-24">
-      {CHAMPIONSHIP_WINS.map((tournament, idx) => {
-        const isEven = idx % 2 === 0;
-        const rotationClass = ROTATIONS[idx % ROTATIONS.length];
-        
-        return (
-          <div 
-            key={`${tournament.tournamentName}-${tournament.year}-${idx}`}
-            className={`flex flex-col md:gap-10 sm:gap-3 items-center justify-center md:justify-end group ${
-              isEven ? "md:flex-row" : "md:flex-row-reverse"
-            }`}
-          >
-            {/* TEXT DOSSIER BLOCK */}
-            <div className="w-full md:max-w-md lg:max-w-lg space-y-4">
-              <div className="flex items-center gap-3 font-mono text-xs font-bold tracking-widest text-accent">
-                <span>// {tournament.year}</span>
-                <span className="text-text-muted/40">•</span>
-                <span className="uppercase">{tournament.circuit}</span>
+    <div className="space-y-16 sm:space-y-20 flex flex-col gap-20 lg:space-y-32">
+{CHAMPIONSHIP_WINS.map((tournament, idx) => {
+  const reverse = idx % 2 !== 0;
+
+  return (
+    <article
+      key={idx}
+      className={`group grid items-center gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-12 ${
+        reverse ? "lg:[&>*:first-child]:order-2" : ""
+      } ${
+        idx > 0
+          ? "border-t border-primary/50   pt-12 sm:pt-14 lg:border-none lg:pt-0"
+          : ""
+      }`}
+    >
+            {/* ===========================
+                TEXT
+            ============================ */}
+            <div className="lg:col-span-7 flex flex-col gap-2 sm:gap-3 lg:gap-4">
+              <div className="flex items-center gap-3 font-playfair text-[14px] sm:text-xs tracking-[0.25em] uppercase text-primary font-bold">
+                <span>{tournament.year}</span>
+                <span className="h-1 w-1 rounded-full bg-border" />
+                <span>{tournament.circuit}</span>
               </div>
-              
-              <h3 className="font-garamond text-2xl sm:text-3xl font-light tracking-tight text-text-primary m-0 leading-tight">
+
+              <h3 className="mt-3 font-garamond text-2xl sm:text-3xl lg:text-5xl leading-none text-text-primary">
                 {tournament.tournamentName}
               </h3>
 
-              {/* RENDER DYNAMIC ACCLAIM STACK */}
-              <div className="space-y-3 pt-2 border-t border-border/40">
-                {tournament.titles.map((title, tIdx) => (
-                  <div key={tIdx} className="bg-surface/50 p-3 space-y-0.5">
-                    <p className="font-mono text-lg font-medium text-primary m-0">
-                      {title.type}
-                    </p>
-                    <p className="font-mono text-xs text-text-secondary m-0">
-                      {title.speakers}
-                    </p>
+              {/* Achievement Cards */}
+              <div className="mt-5 sm:mt-6 lg:mt-8 grid gap-2.5 sm:grid-cols-2 sm:gap-3">
+                {tournament.titles.map((title, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 sm:gap-4 rounded-none border border-border bg-surface px-4 py-3 transition-all duration-300 hover:border-primary/40 hover:-translate-y-0.5"
+                  >
+                    {/* <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                      <Trophy className="h-4.5 w-4.5 sm:h-5 sm:w-5 text-primary" strokeWidth={2} />
+                    </div> */}
+                    <span className="font-manrope text-[13px] sm:text-sm font-semibold text-text-primary leading-snug">
+                      {title}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* ARTICULATED TILTED PHOTO LAYER */}
-            <div className="w-full md:w-72 lg:w-96 shrink-0 flex items-center justify-center p-2">
-              <div 
-                className={`relative w-full h-52 sm:h-60 md:h-64 lg:h-68 rounded-xl border border-border bg-surface overflow-hidden shadow-xs transition-all duration-500 ease-out ${rotationClass}`}
+            {/* ===========================
+                IMAGE
+            ============================ */}
+            <div className="lg:col-span-5 flex justify-center">
+              <div
+                className={`relative w-full max-w-sm sm:max-w-md transition-all duration-500 ${ROTATIONS[idx % ROTATIONS.length]}`}
               >
-                <CloudinaryImage 
-                  src={tournament.imageUrl} 
-                  alt={`${tournament.tournamentName} Campaign Snapshot`}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
-                  loading="eager"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+                {/* Tape — desktop only */}
+                <div className="hidden lg:block absolute -top-3 left-10 h-5 w-16 rotate-[-8deg] bg-primary/35 z-30" />
+                <div className="hidden lg:block absolute -top-2 right-12 h-5 w-12 rotate-[6deg] bg-primary/20 z-30" />
+
+                {/* Paper behind — desktop only */}
+                <div className="hidden lg:block absolute inset-0 translate-x-3 translate-y-3 rotate-[2deg] rounded-sm border border-border bg-surface" />
+
+                {/* Main card */}
+                <div className="relative rounded-sm border border-border bg-surface p-2.5 sm:p-3 shadow-xl">
+                  <div className="relative aspect-[16/10] lg:aspect-[4/3] overflow-hidden rounded-sm">
+                    <CloudinaryImage
+                      src={tournament.imageUrl}
+                      alt={tournament.tournamentName}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  </div>
+
+                  <div className="mt-3 sm:mt-4 flex items-center justify-between text-[11px] sm:text-xs italic text-text-secondary font-garamond">
+                    <span>{tournament.circuit}</span>
+                    <span className="flex items-center gap-2">
+                      <span className="h-1 w-1 rounded-full bg-primary" />
+                      {tournament.year}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-
-          </div>
+          </article>
         );
       })}
     </div>

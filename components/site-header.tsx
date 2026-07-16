@@ -61,34 +61,36 @@ export default function SiteHeader() {
         visible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-3 pt-3 sm:px-6 lg:px-8">
+      <div className="w-full h-17.5 p-0">
         <div
-          className={`relative overflow-hidden  px-4 py-3 transition-all duration-300 ${
+          className={`relative overflow-hidden w-full h-full transition-all duration-300 ${
             scrolled
               ? " shadow-[0_10px_35px_rgba(0,0,0,0.08)]  bg-[color-mix(in_srgb,var(--surface)_92%,black)] backdrop-blur-2xl"
               : "border-transparent bg-inherit"
           }`}
         >
-          <div className="absolute inset-x-[10%] bottom-0 h-[1.6px] bg-text-primary" />
+          <div className="absolute hidden lg:flex! inset-x-[10%] bottom-0 h-[1.6px] bg-text-primary" />
 
-          <div className="relative flex items-center justify-between gap-4">
+          <div className="relative flex h-full items-center pr-4 justify-between gap-4">
             <Link
               href="/"
               aria-label="UNDS home"
-              className="flex items-center gap-1 text-text-primary transition-opacity hover:opacity-85"
+              className="flex items-center gap-1 pl-3 h-full text-text-primary transition-opacity hover:opacity-85"
             >
-              <span className="grid h-11 w-11 place-items-cente ring-white/60">
+              <span className="grid h-14 w-14 place-items-cente ring-white/60">
                 <Image
                   src="/logo.png"
                   alt="UNDS logo"
                   width={120}
-                  height={100}
+                  height={120}
+                  // className="h-15 w-30 shrink-0 sm:h-14 sm:w-14"
                   priority
                 />
               </span>
               <span className="flex flex-col leading-tight">
-                <span className="font-heading text-xl text-text-primary font-semibold sm:text-xl">
-                  University of Nigeria Debating Society
+                <span className="font-playfair text-xl text-text-primary font-semibold">
+                  <span className="hidden md:inline min-[1030px]:text-lg! min-[1130]:text-xl!">University of Nigeria Debating Society</span>
+                  <span className="md:hidden   min-[500px]:flex min-[500px]:text-2xl">UNDS</span>
                 </span>
               </span>
             </Link>
@@ -136,7 +138,7 @@ export default function SiteHeader() {
               aria-controls="mobile-navigation"
               onClick={() => setMenuOpen((current) => !current)}
             >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 

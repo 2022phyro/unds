@@ -11,7 +11,7 @@ import { SectionReveal } from "@/components/ui/section-reveal";
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-accent selection:text-white block opacity-100 visibility-visible">
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-12 space-y-16">
+      <div className="relative z-10  px-4 md:px-8 sm:px-4 lg:px-12 space-y-16">
         {/* HERO FOLD — Completely native, zero hidden states */}
         <SectionReveal>
           <HeroSection />
@@ -30,7 +30,7 @@ export default function HomePage() {
 
         {/* OPERATIONS: PILLARS OF ADVOCACY */}
         <SectionReveal>
-          <div className="border-b border-border py-16">
+          <div className="border-b flex flex-col gap-3 border-border py-16">
             <div className="mb-12">
               <h2 className="mt-1 font-garamond font-semibold text-lg text-text-primary tracking-wide m-0">
                 What We Do
@@ -43,9 +43,6 @@ export default function HomePage() {
                   key={pillar.index}
                   className={`flex flex-col ${index === 0 ? "md:pr-8" : index === 1 ? "md:px-8" : "md:pl-8"}`}
                 >
-                  <span className="mb-2 font-mono text-xs font-bold text-accent">
-                    0{pillar.index}
-                  </span>
                   <h4 className="mb-2 text-text-primary font-playfair capitalize   tracking-wide m-0">
                     {pillar.title}
                   </h4>

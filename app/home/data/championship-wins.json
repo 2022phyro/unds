@@ -4,15 +4,10 @@
     "tournamentName": "All Nigerian Universities Debating Championship (ANUDC)",
     "circuit": "National Circuit",
     "imageUrl": "https://res.cloudinary.com/boo1tgkf/image/upload/v1784022700/IMG_5540_ztmcbf.jpg",
+    "summary": "A defining moment for the society on the national stage. Our delegation delivered an outstanding performance across multiple divisions, bringing home two championship titles and marking one of the strongest campaigns in our history.",
     "titles": [
-      {
-        "type": "Open Champions",
-        "speakers": "Raymond Chuma & Jeremy Noel"
-      },
-      {
-        "type": "Novice Champions",
-        "speakers": "Francisca Mbanwusi & Benita Umeh"
-      }
+      "Open Champions",
+      "Novice Champions"
     ]
   },
   {
@@ -20,15 +15,11 @@
     "tournamentName": "All Nigerian Youth Debating Championship (ANYDC)",
     "circuit": "National Circuit",
     "imageUrl": "https://res.cloudinary.com/boo1tgkf/image/upload/v1784022029/117_c5fga8.jpg",
+    "summary": "Building on previous successes, the society continued its national presence with strong performances in debating, public speaking, and adjudication, demonstrating the depth and versatility of our members.",
     "titles": [
-      {
-        "type": "First Runnerups Public Speaking, 4th Best Adjudicator",
-        "speakers": "Francisca Mbanwusi"
-      },
-      {
-        "type": "10th Best Speaker",
-        "speakers": "Emmanuel Nwafor"
-      }
+      "First Runner-up — Public Speaking",
+      "4th Best Adjudicator",
+      "10th Best Speaker"
     ]
   },
   {
@@ -36,15 +27,10 @@
     "tournamentName": "All Nigerian Universities Debating Championship (ANUDC)",
     "circuit": "National Circuit",
     "imageUrl": "https://res.cloudinary.com/boo1tgkf/image/upload/v1783936489/user-uploads/GAV05445_cjgfuk.jpg",
+    "summary": "Another strong showing at Nigeria's premier university debating championship, with the society advancing deep into the competition across both the Open and Novice divisions.",
     "titles": [
-      {
-        "type": "Novice Runner-ups",
-        "speakers": "Afam Ugwuanyi & Emmanuel Nwafor"
-      },
-      {
-        "type": "Open Quarterfinalists",
-        "speakers": "Francisca Mbanwusi & Benita Umeh"
-      }
+      "Novice Runner-ups",
+      "Open Quarterfinalists"
     ]
   },
   {
@@ -52,19 +38,13 @@
     "tournamentName": "All Nigerian Youth Debating Championship (ANYDC)",
     "circuit": "National Circuit",
     "imageUrl": "https://res.cloudinary.com/boo1tgkf/image/upload/v1783937929/unds/IMG_0507.jpg",
+    "summary": "The momentum continued with another memorable outing that produced finalists, top adjudication performances, and several speaker awards, reinforcing the society's consistency on the national circuit.",
     "titles": [
-      {
-        "type": "PS Finalist, 5th Best Adjudicator, 7th Best Public Speaker",
-        "speakers": "Francisca Mbanwusi"
-      },
-      {
-        "type": "Best Speaker (Novice Stream)",
-        "speakers": "Afam Ugwuanyi"
-      },
-      {
-        "type": "8th Best Speaker (Novice Stream)",
-        "speakers": "Emmanuel Imemba"
-      }
+      "Public Speaking Finalist",
+      "5th Best Adjudicator",
+      "7th Best Public Speaker",
+      "Best Speaker — Novice Stream",
+      "8th Best Speaker — Novice Stream"
     ]
   }
 ]
