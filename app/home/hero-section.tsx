@@ -76,7 +76,7 @@ export default function HeroSection() {
 
             <div className="mt-8 lg:mt-10 flex w-full justify-evenly md:justify-start flex-wrap gap-6 items-center">
               <Link
-                href="/join"
+                href="https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2"
                 className="
                 btn btn-primary
                 text-(--btn-primary-text)!
@@ -124,8 +124,8 @@ export default function HeroSection() {
               w-full
               max-w-md
               lg:max-w-full
-              rotate-[-2deg]
-              lg:rotate-[-3deg]
+              -rotate-2
+              lg:-rotate-3
               transition-transform
               duration-500
               hover:rotate-0

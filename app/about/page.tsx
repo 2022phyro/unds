@@ -143,7 +143,7 @@ export default function AboutPage() {
       </section>
 
       {/* ─── 2. EXECUTIVE COUNCIL ────────────────────────────────────── */}
-      <SectionReveal className="flex flex-col items-center justify-start gap-4 border-t border-border/40 pt-14 sm:pt-20">
+      {/* <SectionReveal className="flex flex-col items-center justify-start gap-4 border-t border-border/40 pt-14 sm:pt-20">
         <div className="text-center md:text-left">
           <h2 className="font-garamond text-xl font-light tracking-tight text-text-primary sm:text-2xl">
             Executive Council
@@ -161,7 +161,7 @@ export default function AboutPage() {
             />
           ))}
         </div>
-      </SectionReveal>
+      </SectionReveal> */}
 
       {/* ─── 3. LIFE INSIDE UNDS ───────────────────────────────────────────── */}
       <SectionReveal className="grid grid-cols-1 gap-8 border-t border-border/40 pt-14 sm:pt-20 lg:grid-cols-12 lg:gap-12">

@@ -8,6 +8,7 @@ type Testimonial = {
   name: string;
   role: string;
   avatar: string;
+  achievements: string;
 };
 
 type TestimonialsCarouselProps = {
@@ -60,7 +61,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
               >
                 {/* Book Themed Card Frame */}
                 <article className="surface border border-y-border border-r-border border-l-border/60 p-6 sm:p-8 rounded-r-2xl rounded-l-xs shadow-md relative min-h-[240px] flex flex-col justify-between before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-border/20 before:rounded-l-xs bg-[var(--surface)]">
-                  <p className="font-garamond text-lg sm:text-xl italic leading-relaxed text-text-secondary">
+                  <p className="font-manrope text-medium  italic leading-relaxed text-text-secondary">
                     “{testimonial.quote}”
                   </p>
 
@@ -68,11 +69,12 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
                     <img
                       src={testimonial.avatar}
                       alt={testimonial.name}
-                      className="h-10 w-10 rounded-full object-cover ring-1 ring-accent/35"
+                      className="h-20 w-20 rounded-full object-cover ring-1 ring-accent/35"
                     />
                     <div>
                       <p className="text-sm font-semibold text-text-primary">{testimonial.name}</p>
                       <p className="text-xs uppercase tracking-[0.2em] text-text-muted">{testimonial.role}</p>
+                      <p className="text-lg text-bold font-garamond text-text-muted">{testimonial.achievements}</p>
                     </div>
                   </div>
                 </article>

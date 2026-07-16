@@ -14,7 +14,7 @@ const footerLinks = [
   { href: "/about", label: "About" },
   { href: "/events", label: "Events" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/testimonials", label: "Testimonials" },
+  // { href: "/testimonials", label: "Testimonials" },
   {
     href: "/Ottawa WUDC Debating & Judging Manual.pdf",
     label: "WUDC Debating Manual",
@@ -22,10 +22,8 @@ const footerLinks = [
 ];
 
 const contactLinks = [
-  { href: "https://instagram.com", label: "Instagram", icon: IconBrandInstagram },
-  { href: "https://wa.me", label: "WhatsApp", icon: IconBrandWhatsapp },
-  { href: "https://x.com", label: "Twitter", icon: IconBrandX },
-  { href: "https://facebook.com", label: "Facebook", icon: IconBrandFacebook },
+  { href: "https://www.instagram.com/undebatesociety", label: "Instagram", icon: IconBrandInstagram },
+  { href: "https://x.com/UNDebateSociety", label: "Twitter", icon: IconBrandX },
 ];
 
 export default function SiteFooter() {
@@ -55,7 +53,7 @@ export default function SiteFooter() {
                 UNDS.
               </p>
               <CornerClipButton
-                href="/join"
+                href="https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2"
                 className="w-full font-garamond sm:w-auto"
                 aria-label="Join UNDS"
               >
@@ -82,20 +80,20 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <div>
+        <div className="flex flex-col gap-3">
           <p className="text-left font-garamond font-bold text-xs  uppercase tracking-[0.28em] text-text-muted sm:text-left">
             Contact
           </p>
-          <div className="mt-4 grid gap-4 text-sm text-text-body">
-            <div className="grid gap-2">
+          <div className="mt-4 grid gap-6 text-sm text-text-body">
+            <div className="grid gap-2 flex flex-col gap-4">
               <span className="inline-flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
-                <span>unds@unn.edu.ng</span>
+                <span>debate@unn.edu.ng</span>
               </span>
-              <span className="inline-flex items-center gap-2">
+              {/* <span className="inline-flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
                 <span>+234 803 123 4567</span>
-              </span>
+              </span> */}
               <span className="inline-flex items-start justify-start gap-2">
                 <MapPin className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
                 <span className="wrap-break-word max-w-88 sm:max-w-none">

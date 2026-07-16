@@ -151,7 +151,7 @@ export default function RegisterFormClient({
           className="group inline-flex items-center gap-1.5 font-manrope text-sm! font-bold tracking-tighter text-text-muted hover:text-text-primary transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
-          Back to {event.title}
+          Back
         </Link>
       </header>
 
@@ -163,25 +163,6 @@ export default function RegisterFormClient({
               <h2 className="font-playfair! text-3xl! font-semibold text-text-primary tracking-normal leading-relaxed">
                 {event.title}
               </h2>
-            </div>
-
-            <div className="space-y-2 pt-2 pb-4 border-b border-border font-manrope text-[12px]! text-text-secondary flex flex-row justify-between items-stretch flex-wrap gap-3">
-              <div className="flex flex-row justify-start items-center gap-2 font-semibold">
-                <Calendar size={16} />
-                {event.date}
-              </div>
-              <div className="flex flex-row md:border-l-2 md:pl-3 md:border-border  justify-start items-center gap-2 font-semibold">
-                <MapPin size={16} />
-                {event.location}
-              </div>
-              <div className="flex flex-row md:border-l-2 md:pl-3 md:border-border  justify-start items-center gap-2 font-semibold">
-                <Landmark size={16} />
-                {event.format}
-              </div>
-              <div className="flex flex-row md:border-l-2 md:pl-3 md:border-border  justify-start items-center gap-2 font-semibold">
-                <Clock size={16} />
-                {event.statusText}
-              </div>
             </div>
           </div>
           {/* ─── DYNAMIC REGISTRATION SELECTION ────────────────────────── */}
@@ -260,9 +241,6 @@ export default function RegisterFormClient({
 
         {/* Right Side: Dynamic Form Layout */}
         <div className="lg:col-span-8 flex flex-col gap-3 w-full max-w-sm  rounded-xs overflow-hidden">
-          <label className="block text-xs font-bold font-ui uppercase tracking-widest text-text-muted">
-            Your details
-          </label>
           <div className="text-left">
             {isSuccess ? (
               <motion.div
