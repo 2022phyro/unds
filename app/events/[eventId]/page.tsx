@@ -23,7 +23,7 @@ export default async function EventDetailsPage({
 
   return (
     <div className="w-full text-text-primary min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 py-12 flex flex-col gap-3 sm:px-6 lg:px-8 space-y-16">
+      <div className="max-w-4xl mx-auto px-4 py-12 flex flex-col items-start justify-start gap-3 sm:px-6 lg:px-8 space-y-16">
         {/* ─── BREADCRUMB ──────────────────────────────────────────────── */}
         <div className="pt-2">
           <Link
@@ -36,17 +36,17 @@ export default async function EventDetailsPage({
         </div>
 
         {/* ─── HERO HEADER BLOCK ───────────────────────────────────────── */}
-        <div className="space-y-6 border-b border-[#2e3a28]/10 pb-10">
+        <div className="space-y-6 border-b flex flex-col gap-3 border-[#2e3a28]/10 pb-10">
           <div className="space-y-2">
             <span className="inline-block text-[10px] font-ui  tracking-[0.2em] bg-[#2e3a28]/5 border border-[#2e3a28]/15 text-primary px-2.5 py-0.5 rounded-xs font-bold">
               {event.format}
             </span>
-            <h1 className="font-playfdair text-3xl sm:text-5xl font-black tracking-tight text-text-primary leading-tight">
+            <h1 className="font-playfdair text-3xl! sm:text-5xl font-black tracking-tight text-text-primary leading-tight">
               {event.title}
             </h1>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-2 font-manrope text-xs text-text-secondary">
+          <div className="border-t grid grid-cols-2 sm:grid-cols-3 gap-6 pt-4 font-manrope text-xs text-text-secondary">
             <div className="flex items-start gap-2.5">
               <Calendar className="w-4 h-4 text-primary shrink-0 mt-0.5" />
               <div>
@@ -86,15 +86,14 @@ export default async function EventDetailsPage({
         </div>
 
         {/* ─── DYNAMIC REGISTRATION CALLOUT CONTROLLER ──────────────────── */}
-        <div className="w-full">
-          <div className="bg-[color-mix(in_srgb,var(--surface)_95%,black)]  border border-[#2e3a28] p-6 sm:p-8 rounded-xs shadow-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-            <div className="space-y-1">
+        <div className="w-full max-w-4xl">
+          <div className="bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28] w-full flex flex-col sm:flex-row justify-start items-center p-6 gap-6">
+            <div className="space-y-1 flex flex-col gap-2">
               <h3 className="font-garamond text-xl font-bold text-text-primary">
-                {event.registration_type === "NONE" &&
-                  "Everyone's Welcome"}
+                {event.registration_type === "NONE" && "Everyone's Welcome"}
                 {event.registration_type === "INDIVIDUAL" &&
                   "Individual Registration"}
-                {event.registration_type === "TEAM" && "Team Registration"}
+                {event.registration_type === "TEAM" && "Registration"}
                 {event.registration_type === "INDIVIDUAL" &&
                   event.includesPS &&
                   "Public Speaking Registration"}
@@ -120,7 +119,7 @@ export default async function EventDetailsPage({
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row  flex-wrap gap-3">
+            <div className="flex flex-col  w-full sm:w-auto justify-evenly items-stretch flex-wrap gap-3">
               {event.registration_type === "NONE" && !event.includesPS ? (
                 event.registrationUrl ? (
                   <a
@@ -145,7 +144,7 @@ export default async function EventDetailsPage({
                           ? `/events/${eventId}/register?track=debate`
                           : `/events/${eventId}/register`
                       }
-                      className="font-manrope h-12 lg:w-80 capitalize font-medium sm:w-auto"
+                      className="font-manrope h-12  w-full sm:w-60 capitalize font-medium "
                       aria-label="Register for Debate"
                     >
                       {event.registration_type === "TEAM"
@@ -156,7 +155,7 @@ export default async function EventDetailsPage({
                   {event.registration_type !== "NONE" && event.includesPS && (
                     <Button
                       href={`/events/${eventId}/register?track=ps`}
-                      className="font-manrope h-12 lg:w-80 capitalize font-medium sm:w-auto"
+                      className="font-manrope w-full h-12 sm:w-60 capitalize font-medium"
                       aria-label="Register for Public Speaking"
                     >
                       Register — Public Speaking
@@ -170,8 +169,8 @@ export default async function EventDetailsPage({
 
         {/* ─── CORE BRIEFING / ABOUT ───────────────────────────────────── */}
         <div className="space-y-3 flex flex-col gap-3">
-          <h2 className="font-garamond text-4xl! font-bold text-primary  tracking-widest">
-            // The Objective
+          <h2 className="font-garamond text-3xl! font-bold text-primary  tracking-widest">
+            The Objective
           </h2>
           <p className="font-garamond text-base sm:text-lg text-text-secondary leading-relaxed max-w-3xl">
             {event.description}
@@ -180,8 +179,8 @@ export default async function EventDetailsPage({
 
         {/* ─── WHO SHOULD ATTEND ────────────────────────────────────────── */}
         <div className="space-y-4 border-t flex flex-col gap-3 border-[#2e3a28]/10 pt-10">
-          <h2 className="font-garamond text-4xl!  font-bold text-primary  tracking-widest">
-            // Eligibility & Intended Audience
+          <h2 className="font-garamond text-3xl! font-bold text-primary  tracking-widest">
+            Eligibility & Intended Audience
           </h2>
           <ul className="space-y-2 font-garamond text-base text-text-secondary">
             {event.whoShouldAttend.map((item, idx) => (
@@ -195,8 +194,8 @@ export default async function EventDetailsPage({
 
         {/* ─── TRACK TIMELINE / SCHEDULE ────────────────────────────────── */}
         <div className="space-y-6 border-t flex flex-col gap-3 border-[#2e3a28]/10 pt-10">
-          <h2 className="font-garamond text-4xl!  font-bold text-primary  tracking-widest">
-            // Schedule & Event Timeline
+          <h2 className="font-garamond text-3xl! font-bold text-primary  tracking-widest">
+            Schedule & Event Timeline
           </h2>
           <div className="space-y-4">
             {event.schedule.map((slot, idx) => (
@@ -204,14 +203,14 @@ export default async function EventDetailsPage({
                 key={idx}
                 className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 border-b border-[#2e3a28]/5 pb-4 last:border-0"
               >
-                <div className="md:col-span-4 font-ui text-xs font-bold text-primary  tracking-wider">
+                <div className="md:col-span-4 font-ui text-sm font-bold text-primary  tracking-wider">
                   {slot.time}
                 </div>
                 <div className="md:col-span-8 space-y-1">
                   <h4 className="font-garamond text-base font-bold text-text-primary">
                     {slot.segment}
                   </h4>
-                  <p className="font-garamond text-xs text-text-secondary leading-relaxed">
+                  <p className="font-garamond text-sm text-text-secondary leading-relaxed">
                     {slot.details}
                   </p>
                 </div>
@@ -221,39 +220,40 @@ export default async function EventDetailsPage({
         </div>
 
         {/* ─── RECONNAISSANCE / FAQ ────────────────────────────────────── */}
-        <div className="space-y-6 border-t flex flex-col gap-3 border-[#2e3a28]/10 pt-10">
-          <h2 className="font-garamond text-4xl! font-bold text-primary  tracking-widest">
-            // Clear Clarifications
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {event.faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="space-y-2 bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28]/10 p-5 rounded-xs shadow-2xs"
-              >
-                <div className="flex items-center gap-2 text-primary">
-                  <HelpCircle className="w-4 h-4 opacity-70" />
-                  <h4 className="font-garamond text-base font-bold text-text-primary">
-                    {faq.q}
-                  </h4>
+        {event.faqs.length > 0 && (
+          <div className="space-y-6 border-t flex flex-col gap-3 border-[#2e3a28]/10 pt-10">
+            <h2 className="font-garamond text-3xl! font-bold text-primary  tracking-widest">
+              FAQ
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {event.faqs.map((faq, idx) => (
+                <div
+                  key={idx}
+                  className="space-y-2 bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28]/10 p-5 rounded-xs shadow-2xs"
+                >
+                  <div className="flex items-center gap-2 text-primary">
+                    <HelpCircle className="w-4 h-4 opacity-70" />
+                    <h4 className="font-garamond text-base font-bold text-text-primary">
+                      {faq.q}
+                    </h4>
+                  </div>
+                  <p className="font-garamond text-sm text-text-secondary leading-relaxed pl-6">
+                    {faq.a}
+                  </p>
                 </div>
-                <p className="font-garamond text-xs text-text-secondary leading-relaxed pl-6">
-                  {faq.a}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* ─── FOOTER CONTACT LINK ────────────────────────────────────── */}
         <div className="border-t border-[#2e3a28]/10 pt-10 text-center font-ui text-[11px] text-text-muted  tracking-wider">
           Direct questions or accommodation adjustments toward the{" "}
-          <a
-            href="mailto:forensics@unn.edu.ng"
-            className="text-primary font-bold underline hover:text-black transition-colors"
+          <span
+            className="text-primary font-bold hover:text-black transition-colors"
           >
             Adjudication Core Desk
-          </a>
+          </span>
           .
         </div>
       </div>

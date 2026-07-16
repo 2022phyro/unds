@@ -93,6 +93,7 @@ export interface RegisterEventView {
   adjudicatorPolicy: TournamentConfig["adjudicatorPolicy"];
   includesPS: boolean;
   psAdjudicatorsAllowed: boolean;
+  statusText: string;
 }
 
 export function toRegisterEvent(tournament: TournamentConfig): RegisterEventView {
@@ -103,6 +104,7 @@ export function toRegisterEvent(tournament: TournamentConfig): RegisterEventView
     date: tournament.dateString,
     registrationType: tournament.registrationType,
     adjudicatorPolicy: tournament.adjudicatorPolicy,
+    statusText: tournament.statusText,
     includesPS: tournament.includesPS,
     psAdjudicatorsAllowed: tournament.psAdjudicatorsAllowed,
   };
