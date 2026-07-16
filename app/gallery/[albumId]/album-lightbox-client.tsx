@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import type { AlbumPhoto } from "@/lib/cloudinary";
@@ -52,6 +52,18 @@ export default function AlbumLightboxClient({
       </p>
     );
   }
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") navigateLightbox("prev");
+      if (e.key === "ArrowRight") navigateLightbox("next");
+    };
+
+    if (activePhotoIndex !== null) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activePhotoIndex]);
 
   return (
     <>
@@ -129,9 +141,9 @@ export default function AlbumLightboxClient({
 
       {/* Full-Screen Immersive Lightbox Modal */}
       {activePhotoIndex !== null && (
-        <div className="fixed inset-0 bg-black/98 z-50 flex flex-col justify-between p-4 md:p-8 backdrop-blur-md select-none animate-fade-in">
+        <div className="fixed inset-0 bg-black/98 z-50 flex flex-col p-4 md:p-8 backdrop-blur-md select-none animate-fade-in">
           {/* Header Dashboard */}
-          <div className="w-full flex justify-between items-center text-white shrink-0">
+          <div className="w-full flex justify-between items-center text-white shrink-0 mb-4">
             <span className="font-mono text-[9px] tracking-widest text-stone-400">
               FRAME INDEX REGISTER // {activePhotoIndex + 1} OF {photos.length}
             </span>
@@ -143,44 +155,45 @@ export default function AlbumLightboxClient({
             </button>
           </div>
 
-          {/* Interactive Inspection Workspace */}
-          <div className="flex-1 flex items-center justify-between w-full max-w-7xl mx-auto gap-4 my-4">
+          {/* Fix: Centered Workspace & Always-Visible Controls */}
+          <div className="flex-1 flex items-center justify-center w-full max-w-7xl mx-auto gap-2 md:gap-4 relative">
+            {/* Prev Button: Removed 'hidden sm:block' */}
             <button
-              onClick={() => navigateLightbox("prev")}
-              className="text-white border border-white/10 p-3 rounded-full hover:bg-white/10 transition-all cursor-pointer shrink-0 hidden sm:block hover:scale-105 active:scale-95"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigateLightbox("prev");
+              }}
+              className="text-white border border-white/10 p-2 md:p-3 rounded-full hover:bg-white/10 transition-all cursor-pointer z-10 hover:scale-105 active:scale-95"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
             </button>
 
+            {/* Display container: flex + items-center ensures absolute centering */}
             {/* Lightbox responsive display container */}
-            <div className="relative flex-1 max-h-[70vh] w-full flex items-center justify-center">
-              <CloudinaryImage
-                src={photos[activePhotoIndex].fullSizeUrl}
-                alt="Active Frame Inspect"
-                className="max-h-[70vh] max-w-full object-contain shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-white/5 rounded-xs"
-              />
-            </div>
+{/* Lightbox container */}
+<div className="relative flex-1 w-full h-[80vh] flex items-center justify-center overflow-hidden">
+  <CloudinaryImage
+    src={photos[activePhotoIndex].fullSizeUrl}
+    alt="Active Frame"
+    className="w-full h-full object-contain" // 'object-contain' is the key to no warping
+  />
+</div>
 
+            {/* Next Button: Removed 'hidden sm:block' */}
             <button
-              onClick={() => navigateLightbox("next")}
-              className="text-white border border-white/10 p-3 rounded-full hover:bg-white/10 transition-all cursor-pointer shrink-0 hidden sm:block hover:scale-105 active:scale-95"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigateLightbox("next");
+              }}
+              className="text-white border border-white/10 p-2 md:p-3 rounded-full hover:bg-white/10 transition-all cursor-pointer z-10 hover:scale-105 active:scale-95"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
             </button>
           </div>
 
-          {/* Captions Block / Metadata Footer */}
-          <div className="w-full max-w-3xl mx-auto bg-stone-950/80 border border-white/10 p-6 text-left text-white rounded-xs shadow-2xl backdrop-blur-md mb-2">
-            <div className="space-y-2">
-              {/* <span className="font-mono text-[10px] text-primary font-black tracking-widest block uppercase">
-                // SUBJECT IDENTIFIED: {photos[activePhotoIndex].speaker || "UNRESOLVED HOST"}
-              </span>
-              <p className="font-garamond text-base sm:text-lg text-stone-100 leading-relaxed m-0 font-light">
-                {photos[activePhotoIndex].context || "Metadata catalog description not provided for this asset."}
-              </p> */}
-            </div>
-
-            <div className="pt-4 mt-4 border-t border-white/10 flex flex-wrap gap-x-8 gap-y-2 font-mono text-[9px] text-stone-400">
+          {/* Metadata Footer */}
+          <div className="w-full max-w-3xl mx-auto bg-stone-950/80 border border-white/10 p-4 mt-4 text-white rounded-xs backdrop-blur-md">
+            <div className="flex flex-wrap gap-x-8 gap-y-2 font-mono text-[9px] text-stone-400">
               <div>{title}</div>
               <div>{location}</div>
             </div>

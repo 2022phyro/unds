@@ -410,7 +410,7 @@ export default function EventsRegistryClient({
       </SectionReveal>
 
       {/* ─── ⑦ PAST LAURELS ARCHIVE ────────────────────────────────────── */}
-      <SectionReveal className="flex flex-col gap-2 border-t border-[#2e3a28]/10 pt-16 space-y-8">
+      {/* <SectionReveal className="flex flex-col gap-2 border-t border-[#2e3a28]/10 pt-16 space-y-8">
         <div className="flex flex-col sm:flex-row justify-between items-baseline gap-4">
           <div className="text-left">
             <h2 className="font-garamond text-2xl font-light tracking-wide">
@@ -456,7 +456,7 @@ export default function EventsRegistryClient({
             </div>
           ))}
         </div>
-      </SectionReveal>
+      </SectionReveal> */}
 
       {/* ─── ⑧ STAY UPDATED DISPATCH ───────────────────────────────────── */}
       <SectionReveal className="border-t border-[#2e3a28]/10 pt-16 max-w-xl mx-auto text-center space-y-6">
