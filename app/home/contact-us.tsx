@@ -16,8 +16,8 @@ export function HomeContactBlock() {
   );
 
   return (
-    <section className="w-full border-t border-border/40 bg-surface-muted/10 py-16 mt-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    <section className="w-full border-t border-border/40 bg-surface-muted/10  mt-12">
+      <div className="max-w-7xl  grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Side: Institutional Briefing (Takes 5 columns on large viewports, sits left-aligned) */}
         <div className="lg:col-span-5 space-y-4 text-left lg:sticky lg:top-8">
           <div>

@@ -567,6 +567,20 @@ select {
   .btn:active {
     transform: scale(0.98);
   }
+a.btn-primary {
+    background-color: var(--btn-primary);
+    color: var(--btn-primary-text);
+    border-color: var(--primary);
+  }
+ a.btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+    border-color: var(--primary);
+      color: var(--btn-primary-text);
+  }
+  a.btn-primary:active {
+    background-color: var(--btn-primary-active);
+    border-color: var(--primary);
+  }
 
   /* Primary Action variant */
   .btn-primary {

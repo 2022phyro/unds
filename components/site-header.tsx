@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { BookmarkButton, Button } from "@/components/ui/bookmark-button";
+import { CornerClipButton } from "./corner-clip";
 import ThemeToggle from "./ui/theme-toggle/theme-toggle";
+
 const navItems = [
   { href: "/about", label: "About" },
   { href: "/events", label: "Events" },
@@ -25,6 +26,7 @@ export default function SiteHeader() {
     href === "/"
       ? pathname === "/"
       : pathname === href || pathname.startsWith(`${href}/`);
+
   useEffect(() => {
     let lastScrollY = window.scrollY;
 
@@ -61,44 +63,55 @@ export default function SiteHeader() {
         visible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="w-full h-17.5 p-0">
-        <div
-          className={`relative overflow-hidden w-full h-full transition-all duration-300 ${
-            scrolled
-              ? " shadow-[0_10px_35px_rgba(0,0,0,0.08)]  bg-[color-mix(in_srgb,var(--surface)_92%,black)] backdrop-blur-2xl"
-              : "border-transparent bg-inherit"
-          }`}
-        >
-          <div className="absolute hidden lg:flex! inset-x-[10%] bottom-0 h-[1.6px] bg-text-primary" />
+      {/* No fixed height / overflow-hidden here — this wrapper needs to
+          grow to fit the mobile dropdown when it's open. */}
+      <div
+        className={`w-full transition-all duration-300 ${
+          scrolled
+            ? "bg-[color-mix(in_srgb,var(--surface)_92%,black)] shadow-[0_10px_35px_rgba(0,0,0,0.08)] backdrop-blur-2xl"
+            : "border-transparent bg-inherit"
+        }`}
+      >
+        {/* Top bar — this is the only part with a fixed height */}
+        <div className="relative flex h-17.5 items-center justify-between gap-4 pr-4">
+          <div className="absolute inset-x-[10%] bottom-0 hidden h-[1.6px] bg-text-primary lg:flex!" />
 
-          <div className="relative flex h-full items-center pr-4 justify-between gap-4">
-            <Link
-              href="/"
-              aria-label="UNDS home"
-              className="flex items-center gap-1 pl-3 h-full text-text-primary transition-opacity hover:opacity-85"
-            >
-              <span className="grid h-14 w-14 place-items-cente ring-white/60">
-                <Image
-                  src="/logo.png"
-                  alt="UNDS logo"
-                  width={120}
-                  height={120}
-                  // className="h-15 w-30 shrink-0 sm:h-14 sm:w-14"
-                  priority
-                />
-              </span>
-              <span className="flex flex-col leading-tight">
-                <span className="font-playfair text-xl text-text-primary font-semibold">
-                  <span className="hidden md:inline min-[1030px]:text-lg! min-[1130]:text-xl!">University of Nigeria Debating Society</span>
-                  <span className="md:hidden   min-[500px]:flex min-[500px]:text-2xl">UNDS</span>
+          <Link
+            href="/"
+            aria-label="UNDS home"
+            className="flex h-full items-center gap-1 pl-3 text-text-primary transition-opacity hover:opacity-85"
+          >
+            <span className="grid h-14 w-14 shrink-0 place-items-center">
+              <Image
+                src="/logo.png"
+                alt="UNDS logo"
+                width={120}
+                height={120}
+                className="h-full w-full object-contain"
+                priority
+              />
+            </span>
+            <span className="flex flex-col leading-tight">
+              <span className="font-playfair text-xl font-semibold text-text-primary">
+                <span className="hidden md:inline min-[1030px]:text-lg! min-[1130px]:text-xl!">
+                  University of Nigeria Debating Society
+                </span>
+                <span className="md:hidden min-[500px]:flex min-[500px]:text-2xl">
+                  UNDS
                 </span>
               </span>
-            </Link>
+            </span>
+          </Link>
 
-            <nav
-              className="font-garamond hidden items-center gap-7 lg:flex"
-              aria-label="Primary"
-            >
+          <nav
+            className="hidden h-full items-center gap-7 font-garamond lg:flex"
+            aria-label="Primary"
+          >
+            {/* Only the link cluster stretches full height — needed so the
+                tick can be pinned to each link's own bottom edge, which
+                lines up with the header's bottom border regardless of
+                header height. ThemeToggle / CTA stay self-centered. */}
+            <div className="flex h-full items-stretch gap-7">
               {navItems.map((item) => {
                 const active = isActive(item.href);
                 return (
@@ -106,92 +119,100 @@ export default function SiteHeader() {
                     key={item.href}
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`relative text-sm font-garamond uppercase tracking-[0.18em] transition-[color,font-weight,opacity] duration-300 ease-out ${
+                    className={`relative pt-5 bottom gap-0 flex h-full flex-col items-center text-sm font-garamond uppercase tracking-[0.18em] transition-[color,font-weight,opacity] duration-300 ease-out ${
                       active
-                        ? "text-text-primary font-bold"
-                        : "text-text-primary hover:text-text-primary font-light"
+                        ? "font-bold text-text-primary"
+                        : "font-light text-text-primary hover:text-text-primary"
                     }`}
                   >
-                    {item.label}
+                    {/* label takes the remaining space and centers itself
+                        within it, so the tick below is always flush
+                        against both the text and the header's bottom edge */}
+                    <span className="flex flex-1 items-center p-0">{item.label}</span>
                     <span
                       aria-hidden
-                      style={{ transformOrigin: "top" }}
-                      className={`pointer-events-none absolute left-1/2 top-[120%] h-6 w-px -translate-x-1/2 bg-text-primary transition-all duration-300 ease-out ${
-                        active
-                          ? "scale-y-100 opacity-100"
-                          : "scale-y-0 opacity-0"
+                      style={{ transformOrigin: "bottom" }}
+                      className={`h-4 w-px bg-text-primary transition-all duration-300 ease-out ${
+                        active ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0"
                       }`}
                     />
                   </Link>
                 );
               })}
-              <ThemeToggle />
-              <BookmarkButton variant={"filled"} className="font-garamond">
-                Join Today
-              </BookmarkButton>
-            </nav>
-
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary  lg:hidden"
-              aria-expanded={menuOpen}
-              aria-controls="mobile-navigation"
-              onClick={() => setMenuOpen((current) => !current)}
-            >
-              {menuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-
-          {menuOpen ? (
-            <div
-              id="mobile-navigation"
-              className="mt-4 border-t flex flex-col items-start justify-center gap-6 border-white/30 pt-4 lg:hidden"
-            >
-              <div className="self-end">
-                <ThemeToggle />
-              </div>
-
-              <div className="relative pl-4">
-                <span
-                  aria-hidden
-                  className="absolute left-0 top-1 bottom-1 w-px bg-primary/20"
-                />
-                <div className="grid gap-3">
-                  {navItems.map((item) => {
-                    const active = isActive(item.href);
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        aria-current={active ? "page" : undefined}
-                        className={`relative inline-flex w-fit items-center py-1 font-ui text-sm font-semibold uppercase tracking-[0.16em] transition-colors duration-300 ${
-                          active ? "text-text-primary" : "text-text-primary/70"
-                        }`}
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        <span
-                          aria-hidden
-                          className={`absolute -left-4 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary transition-transform duration-300 ${
-                            active ? "scale-100" : "scale-0"
-                          }`}
-                        />
-                        <span
-                          aria-hidden
-                          style={{ transformOrigin: "left" }}
-                          className={`absolute -left-4 top-1/2 h-px w-3 -translate-y-1/2 bg-primary transition-transform duration-300 ${
-                            active ? "scale-x-100" : "scale-x-0"
-                          }`}
-                        />
-                        {item.label}
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-              <Button className="w-full h-12 font-garamond">Join us</Button>
             </div>
-          ) : null}
+            <ThemeToggle />
+            <CornerClipButton href="/join" className="font-garamond">
+              Join Today
+            </CornerClipButton>
+          </nav>
+
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-text-primary lg:hidden"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen((current) => !current)}
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {menuOpen ? (
+          <div
+            id="mobile-navigation"
+            className="flex flex-col items-start justify-center gap-6 border-t border-white/30 px-3 pt-4 pb-6 lg:hidden"
+          >
+            <div className="self-end">
+              <ThemeToggle />
+            </div>
+
+            <div className="relative pl-4">
+              <span
+                aria-hidden
+                className="absolute inset-y-1 left-0 w-px bg-primary/20"
+              />
+              <div className="grid gap-3">
+                {navItems.map((item) => {
+                  const active = isActive(item.href);
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      aria-current={active ? "page" : undefined}
+                      className={`relative inline-flex w-fit items-center py-1 font-ui text-sm font-semibold uppercase tracking-[0.16em] transition-colors duration-300 ${
+                        active ? "text-text-primary" : "text-text-primary/70"
+                      }`}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <span
+                        aria-hidden
+                        className={`absolute top-1/2 -left-4 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary transition-transform duration-300 ${
+                          active ? "scale-100" : "scale-0"
+                        }`}
+                      />
+                      <span
+                        aria-hidden
+                        style={{ transformOrigin: "left" }}
+                        className={`absolute top-1/2 -left-4 h-px w-3 -translate-y-1/2 bg-primary transition-transform duration-300 ${
+                          active ? "scale-x-100" : "scale-x-0"
+                        }`}
+                      />
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            <CornerClipButton
+              href="/join"
+              className="h-12 w-full font-garamond"
+              onClick={() => setMenuOpen(false)}
+            >
+              Join us
+            </CornerClipButton>
+          </div>
+        ) : null}
       </div>
     </header>
   );

@@ -25,38 +25,38 @@ export async function ChamberGazette() {
           </div>
 
           {/* Clean, high-contrast accessible list */}
-<div className="divide-y divide-border/40">
-  {events.map((event) => (
-    <Link
-      href={`/events/${event.id}`}
-      key={event.id}
-      className="group block"
-    >
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4 py-3.5 px-2 rounded-lg transition-colors hover:bg-surface-muted/30">
-        <span className="text-xs font-bold tracking-wide text-text-secondary sm:min-w-17.5 shrink-0">
-          {event.date}
-        </span>
+          <div className="divide-y divide-border/40">
+            {events.map((event) => (
+              <Link
+                href={`/events/${event.id}`}
+                key={event.id}
+                className="group block"
+              >
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4 py-3.5 px-2 rounded-lg transition-colors hover:bg-surface-muted/30">
+                  <span className="text-sm font-playfair tracking-wide text-text-secondary sm:min-w-17.5 shrink-0">
+                    {event.date}
+                  </span>
 
-        <div className="flex flex-1 min-w-0 items-center justify-between gap-3">
-          <div className="min-w-0">
-            <p className="m-0 truncate font-garamond text-lg font-medium leading-snug text-text-primary">
-              {event.title}
-            </p>
-            {event.time && (
-              <span className="mt-0.5 block text-[11px] text-text-muted">
-                {event.time}
-              </span>
-            )}
+                  <div className="flex flex-1 min-w-0 items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="m-0 truncate font-garamond text-lg font-medium leading-snug text-text-primary">
+                        {event.title}
+                      </p>
+                      {event.time && (
+                        <span className="mt-0.5 block text-[11px] text-text-muted">
+                          {event.time}
+                        </span>
+                      )}
+                    </div>
+
+                    <span className="hidden shrink-0 translate-x-1 text-[10px] font-mono font-bold uppercase tracking-wider text-accent opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 sm:inline-flex">
+                      See More →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
-
-          <span className="hidden shrink-0 translate-x-1 text-[10px] font-mono font-bold uppercase tracking-wider text-accent opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 sm:inline-flex">
-            See More →
-          </span>
-        </div>
-      </div>
-    </Link>
-  ))}
-</div>
         </div>
 
         <div className="mt-6 pt-4 border-t border-border/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -86,8 +86,7 @@ export async function ChamberGazette() {
             that ensures you get to say it
           </p>
           <div>
-                      <Button>Register Today</Button>
-
+            <Button>Register Today</Button>
           </div>
         </div>
       </div>
