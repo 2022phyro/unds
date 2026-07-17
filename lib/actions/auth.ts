@@ -38,11 +38,15 @@ export async function loginAdminAction(
     return { error: "Enter a valid email and password." };
   }
 
-  const user = await db.user.findUnique({ where: { email: parsed.data.email } });
+  const user = await db.user.findUnique({
+    where: { email: parsed.data.email },
+  });
   if (!user) {
     return { error: "Invalid credentials." };
   }
-
+  if (!user.passwordHash) {
+    return { error: "Invalid credentials." };
+  }
   const valid = await bcrypt.compare(parsed.data.password, user.passwordHash);
   if (!valid) {
     return { error: "Invalid credentials." };
