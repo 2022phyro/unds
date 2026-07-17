@@ -76,7 +76,7 @@ export default function HeroSection() {
 
             <div className="mt-8 lg:mt-10 flex w-full justify-evenly md:justify-start flex-wrap gap-6 items-center">
               <Link
-                href="https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2"
+                href="/join"
                 className="
                 btn btn-primary
                 text-(--btn-primary-text)!

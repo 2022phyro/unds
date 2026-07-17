@@ -86,7 +86,7 @@ export async function ChamberGazette() {
             that ensures you get to say it
           </p>
           <div>
-            <Button href="https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2" className="font-garamond">
+            <Button href="/join" className="font-garamond">
               Register Today
             </Button>
           </div>

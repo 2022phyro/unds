@@ -6,47 +6,32 @@ datasource db {
   provider = "postgresql"
 }
 
-// ---------- RBAC ----------
-enum Role {
-  ADMIN
-  USER
-}
-
-// ---------- Updated User Model ----------
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  passwordHash  String?   // Made optional for new applicants
-  role          Role      @default(USER)
-  isStaff       Boolean   @default(false)
-  
-  // New Membership Fields
-  firstName     String?
-  lastName      String?
-  phone         String?
-  faculty       String?
-  department    String?
-  level         String?
-
-  // Existing Relationships
-  memberships   UserToGroup[]
-  
-  // New Application Relationship
-  application   MembershipApplication?
-  
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String                 @id @default(cuid())
+  email        String                 @unique
+  passwordHash String?
+  role         Role                   @default(USER)
+  isStaff      Boolean                @default(false)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  department   String?
+  faculty      String?
+  firstName    String?
+  lastName     String?
+  level        String?
+  phone        String?
+  application  MembershipApplication?
+  memberships  UserToGroup[]
 }
 
-// ---------- New Application Model ----------
 model MembershipApplication {
-  id           String   @id @default(cuid())
-  userId       String   @unique
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  receiptUrl   String
-  status       String   @default("PENDING") // PENDING, INTERVIEW_INVITED, APPROVED, REJECTED
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  receiptUrl String
+  status     String   @default("PENDING")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Group {
@@ -58,18 +43,10 @@ model Group {
 model UserToGroup {
   userId  String
   groupId String
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, groupId])
-}
-
-// ---------- Gallery (standalone "memories" domain — no relation to tournaments) ----------
-enum AlbumCategory {
-  TOURNAMENTS
-  TRAININGS
-  SOCIALS
-  AWARDS
 }
 
 model Album {
@@ -89,7 +66,131 @@ model Album {
   updatedAt        DateTime      @updatedAt
 }
 
-// ---------- Tournaments / Events ----------
+model TournamentConfig {
+  id                         String                      @id @default(cuid())
+  slug                       String                      @unique
+  type                       EventType
+  status                     EventStatus
+  statusText                 String
+  scopeText                  String
+  title                      String
+  description                String
+  debateFormat               String
+  deliveryMode               DeliveryMode                @default(OFFLINE)
+  location                   String
+  dateString                 String
+  sortDate                   DateTime
+  deadlineText               String?
+  registrationUrl            String?
+  registrationType           RegistrationType            @default(NONE)
+  adjudicatorPolicy          AdjudicatorPolicy           @default(NONE)
+  fixedAdjudicatorCount      Int?
+  whoShouldAttend            String[]                    @default([])
+  schedule                   Json
+  faqs                       Json
+  isFeatured                 Boolean                     @default(false)
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+  includesPS                 Boolean                     @default(false)
+  psAdjudicatorsAllowed      Boolean                     @default(false)
+  adjudicatorRegistrations   AdjudicatorRegistration[]
+  individualRegistrations    IndividualRegistration[]
+  psAdjudicatorRegistrations PSAdjudicatorRegistration[]
+  psRegistrations            PSRegistration[]
+  teamRegistrations          TeamRegistration[]
+}
+
+model TeamRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  institution  String
+  teamName     String
+  player1Name  String
+  player1Email String
+  player2Name  String
+  player2Email String
+  createdAt    DateTime         @default(now())
+  adjEmail     String?
+  adjName      String?
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  @@unique([tournamentId, teamName])
+}
+
+model AdjudicatorRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  name         String
+  email        String
+  createdAt    DateTime         @default(now())
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  @@unique([tournamentId, email])
+}
+
+model IndividualRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  name         String
+  email        String
+  createdAt    DateTime         @default(now())
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  @@unique([tournamentId, email])
+}
+
+model PSRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  name         String
+  email        String
+  institution  String
+  createdAt    DateTime         @default(now())
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  @@unique([tournamentId, email])
+}
+
+model PSAdjudicatorRegistration {
+  id           String           @id @default(cuid())
+  tournamentId String
+  name         String
+  email        String
+  createdAt    DateTime         @default(now())
+  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  @@unique([tournamentId, email])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String?
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum AlbumCategory {
+  TOURNAMENTS
+  TRAININGS
+  SOCIALS
+  AWARDS
+}
+
 enum EventType {
   INTERNAL_HOST
   EXTERNAL_MAJOR
@@ -120,122 +221,4 @@ enum AdjudicatorPolicy {
   N_PLUS_ONE
   FIXED
   NONE
-}
-
-model TournamentConfig {
-  id                         String                      @id @default(cuid())
-  slug                       String                      @unique
-  type                       EventType
-  status                     EventStatus
-  statusText                 String
-  scopeText                  String
-  title                      String
-  description                String
-  debateFormat               String
-  deliveryMode               DeliveryMode                @default(OFFLINE)
-  location                   String
-  dateString                 String
-  sortDate                   DateTime
-  deadlineText               String?
-  registrationUrl            String?
-  registrationType           RegistrationType            @default(NONE)
-  adjudicatorPolicy          AdjudicatorPolicy           @default(NONE)
-  fixedAdjudicatorCount      Int?
-  includesPS                 Boolean                     @default(false)
-  psAdjudicatorsAllowed      Boolean                     @default(false)
-  whoShouldAttend            String[]                    @default([])
-  schedule                   Json
-  faqs                       Json
-  isFeatured                 Boolean                     @default(false)
-  teamRegistrations          TeamRegistration[]
-  adjudicatorRegistrations   AdjudicatorRegistration[]
-  individualRegistrations    IndividualRegistration[]
-  psRegistrations            PSRegistration[]
-  psAdjudicatorRegistrations PSAdjudicatorRegistration[]
-  createdAt                  DateTime                    @default(now())
-  updatedAt                  DateTime                    @updatedAt
-}
-
-model TeamRegistration {
-  id           String           @id @default(cuid())
-  tournamentId String
-  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
-  institution  String
-  teamName     String
-  player1Name  String
-  player1Email String
-  player2Name  String
-  player2Email String
-  
-  // Dynamic institutional adjudicator fields (Required for N+1 or Fixed policy)
-  adjName      String?          // Nullable in case the policy is NONE
-  adjEmail     String?
-  
-  createdAt    DateTime         @default(now())
-
-  @@unique([tournamentId, teamName])
-}
-
-model AdjudicatorRegistration {
-  id           String           @id @default(cuid())
-  tournamentId String
-  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
-  name         String
-  email        String
-  createdAt    DateTime         @default(now())
-
-  @@unique([tournamentId, email])
-}
-
-model IndividualRegistration {
-  id           String           @id @default(cuid())
-  tournamentId String
-  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
-  name         String
-  email        String
-  createdAt    DateTime         @default(now())
-
-  @@unique([tournamentId, email])
-}
-
-// Public Speaking is always individual — separate from the debate roster above.
-model PSRegistration {
-  id           String           @id @default(cuid())
-  tournamentId String
-  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
-  name         String
-  email        String
-  institution  String
-  createdAt    DateTime         @default(now())
-
-  @@unique([tournamentId, email])
-}
-
-model PSAdjudicatorRegistration {
-  id           String           @id @default(cuid())
-  tournamentId String
-  tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
-  name         String
-  email        String
-  createdAt    DateTime         @default(now())
-
-  @@unique([tournamentId, email])
-}
-
-// ---------- Contact / Newsletter ----------
-model ContactMessage {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  subject   String
-  message   String
-  resolved  Boolean  @default(false)
-  createdAt DateTime @default(now())
-}
-
-model NewsletterSubscriber {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  source    String?
-  createdAt DateTime @default(now())
 }

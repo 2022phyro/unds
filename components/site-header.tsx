@@ -141,7 +141,7 @@ export default function SiteHeader() {
               })}
             </div>
             <ThemeToggle />
-            <CornerClipButton href="https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2" className="font-garamond">
+            <CornerClipButton href="join" className="font-garamond">
               Join Today
             </CornerClipButton>
           </nav>

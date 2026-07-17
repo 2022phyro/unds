@@ -50,10 +50,6 @@
   --text-muted: #6b7280;
   --text-inverse: #fff;
 
-  /* Theme-aware selection color (was hardcoded to light-mode lavender) */
-  --selection-bg: var(--lavender);
-  --selection-fg: var(--evergreen);
-
   /* Dedicated "plaque" pair for offset-frame buttons (e.g. Join Today).
      Distinct from --surface/--text-primary because these need to stay
      visibly separated from --background in BOTH themes, which surface
@@ -132,9 +128,6 @@
   --text-secondary: #c7d3c3;
   --text-muted: #9ca7a0;
   --text-inverse: #10140f;
-
-  --selection-bg: #3b3646;
-  --selection-fg: #edf2ea;
 
   /* Parchment plaque: light bg-forest-white against dark ink, so buttons
      visibly separate from the near-black page instead of blending into it. */
@@ -336,6 +329,20 @@ a {
 a:hover {
   color: var(--accent);
 }
+a.btn-primary {
+    background-color: var(--btn-primary);
+    color: var(--btn-primary-text);
+    border-color: var(--primary);
+  }
+ a.btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+    border-color: var(--primary);
+      color: var(--btn-primary-text);
+  }
+  a.btn-primary:active {
+    background-color: var(--btn-primary-active);
+    border-color: var(--primary);
+  }
 
 :focus-visible {
   outline: none;
@@ -361,11 +368,6 @@ input,
 textarea,
 select {
   font-family: var(--font-manrope);
-}
-
-::selection {
-  background: var(--selection-bg);
-  color: var(--selection-fg);
 }
 
 .container-reading {

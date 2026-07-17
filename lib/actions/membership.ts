@@ -1,47 +1,45 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { revalidatePath } from "next/cache";
+import { uploadReceiptToCloudinary } from "@/lib/cloudinary";
 
-export async function submitMembershipApplication(formData: FormData) {
-  // 1. Normalize data
-  const email = formData.get("email") as string;
-  const firstName = formData.get("firstName") as string;
-  const lastName = formData.get("lastName") as string;
-  
-  // 2. Normalize Filename for Cloudinary
-  // Format: firstname_lastname_email.extension
-  const file = formData.get("receipt") as File;
-  const extension = file.name.split(".").pop();
-  const safeFilename = `${firstName}_${lastName}_${email}`
-    .toLowerCase()
-    .replace(/[^a-z0-9_]/g, "_");
-  
-  const finalFilename = `${safeFilename}.${extension}`;
-  
-  // 3. Logic to upload file to Cloudinary would go here
-  // const uploadedUrl = await uploadToCloudinary(file, finalFilename);
+export async function submitMembershipApplication(prevState: any, formData: FormData) {
+  try {
+    const email = formData.get("email") as string;
+    const file = formData.get("receipt") as File;
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
 
-  // 4. Create User & Application Record
-  const user = await db.user.create({
-    data: {
-      email,
-      firstName,
-      lastName,
-      phone: formData.get("phone") as string,
-      faculty: formData.get("faculty") as string,
-      department: formData.get("department") as string,
-      level: formData.get("level") as string,
-      passwordHash: "PENDING_VERIFICATION", // Placeholder
-    }
-  });
+    // Cloudinary Upload
+    const receiptUrl = await uploadReceiptToCloudinary(file, firstName, lastName, email);
 
-  await db.membershipApplication.create({
-    data: {
-      userId: user.id,
-      receiptUrl: "https://cloudinary.url/..." // Use uploadedUrl
-    }
-  });
+    // Upsert User & Create Application
+    const user = await db.user.upsert({
+      where: { email },
+      update: { firstName, lastName },
+      create: {
+        email,
+        firstName,
+        lastName,
+        phone: formData.get("phone") as string,
+        faculty: formData.get("faculty") as string,
+        department: formData.get("department") as string,
+        level: formData.get("level") as string,
+        passwordHash: "PENDING_VERIFICATION",
+      },
+    });
 
-  return { success: true };
+    await db.membershipApplication.create({
+      data: { userId: user.id, receiptUrl, status: "PENDING" }
+    });
+
+    return { 
+      success: true, 
+      message: "Application received.", 
+      redirectUrl: "https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2" // Add your link here
+    };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Registration failed. Please check your inputs." };
+  }
 }

@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Mail, MapPin, Phone } from "lucide-react";
 import {
-  IconBrandFacebook,
   IconBrandInstagram,
   IconBrandWhatsapp,
   IconBrandX,
@@ -22,6 +21,7 @@ const footerLinks = [
 ];
 
 const contactLinks = [
+  { href: "https://wa.me/qr/7OO5DRWMWX6JF1", label: "WhatsApp", icon: IconBrandWhatsapp },
   { href: "https://www.instagram.com/undebatesociety", label: "Instagram", icon: IconBrandInstagram },
   { href: "https://x.com/UNDebateSociety", label: "Twitter", icon: IconBrandX },
 ];
@@ -53,7 +53,7 @@ export default function SiteFooter() {
                 UNDS.
               </p>
               <CornerClipButton
-                href="https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2"
+                href="/join"
                 className="w-full font-garamond sm:w-auto"
                 aria-label="Join UNDS"
               >
@@ -90,10 +90,10 @@ export default function SiteFooter() {
                 <Mail className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
                 <span>debate@unn.edu.ng</span>
               </span>
-              {/* <span className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
-                <span>+234 803 123 4567</span>
-              </span> */}
+                <span>+234 808 380 4754</span>
+              </span>
               <span className="inline-flex items-start justify-start gap-2">
                 <MapPin className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
                 <span className="wrap-break-word max-w-88 sm:max-w-none">

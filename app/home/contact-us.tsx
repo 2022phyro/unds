@@ -32,7 +32,7 @@ export function HomeContactBlock() {
             form below, and we'll get back to you as soon as possible, or send
             an email at
             <span className="font-manrope  pl-1 font-semibold text-text-primary block sm:inline mt-1 sm:mt-0">
-              registry@unn.edu.ng
+              debate@unn.edu.ng
             </span>
           </p>
         </div>

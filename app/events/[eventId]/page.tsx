@@ -249,11 +249,12 @@ export default async function EventDetailsPage({
         {/* ─── FOOTER CONTACT LINK ────────────────────────────────────── */}
         <div className="border-t border-[#2e3a28]/10 pt-10 text-center font-ui text-[11px] text-text-muted  tracking-wider">
           Direct questions or accommodation adjustments toward the{" "}
-          <span
-            className="text-primary font-bold hover:text-black transition-colors"
+          <a
+          href="https://wa.me/qr/7OO5DRWMWX6JF1"
+            className="text-primary! text-sm font-bold hover:text-primary/60! transition-colors"
           >
             Adjudication Core Desk
-          </span>
+          </a>
           .
         </div>
       </div>
