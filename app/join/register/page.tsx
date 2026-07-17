@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import { submitMembershipApplication } from "@/lib/actions/membership";
 import { SubmitButton } from "@/components/submit-button";
-import { Shield, CheckCircle2 } from "lucide-react";
+import { Shield, CheckCircle2, ArrowLeft } from "lucide-react";
 import { FileUploadField } from "@/components/ui/file-upload";
 
 const theme = {
@@ -55,7 +55,12 @@ export default function RegisterPage() {
 
   // --- REGISTRATION VIEW ---
   return (
-    <main className={` min-h-screen py-20 px-6 font-serif`}>
+    <main className={` min-h-screen py-20 px-6 font-seri7f flex flex-col gap-`}>
+        <div>
+            <a href="/join" className="inline-flex items-center gap-5 text-sm font-medium text-primary hover:underline">
+                <ArrowLeft size={16} /> Back
+            </a>
+        </div>
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl! mb-12">Membership Registration</h1>
         
