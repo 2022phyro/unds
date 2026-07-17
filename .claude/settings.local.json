@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(awk '{print $2}')",
+      "Bash(grep -v '^$')",
+      "Bash(xargs -I{} sh -c 'test -f \"{}\" && echo \"{}\"')",
+      "Bash(npx prisma *)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)",
+      "Skill(run)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(command -v chromium-cli)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(curl -s http://localhost:3000/events)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000)",
+      "Bash(node *)",
+      "Bash(curl -s \"http://localhost:3000/events/ps-verify-test/register\" -o /tmp/page2.html)",
+      "Bash(curl -s -H 'Cookie: unds_session=__CMDSUB_OUTPUT__' http://localhost:3000/admin/dashboard/tournaments -o /tmp/admin-list.html -w 'list http:%{http_code}\\\\n')"
+    ]
+  }
+}
