@@ -9,12 +9,24 @@ import execCouncil from "./data/exec-council.json";
 import pillars from "./data/pillars.json";
 import { EditorialProfileCard } from "@/components/ui/editorial-image";
 import { CloudinaryImage } from "@/components/cl-image";
+import { Leaf, Sparkle, Star } from "lucide-react";
+
+interface TimelineEntry {
+  date: string;
+  title: string;
+  description: string;
+  caption: string;
+  highlights: string[];
+  image: string;
+}
+
+const timelineEntries = timeline as TimelineEntry[];
 
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-7xl space-y-20 px-3 py-12 sm:space-y-28 sm:px-6 sm:py-16 lg:space-y-36 lg:px-8 lg:py-24">
       {/* ─── 1. OUR STORY ─────────────────────────────────────────────────── */}
-      <section className="space-y-14 sm:space-y-20">
+      <section className="space-y-14 sm:space-y-20 flex flex-col gap-3">
         <SectionReveal className="grid grid-cols-1 items-center gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="text-left lg:col-span-6">
             <p className="font-garamond text-base font-medium leading-relaxed text-text-secondary sm:text-lg">
@@ -51,7 +63,7 @@ export default function AboutPage() {
         </SectionReveal>
 
         {/* Legacy In Numbers */}
-        <SectionReveal className="border-t border-border/40 pt-10 pb-2 sm:pt-16">
+        <SectionReveal className="border-t border-border/40 pt-10 pb-6 sm:pt-16">
           <div className="grid grid-cols-2 gap-6 text-left sm:gap-8 md:grid-cols-3 md:text-center">
             {[
               ["60+", "Active Members"],
@@ -71,75 +83,143 @@ export default function AboutPage() {
         </SectionReveal>
 
         {/* Story Tree Timeline */}
-        <SectionReveal className="flex flex-col gap-3 border-t border-border/40 pt-10 sm:pt-16">
-          <div className="mx-auto mb-14 max-w-2xl text-left sm:mb-24 md:text-center">
-            <h2 className="font-garamond text-2xl font-light tracking-tight text-text-primary sm:text-3xl">
-              Through the Years
-            </h2>
+        <div className="mx-auto mb-14 text-center sm:mb-20 pb-14 w-full">
+          <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em] text-primary">
+            <Leaf className="h-3.5 w-3.5" />
+            Our Journey
+            <Leaf className="h-3.5 w-3.5 -scale-x-100" />
+          </span>
+          <h2 className="mt-3 font-garamond text-3xl font-light tracking-tight text-text-primary sm:text-4xl">
+            Through the Years
+          </h2>
+          <div className="mt-4 flex items-center justify-center gap-3 text-text-muted">
+            <span className="h-px w-10 bg-[#2e3a28]/25" />
+            <span className="h-1.5 w-1.5 rotate-45 bg-primary/60" />
+            <span className="h-px w-10 bg-[#2e3a28]/25" />
           </div>
+          <p className="mx-auto mt-4 font-garamond text-sm leading-relaxed text-text-secondary sm:text-base">
+            A Timeline of the ideas, people and moments that have shaped
+            <br />
+            the University of Nigeria Debating Society into what we are today.
+          </p>
+        </div>
 
-          <div className="relative mx-auto max-w-5xl pl-7 sm:pl-8 md:pl-0">
-            {/* Trunk */}
-            <div className="absolute top-0 bottom-0 left-2.5 w-0.5 -translate-x-1/2 bg-[#2e3a28]/20 sm:left-2.75 sm:w-0.75 md:left-1/2" />
+        <div className="relative mx-auto max-w-6xl pl-7 sm:pl-8 lg:pl-0">
+          {/* Trunk */}
+          <div className="absolute top-0 bottom-0 left-2.5 w-0.5 -translate-x-1/2 bg-[#2e3a28]/20 sm:left-2.75 sm:w-0.75 lg:left-1/2" />
 
-            <div className="relative space-y-14 sm:space-y-20 md:space-y-24">
-              {timeline.map((entry, idx) => {
-                const isRight = idx % 2 === 1;
-                return (
+          <div className="relative space-y-14 sm:space-y-16 lg:space-y-24">
+            {timelineEntries.map((entry, idx) => {
+              const isRight = idx % 2 === 1;
+              return (
+                <div
+                  key={entry.date}
+                  className={`group relative flex flex-col items-stretch lg:flex-row ${
+                    isRight ? "lg:justify-end" : "lg:justify-start"
+                  }`}
+                >
+                  {/* Node */}
+                  <div className="absolute top-6 left-2.5 z-10 h-4.5 w-4.5 -translate-x-1/2 rounded-full border-[3px] border-[#2e3a28] bg-[#fcfbf9] shadow-xs transition-transform duration-300 group-hover:scale-110 sm:-left-5.25 sm:h-6 sm:w-6 sm:border-4 lg:left-1/2" />
+
+                  {/* Sub-xl branch: short tick from trunk to card */}
+                  <div className="absolute top-8 left-2.5 h-px w-4 -translate-x-full bg-[#2e3a28]/30 lg:hidden" />
+
+                  {/* xl curved branch */}
                   <div
-                    key={entry.date}
-                    className={`group relative flex flex-col items-stretch md:flex-row ${
-                      isRight ? "md:justify-end" : "md:justify-start"
+                    className={`hidden lg:block absolute top-8 h-10 w-15 ${
+                      isRight
+                        ? "left-1/2 translate-x-[-1.5px]"
+                        : "right-1/2 translate-x-[1.5px]"
                     }`}
                   >
-                    {/* Node */}
-                    <div className="absolute top-6 left-2.5 z-10 h-4.5 w-4.5 -translate-x-1/2 rounded-full border-[3px] border-[#2e3a28] bg-[#fcfbf9] shadow-xs transition-transform duration-300 group-hover:scale-110 sm:-left-5.25 sm:h-6 sm:w-6 sm:border-4 md:left-1/2" />
-
-                    {/* Mobile branch: short horizontal tick from trunk to card */}
-                    <div className="absolute top-8 left-2.5 h-px w-4 -translate-x-full bg-[#2e3a28]/30 md:hidden" />
-
-                    {/* Desktop curved branch */}
-                    <div
-                      className={`hidden md:block absolute top-8 h-10 w-15 ${
-                        isRight ? "left-1/2 translate-x-[-1.5px]" : "right-1/2 translate-x-[1.5px]"
-                      }`}
+                    <svg
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 60 40"
+                      fill="none"
+                      preserveAspectRatio="none"
                     >
-                      <svg width="100%" height="100%" viewBox="0 0 60 40" fill="none" preserveAspectRatio="none">
-                        <path
-                          d={isRight ? "M0,0 C30,0 60,20 60,40" : "M60,0 C30,0 0,20 0,40"}
-                          stroke="#2e3a28"
-                          strokeWidth="2"
-                          strokeOpacity="0.4"
-                          className="transition-opacity duration-300 group-hover:stroke-opacity-80"
-                        />
-                      </svg>
-                    </div>
+                      <path
+                        d={
+                          isRight
+                            ? "M0,0 C30,0 60,20 60,40"
+                            : "M60,0 C30,0 0,20 0,40"
+                        }
+                        stroke="#2e3a28"
+                        strokeWidth="2"
+                        strokeOpacity="0.4"
+                        className="transition-opacity duration-300 group-hover:stroke-opacity-80"
+                      />
+                    </svg>
+                  </div>
 
-                    <div className={`w-full self-start pl-5 sm:pl-6 md:w-[calc(50%-50px)] md:pl-0 ${isRight ? "md:ml-12" : "md:mr-12"}`}>
-                      <NoteSheafCard>
-                        <span className="mb-1.5 block font-serif text-xl font-black text-text-primary sm:mb-2 sm:text-2xl">
-                          {entry.date}
-                        </span>
-                        <div className="relative mb-3 h-40 w-full overflow-hidden rounded-xs border border-border sm:mb-4 sm:h-48">
+                  {/* Card */}
+                  <div
+                    className={`w-full self-start pl-5 sm:pl-6 lg:pl-0 ${
+                      isRight
+                        ? "lg:ml-12 lg:w-[calc(50%-50px)]"
+                        : "lg:mr-12 lg:w-[calc(50%-50px)]"
+                    }`}
+                  >
+                    <div className="flex flex-col overflow-hidden rounded-2xl border border-[#2e3a28]/25 bg-[color-mix(in_srgb,var(--surface)_85%,#1a2417)] transition-colors duration-300 group-hover:border-[#2e3a28]/45">
+                      {/* Main Content Area */}
+                      <div
+                        className={`flex flex-row flex-wrap items-stretch gap-0 lg:flex-nowrap ${
+                          isRight ? "lg:flex-row-reverse" : ""
+                        }`}
+                      >
+                        {/* Image */}
+                        <div className="relative h-44 w-full shrink-0 sm:h-56 lg:h-auto lg:w-[42%]">
                           <Image
-                            src={entry.imageUrl}
-                            alt={entry.imageAlt}
+                            src={entry.image}
+                            alt={entry.title}
                             fill
-                            sizes="(max-width: 768px) 100vw, 45vw"
+                            sizes="(max-width: 1023px) 100vw, 30vw"
                             className="object-cover"
                           />
                         </div>
-                        <p className="text-[13px] leading-relaxed text-text-primary! sm:text-sm">
-                          {entry.description}
-                        </p>
-                      </NoteSheafCard>
+
+                        {/* Text Info */}
+                        <div className="flex-1 p-5 text-left sm:p-6 lg:p-8">
+                          <span className="block text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+                            {entry.date}
+                          </span>
+                          <h3 className="mt-1.5 font-serif text-2xl font-bold text-text-primary sm:text-3xl">
+                            {entry.title}
+                          </h3>
+                          <span className="mt-3 block h-px w-10 bg-primary/50" />
+                          <p className="mt-4 text-sm leading-relaxed text-text-secondary">
+                            {entry.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Highlights Section */}
+                      {entry.highlights?.length > 0 && (
+                        <div className="border-t border-[#2e3a28]/15 bg-[#1a2417]/20 px-4">
+                          <h4 className="mb-4 text-[10px]! font-bold uppercase tracking-widest text-primary/70!">
+                            Key Milestones
+                          </h4>
+                          <ul className="grid gap-3 sm:grid-cols-1">
+                            {entry.highlights.map((point, i) => (
+                              <li
+                                key={i}
+                                className="flex items-start gap-3 rounded-lg border border-[#2e3a28]/10 bg-[#2e3a28]/5 p-3 text-[13px] leading-relaxed text-text-secondary transition-colors hover:bg-[#2e3a28]/10"
+                              >
+                                <Sparkle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                                <span>{point}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
-        </SectionReveal>
+        </div>
       </section>
 
       {/* ─── 2. EXECUTIVE COUNCIL ────────────────────────────────────── */}
@@ -183,7 +263,10 @@ export default function AboutPage() {
 
         <div className="flex flex-col gap-3 text-left sm:gap-4 lg:col-span-8 lg:gap-6">
           {pillars.map((pillar, idx) => (
-            <div key={idx} className="flex items-start gap-3 border p-3 sm:gap-4 sm:p-4">
+            <div
+              key={idx}
+              className="flex items-start gap-3 border p-3 sm:gap-4 sm:p-4"
+            >
               <span className="pt-0.5 font-manrope text-xs font-bold text-primary">
                 0{idx + 1} //
               </span>

@@ -1,16 +1,50 @@
 [
   {
-    "date": "Nov, 2021",
-    "imageUrl": "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=800&q=80",
-    "imageAlt": "Founding sessions",
-    "description": "Gathering our first formal cohort of thinkers to establish an unyielding training curriculum, stripping back basic speaking styles to make room for logic-driven policy analysis.",
-    "caption": "Fig 1. Late-night case building inside the original common room circuit."
+    "date": "Pre-2018",
+    "title": "Origins",
+    "description": "Since its inception in 1960, the University of Nigeria had a strong debating tradition, evidenced by her production of several notables in the political and public sphere. However, it's a bit harder to trace the precise origins of the Society. It was founded somewhere in the 90s, and from then on, quietly continued as a hub for intellectual discourse",
+    "caption": "Every great tradition begins with a conversation.",
+    "highlights": [
+    ],
+    "image": "https://res.cloudinary.com/boo1tgkf/image/upload/c_crop,g_north_west,h_206,w_206/e_sepia:98/83311e1b-a7f0-4205-a335-152f2fd24cf4.png"
   },
   {
-    "date": "Dec, 2023",
-    "imageUrl": "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80",
-    "imageAlt": "Tournament break rounds",
-    "description": "Stepping onto continental tournament floors. The society successfully broke through into elite knockout rounds at the Pan-African Universities Debating Championship.",
-    "caption": "Fig 2. Team alignment markers celebrating unexpected out-round clear classifications."
+    "date": "'18-'21",
+    "title": "Resurgence",
+    "description": "This saw the resurgence of the Society after a period of dormancy. The Society re-established its internal tournament culture, and also made its first international representation in 2021. This era marked the beginning of a new chapter in the Society's history, with a renewed focus on competitive excellence and international engagement. It was also the period the ",
+    "caption": "From rebuilding at home to making history abroad.",
+    "highlights": [
+      "Public identity reappeared",
+      "International Participation",
+      "Training in PS, Debating and Adjudication",
+      "ANUDC delegation and medal-winning performance",
+      "First-ever UNDS Internals"
+    ],
+    "image": "https://res.cloudinary.com/boo1tgkf/image/upload/c_crop,g_north_west,h_960,w_1280/c1e4c641-dc97-4008-a102-57c20d7792b4.png"
+  },
+  {
+    "date": "'21–'24",
+    "title": "Domination",
+    "description": "The gains of the Resurgence was capitalized upon. All across board, we built on the momentum and swept the tertiary world by storm. By 2024, UNDS was a force to be reckoned with, having won multiple championships, and remains the only university to have simultaneously won all debate categories of the National University Debating Championship.",
+    "caption": "Not just competing—building something that lasts.",
+    "highlights": [
+      "ANUDC '22 Finalists",
+      "National Champions in all categories '23",
+      "PAUDC participation and medal-winning performance '21"
+    ],
+    "image": "https://res.cloudinary.com/boo1tgkf/image/upload/f_auto,q_auto,w_800,c_limit/v1784022700/IMG_5540_ztmcbf.jpg"
+  },
+  {
+    "date": "2024–Present",
+    "title": "Today",
+    "description": "We continue to build on the legacy of our predecessors, and are committed to pushing the boundaries of what is possible in the world of debating. We are proud of our achievements, but we know that there is still much work to be done. We are excited for the future, and we look forward to continuing to make history in the years to come.",
+    "caption": "The next milestone might have your name on it.",
+    "highlights": [
+      "ANUDC Open Semifinalists and Novice Runner ups '25",
+      "2nd Best Adjudicator in ANYDC '25",
+      "Continued growth in national and international debating visibility.",
+      "Best novice speaker in ANYDC '26"
+    ],
+    "image": "https://res.cloudinary.com/boo1tgkf/image/upload/f_auto,q_auto,w_800,c_limit/v1784069476/PXL_20240216_165146125.MV_n1nmka.jpg"
   }
 ]
