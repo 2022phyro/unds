@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { deleteTournamentAction } from "@/lib/actions/tournaments";
+import { DeleteButton } from "@/components/ui/delete-button";
 
 export default async function AdminTournamentsPage() {
   const tournaments = await db.tournamentConfig.findMany({
@@ -20,7 +21,9 @@ export default async function AdminTournamentsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-garamond text-2xl font-bold text-[#2e3a28]">Tournaments</h1>
+        <h1 className="font-garamond text-2xl font-bold text-[#2e3a28]">
+          Tournaments
+        </h1>
         <Link
           href="/admin/dashboard/tournaments/new"
           className="px-4 py-2 bg-[#2e3a28] text-white text-xs font-ui tracking-wider font-bold"
@@ -50,16 +53,19 @@ export default async function AdminTournamentsPage() {
                 <td className="p-2">{t.status}</td>
                 <td className="p-2">{t._count.teamRegistrations}</td>
                 <td className="p-2">{t._count.adjudicatorRegistrations}</td>
-                <td className="p-2">{t.includesPS ? t._count.psRegistrations : "—"}</td>
+                <td className="p-2">
+                  {t.includesPS ? t._count.psRegistrations : "—"}
+                </td>
                 <td className="p-2">
                   <div className="flex gap-3">
-                    <Link href={`/admin/dashboard/tournaments/${t.id}`} className="text-[#2e3a28] font-bold">
+                    <Link
+                      href={`/admin/dashboard/tournaments/${t.id}`}
+                      className="text-[#2e3a28] font-bold"
+                    >
                       Edit
                     </Link>
                     <form action={deleteTournamentAction.bind(null, t.id)}>
-                      <button type="submit" className="text-red-700 cursor-pointer">
-                        Delete
-                      </button>
+                      <DeleteButton />
                     </form>
                   </div>
                 </td>

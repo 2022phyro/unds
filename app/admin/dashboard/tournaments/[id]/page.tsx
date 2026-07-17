@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { deleteTournamentAction } from "@/lib/actions/tournaments";
 import EditTournamentForm from "./edit-tournament-form";
 import { RegistrationTable } from "../_components/registration-table";
+import { DeleteButton } from "@/components/ui/delete-button";
 
 interface EditTournamentPageProps {
   params: Promise<{ id: string }>;
@@ -32,14 +33,10 @@ export default async function EditTournamentPage({
           Edit Tournament
         </h1>
         <form action={deleteTournamentAction.bind(null, tournament.id)}>
-          <button
-            type="submit"
-            className="text-red-700 font-bold text-xs font-ui tracking-wider cursor-pointer"
-          >
-            Delete
-          </button>
+          <DeleteButton />
         </form>
       </div>
+      <div className="border-t border-[#2e3a28]/10 pt-6"></div>
 
       <EditTournamentForm tournament={tournament} />
 
@@ -69,7 +66,7 @@ export default async function EditTournamentPage({
         ]}
       />
 
-              {/* Example for Adjudicators */}
+      {/* Example for Adjudicators */}
       <RegistrationTable
         title="PS Registrations"
         type="PS_REG"
@@ -77,12 +74,11 @@ export default async function EditTournamentPage({
         data={tournament.psRegistrations}
         columns={[
           { header: "Name", accessorKey: "name" },
-          { header: "Email", accessorKey: "email" },          { header: "Institution", accessorKey: "institution" },
-
+          { header: "Email", accessorKey: "email" },
+          { header: "Institution", accessorKey: "institution" },
         ]}
       />
 
-        
       <RegistrationTable
         title="PS Adjudicators"
         type="PS_ADJ"
@@ -91,7 +87,7 @@ export default async function EditTournamentPage({
         columns={[
           { header: "Name", accessorKey: "name" },
           { header: "Email", accessorKey: "email" },
-                    { header: "Email", accessorKey: "email" },
+          { header: "Email", accessorKey: "email" },
           { header: "Institution", accessorKey: "institution" },
         ]}
       />

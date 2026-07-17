@@ -1,12 +1,18 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { deleteAlbumAction, syncAlbumPhotoCountAction } from "@/lib/actions/albums";
+import {
+  deleteAlbumAction,
+  syncAlbumPhotoCountAction,
+} from "@/lib/actions/albums";
+import { DeleteButton } from "@/components/ui/delete-button";
 
 interface AlbumsPageProps {
   searchParams: Promise<{ q?: string }>;
 }
 
-export default async function AdminAlbumsPage({ searchParams }: AlbumsPageProps) {
+export default async function AdminAlbumsPage({
+  searchParams,
+}: AlbumsPageProps) {
   const { q } = await searchParams;
 
   const albums = await db.album.findMany({
@@ -17,7 +23,9 @@ export default async function AdminAlbumsPage({ searchParams }: AlbumsPageProps)
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-garamond text-2xl font-bold text-[#2e3a28]">Albums</h1>
+        <h1 className="font-garamond text-2xl font-bold text-[#2e3a28]">
+          Albums
+        </h1>
         <Link
           href="/admin/dashboard/albums/new"
           className="px-4 py-2 bg-[#2e3a28] text-white text-xs font-ui tracking-wider font-bold"
@@ -60,18 +68,24 @@ export default async function AdminAlbumsPage({ searchParams }: AlbumsPageProps)
                 <td className="p-2">{album.photoCount}</td>
                 <td className="p-2">
                   <div className="flex gap-3">
-                    <Link href={`/admin/dashboard/albums/${album.id}`} className="text-[#2e3a28] font-bold">
+                    <Link
+                      href={`/admin/dashboard/albums/${album.id}`}
+                      className="text-[#2e3a28] font-bold"
+                    >
                       Edit
                     </Link>
-                    <form action={syncAlbumPhotoCountAction.bind(null, album.id)}>
-                      <button type="submit" className="text-text-muted hover:text-[#2e3a28] cursor-pointer">
+                    <form
+                      action={syncAlbumPhotoCountAction.bind(null, album.id)}
+                    >
+                      <button
+                        type="submit"
+                        className="text-text-muted hover:text-[#2e3a28] cursor-pointer"
+                      >
                         Sync
                       </button>
                     </form>
                     <form action={deleteAlbumAction.bind(null, album.id)}>
-                      <button type="submit" className="text-red-700 cursor-pointer">
-                        Delete
-                      </button>
+                      <DeleteButton />
                     </form>
                   </div>
                 </td>

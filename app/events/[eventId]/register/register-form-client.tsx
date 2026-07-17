@@ -242,12 +242,19 @@ export default function RegisterFormClient({
                 </div>
                 <div className="space-y-1">
                   <h4 className="font-garamond text-xl font-bold tracking-wide">
-                    Registration Captured
+                    Registration Successful
                   </h4>
                   <p className="font-garamond text-sm text-text-secondary max-w-sm mx-auto leading-relaxed">
-                    Check your inbox for your confirmation and registration
-                    receipt.
+                    Keep in touch with the tournament organizers for updates and next steps.
                   </p>
+                  <a
+                    href="https://chat.whatsapp.com/L4kqJU1XBluKQiVJnyokyr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary font-bold text-sm underline"
+                  >
+                    Join Whatsapp Group
+                  </a>
                 </div>
                 <div className="pt-4">
                   <Link
@@ -281,7 +288,7 @@ export default function RegisterFormClient({
                   <Field
                     label="Institution / Chapter / Faculty"
                     name="institution"
-                    placeholder="e.g., University of Nigeria, Nsukka"
+                    placeholder="e.g. Civil Engineering/Engineering"
                   />
                   {psAdjudicatorState.error && (
                     <p className="text-xs font-manrope text-red-700">
@@ -312,7 +319,7 @@ export default function RegisterFormClient({
                   <Field
                     label="Institution / Chapter / Faculty"
                     name="institution"
-                    placeholder="e.g., University of Nigeria, Nsukka"
+                    placeholder="e.g. Civil Engineering/Engineering"
                   />
                   {psState.error && (
                     <p className="text-xs font-manrope text-red-700">
@@ -344,7 +351,7 @@ export default function RegisterFormClient({
                 <Field
                   label="Institution / Chapter / Faculty"
                   name="institution"
-                  placeholder="e.g., University of Nigeria, Nsukka"
+                  placeholder="e.g. Civil Engineering/Engineering"
                 />
                 {adjudicatorState.error && (
                   <p className="text-xs font-manrope text-red-700">
@@ -361,7 +368,7 @@ export default function RegisterFormClient({
                     <Field
                       label="Institution / Chapter / Faculty"
                       name="institution"
-                      placeholder="e.g., University of Nigeria, Nsukka"
+                      placeholder="e.g. Civil Engineering/Engineering"
                     />
                     <Field
                       label="Team Name"
