@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react";
 import { submitMembershipApplication } from "@/lib/actions/membership";
 import { SubmitButton } from "@/components/submit-button";
 import { Shield, CheckCircle2 } from "lucide-react";
+import { FileUploadField } from "@/components/ui/file-upload";
 
 const theme = {
   bg: "bg-[#fcfaf7]",
@@ -40,7 +41,7 @@ export default function RegisterPage() {
       <main className={`min-h-screen py-20 px-6 font-serif`}>
         <div className="max-w-2xl mx-auto border ${theme.border} p-12 text-center shadow-sm">
           <CheckCircle2 className="mx-auto text-green-700 mb-6" size={48} />
-          <h1 className="text-4xl mb-4">Application Received!</h1>
+          <h1 className="text-4xl! mb-4">Application Received!</h1>
           <p className="mb-8 opacity-80 leading-relaxed">
             Thank you for taking the first step toward becoming a Spartan. An admin will contact you soon to schedule your interview. You will be redirected in {seconds} seconds.
           </p>
@@ -56,19 +57,19 @@ export default function RegisterPage() {
   return (
     <main className={` min-h-screen py-20 px-6 font-serif`}>
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl mb-12">Membership Registration</h1>
+        <h1 className="text-4xl! mb-12">Membership Registration</h1>
         
         <div className="grid lg:grid-cols-[350px,1fr] gap-12">
           {/* Left Column: Info Cards */}
           <div className="space-y-6">
             <div className={`border ${theme.border} p-8`}>
               <Shield className="mb-4 opacity-50" size={32} />
-              <h2 className="font-bold text-xl mb-2">₦2,000</h2>
+              <h2 className="font-bold text-xl! mb-2">₦2,000</h2>
               <p className="text-sm opacity-70 leading-relaxed">Your contribution supports trainings, tournaments, member resources, and society administration.</p>
             </div>
             
             <div className={`border ${theme.border} p-8 `}>
-              <h2 className="font-bold text-lg mb-4">Payment Details</h2>
+              <h2 className="font-bold text-lg! mb-4">Payment Details</h2>
               <div className="space-y-3 text-sm opacity-80">
                 <p><strong>Account Name:</strong> University of Nigeria Debating Society</p>
                 <p><strong>Bank:</strong> First Bank</p>
@@ -78,7 +79,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Right Column: Form */}
-          <form action={action} className="border ${theme.border} p-8 space-y-6 shadow-sm">
+          <form action={action} className="border ${theme.border} flex flex-col gap-4 p-8 space-y-6 shadow-sm">
             {state?.message && !state.success && (
               <div className="p-4 bg-red-50 border border-red-200 text-red-800 text-sm">
                 {state.message}
@@ -100,13 +101,9 @@ export default function RegisterPage() {
 
             <input name="level" placeholder="Level/Year *" className={`border ${theme.border} p-4 w-full bg-transparent focus:outline-none`} required />
 
-            <div className={`border-2 border-dashed ${theme.border} p-8 text-center bg-white`}>
-              <label className="cursor-pointer">
-                <span className="block font-bold mb-1">Upload Proof of Payment *</span>
-                <span className="text-xs opacity-60">PNG, JPG, PDF (Max 5MB)</span>
-                <input type="file" name="receipt" className="hidden" accept=".pdf,.jpg,.png" required />
-              </label>
-            </div>
+            <FileUploadField theme={{
+                          border: ""
+                      }}/>
             
             <SubmitButton />
           </form>
