@@ -37,7 +37,15 @@ const applicationStatus = formData.get("applicationStatus") as string; // New fi
   }
 }
 
-export async function deleteUser(userId: string) {
-  await db.user.delete({ where: { id: userId } });
-  revalidatePath("/admin/users");
+// app/admin/actions/users.ts
+export async function deleteUser(formData: FormData) {
+  const userId = formData.get("userId") as string;
+  
+  try {
+    await db.user.delete({ where: { id: userId } });
+    revalidatePath("/admin/dashboard/users");
+    return { success: true };
+  } catch (error) {
+    return { success: false, message: "Failed to delete user." };
+  }
 }
