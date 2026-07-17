@@ -74,7 +74,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
                     <div>
                       <p className="text-sm font-semibold text-text-primary">{testimonial.name}</p>
                       <p className="text-xs uppercase tracking-[0.2em] text-text-muted">{testimonial.role}</p>
-                      <p className="text-lg text-bold font-garamond text-text-muted">{testimonial.achievements}</p>
+                      <p className="text-lg text-bold leading-tight whitespace-pre-line font-garamond text-text-muted">{testimonial.achievements}</p>
                     </div>
                   </div>
                 </article>

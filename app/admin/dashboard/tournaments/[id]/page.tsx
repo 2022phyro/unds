@@ -44,43 +44,53 @@ export default async function EditTournamentPage({
       <EditTournamentForm tournament={tournament} />
 
       <RegistrationTable
-        title="Teams"
+        title="Debate Teams"
         type="TEAM"
         tournamentId={id}
         data={tournament.teamRegistrations}
-        exportUrl={`/api/admin/export-entrants?tournamentId=${id}`}
         columns={[
-          {
-            header: "Team",
-            accessor: (t) => <span className="font-bold">{t.teamName}</span>,
-          },
-          { header: "Institution", accessor: (t) => t.institution },
-          {
-            header: "Speaker 1",
-            accessor: (t) => `${t.player1Name} (${t.player1Email})`,
-          },
-          {
-            header: "Speaker 2",
-            accessor: (t) => `${t.player2Name} (${t.player2Email})`,
-          },
+          { header: "Team", accessorKey: "teamName" },
+          { header: "Institution", accessorKey: "institution" },
+          { header: "Speaker 1", accessorKey: "player1" }, // Matches renderCell logic
+          { header: "Speaker 2", accessorKey: "player2" }, // Matches renderCell logic
         ]}
       />
 
+      {/* Example for Adjudicators */}
       <RegistrationTable
-        title="Adjudicators"
+        title="Debate Adjudicators"
         type="ADJ"
         tournamentId={id}
         data={tournament.adjudicatorRegistrations}
         columns={[
-          {
-            header: "Name",
-            accessor: (a) => <span className="font-bold">{a.name}</span>,
-          },
-          { header: "Email", accessor: (a) => a.email },
+          { header: "Name", accessorKey: "name" },
+          { header: "Email", accessorKey: "email" },
         ]}
       />
 
-      {/* Repeat for other tables as needed */}
+              {/* Example for Adjudicators */}
+      <RegistrationTable
+        title="PS Registrations"
+        type="PS_REG"
+        tournamentId={id}
+        data={tournament.psRegistrations}
+        columns={[
+          { header: "Name", accessorKey: "name" },
+          { header: "Email", accessorKey: "email" },
+        ]}
+      />
+
+        
+      <RegistrationTable
+        title="PS Adjudicators"
+        type="PS_ADJ"
+        tournamentId={id}
+        data={tournament.psAdjudicatorRegistrations}
+        columns={[
+          { header: "Name", accessorKey: "name" },
+          { header: "Email", accessorKey: "email" },
+        ]}
+      />
     </div>
   );
 }
