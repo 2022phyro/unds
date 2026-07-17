@@ -1,31 +1,87 @@
-import Link from 'next/link';
+import Link from "next/link";
 import {
-  FileText, FileCheck2, ShieldCheck, Mic, Award, Crown,
-  Shield, Users, MessageCircle, ArrowRight, ChevronDown,
-  Trophy, Wallet, Clock,
-} from 'lucide-react';
-import { CornerClipButton } from '@/components/corner-clip';
+  FileText,
+  FileCheck2,
+  ShieldCheck,
+  Mic,
+  Award,
+  Crown,
+  Shield,
+  Users,
+  MessageCircle,
+  ArrowRight,
+  ChevronDown,
+  Trophy,
+  Wallet,
+  Clock,
+} from "lucide-react";
+import { CornerClipButton } from "@/components/corner-clip";
 
 export default function JoinPage() {
   const steps = [
-    { icon: FileText, label: "Register", desc: "Submit your details and make the membership contribution." },
-    { icon: FileCheck2, label: "Upload Receipt", desc: "Upload your proof of payment to complete your application." },
-    { icon: ShieldCheck, label: "Review", desc: "Our team reviews your application and verifies your payment." },
-    { icon: Mic, label: "Interview", desc: "Eligible applicants are invited for an interview via email." },
-    { icon: Award, label: "Probation", desc: "A one-month period of training, meetings, and active participation." },
-    { icon: Crown, label: "Official Member", desc: "Successful probationers become full members and represent UNDS at tournaments." },
+    {
+      icon: FileText,
+      label: "Register",
+      desc: "Submit your details and make the membership contribution.",
+    },
+    {
+      icon: FileCheck2,
+      label: "Upload Receipt",
+      desc: "Upload your proof of payment to complete your application.",
+    },
+    {
+      icon: ShieldCheck,
+      label: "Review",
+      desc: "Our team reviews your application and verifies your payment.",
+    },
+    {
+      icon: Mic,
+      label: "Interview",
+      desc: "Eligible applicants are invited for an interview via email.",
+    },
+    {
+      icon: Award,
+      label: "Probation",
+      desc: "A one-month period of training, meetings, and active participation.",
+    },
+    {
+      icon: Crown,
+      label: "Official Member",
+      desc: "Successful probationers become full members and represent UNDS at tournaments.",
+    },
   ];
 
   const guidelines = [
-    { icon: Wallet, t: "Registration", d: "Begin your journey with a contribution of ₦2,000. This sustains our training resources and tournament logistics." },
-    { icon: Mic, t: "The Interview", d: "We welcome prospective members formally. Please arrive on time—it is the first metric of your professional commitment." },
-    { icon: Clock, t: "Probationary Period", d: "Our one-month probation is a bridge, not a barrier. Consistent participation is expected." },
+    {
+      icon: Wallet,
+      t: "Registration",
+      d: "Begin your journey with a contribution of ₦2,000. This sustains our training resources and tournament logistics.",
+    },
+    {
+      icon: Mic,
+      t: "The Interview",
+      d: "We welcome prospective members formally. Please arrive on time—it is the first metric of your professional commitment.",
+    },
+    {
+      icon: Clock,
+      t: "Probationary Period",
+      d: "Our one-month probation is a bridge, not a barrier. Consistent participation is expected.",
+    },
   ];
 
   const faqs = [
-    { q: "Is the registration contribution refundable?", a: "The registration fee supports operational costs and is non-refundable." },
-    { q: "What is the probation process?", a: "It is a one-month period focused on training and integration into society activities." },
-    { q: "Is membership required for the community?", a: "No. Our public WhatsApp community is open to all students interested in debate." },
+    {
+      q: "Is the registration contribution refundable?",
+      a: "The registration fee supports operational costs and is non-refundable.",
+    },
+    {
+      q: "What is the probation process?",
+      a: "It is a one-month period focused on training and integration into society activities.",
+    },
+    {
+      q: "Is membership required for the community?",
+      a: "No. Our public WhatsApp community is open to all students interested in debate.",
+    },
   ];
 
   return (
@@ -49,7 +105,7 @@ export default function JoinPage() {
           <span className="h-px w-10 bg-[#2e3a28]/20" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4 text-left">
           {/* Member path — dark accent panel */}
           <div className="rounded-xs border border-[#2e3a28] bg-[color-mix(in_srgb,var(--surface)_70%,black)] p-8 flex flex-col items-center text-center gap-4">
             <span className="grid h-16 w-16 place-items-center rounded-full border border-[#fcfaf7]/30">
@@ -79,13 +135,14 @@ export default function JoinPage() {
               <Users className="h-7 w-7 text-primary" />
             </span>
             <h3 className="text-2xl! text-text-primary leading-snug">
-              I want to explore
+              Not Ready to
               <br />
-              the Community
+              Become a Member?
             </h3>
             <p className="text-sm text-text-secondary leading-relaxed">
-              Join our WhatsApp community to attend trainings, meet members,
-              ask questions and stay updated — no payment needed.
+              You can still join our public community to meet members, ask
+              questions, stay informed, and discover what UNDS is all about
+              before applying for membership.
             </p>
             <a
               href="https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2"
@@ -143,7 +200,9 @@ export default function JoinPage() {
       <section className="max-w-5xl mx-auto px-6 py-16 sm:py-20 grid md:grid-cols-2 gap-12 md:gap-20">
         {/* Guidelines */}
         <div className="flex flex-col gap-3">
-          <h2 className="text-2xl! sm:text-3xl! mb-8 sm:mb-12">Membership Guidelines</h2>
+          <h2 className="text-2xl! sm:text-3xl! mb-8 sm:mb-12">
+            Membership Guidelines
+          </h2>
           <div className="flex flex-col items-start gap-6 border-l border-[#2e3a28]">
             {guidelines.map((item, i) => (
               <div key={i} className="pl-6 flex items-start gap-3">
@@ -151,8 +210,12 @@ export default function JoinPage() {
                   <item.icon className="h-3.5 w-3.5 text-primary" />
                 </span>
                 <div>
-                  <h3 className="font-bold text-lg! mb-1 text-text-primary">{item.t}</h3>
-                  <p className="text-sm text-text-secondary leading-relaxed">{item.d}</p>
+                  <h3 className="font-bold text-lg! mb-1 text-text-primary">
+                    {item.t}
+                  </h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">
+                    {item.d}
+                  </p>
                 </div>
               </div>
             ))}
@@ -163,7 +226,9 @@ export default function JoinPage() {
         <div className="flex flex-col gap-6">
           <div className="rounded-xs bg-[color-mix(in_srgb,var(--surface)_70%,black)] p-8 sm:p-10 flex flex-col justify-center">
             <Trophy size={36} className="mb-6" />
-            <h2 className="text-2xl! sm:text-3xl! mb-4 ">Honorary Membership</h2>
+            <h2 className="text-2xl! sm:text-3xl! mb-4 ">
+              Honorary Membership
+            </h2>
             <div className="space-y-4  leading-relaxed text-sm">
               <p>
                 Outstanding speakers at UNDS-hosted tournaments and winners of
@@ -187,8 +252,12 @@ export default function JoinPage() {
               <Users className="h-5 w-5 text-primary" />
             </span>
             <div className="flex-1">
-              <h3 className="font-bold text-text-primary">Join the UNDS Community</h3>
-              <p className="text-xs text-text-secondary">Be part of our vibrant WhatsApp community.</p>
+              <h3 className="font-bold text-text-primary">
+                Join the UNDS Community
+              </h3>
+              <p className="text-xs text-text-secondary">
+                Be part of our vibrant WhatsApp community.
+              </p>
             </div>
             <ArrowRight className="h-4 w-4 text-text-muted shrink-0" />
           </a>
@@ -198,15 +267,25 @@ export default function JoinPage() {
       {/* ─── FAQ ─────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-20 border-t border-[#2e3a28]/10">
         <div className="max-w-3xl! mx-auto px-6 flex flex-col gap-4">
-          <h2 className="text-2xl! sm:text-3xl! mb-8 sm:mb-12 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl! sm:text-3xl! mb-8 sm:mb-12 text-center">
+            Frequently Asked Questions
+          </h2>
           <div className="space-y-6 sm:space-y-8">
             {faqs.map((faq, i) => (
-              <details key={i} className="group border-b border-[#2e3a28]/10 pb-6">
+              <details
+                key={i}
+                className="group border-b border-[#2e3a28]/10 pb-6"
+              >
                 <summary className="font-bold cursor-pointer flex justify-between items-center gap-4 text-base sm:text-lg text-text-primary">
                   {faq.q}
-                  <ChevronDown size={20} className="shrink-0 text-text-muted group-open:rotate-180 transition-transform" />
+                  <ChevronDown
+                    size={20}
+                    className="shrink-0 text-text-muted group-open:rotate-180 transition-transform"
+                  />
                 </summary>
-                <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">{faq.a}</p>
+                <p className="mt-4 text-sm sm:text-base text-text-secondary leading-relaxed">
+                  {faq.a}
+                </p>
               </details>
             ))}
           </div>
@@ -215,8 +294,13 @@ export default function JoinPage() {
 
       {/* ─── FOOTER CTA ──────────────────────────────────────────────── */}
       <section className="py-16 sm:py-20 text-center flex flex-col gap-6 items-center">
-        <h2 className="text-3xl! sm:text-4xl! mb-4 text-text-primary">Ready to begin?</h2>
-        <CornerClipButton href="/join/register" className="text-lg sm:text-xl font-bold font-garamond! px-7 py-3">
+        <h2 className="text-3xl! sm:text-4xl! mb-4 text-text-primary">
+          Ready to begin?
+        </h2>
+        <CornerClipButton
+          href="/join/register"
+          className="text-lg sm:text-xl font-bold font-garamond! px-7 py-3"
+        >
           Become a Spartan
         </CornerClipButton>
       </section>
