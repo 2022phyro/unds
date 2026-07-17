@@ -196,7 +196,7 @@ export default function AboutPage() {
 
                       {/* Highlights Section */}
                       {entry.highlights?.length > 0 && (
-                        <div className="border-t border-[#2e3a28]/15 bg-[#1a2417]/20 px-4">
+                        <div className="border-t border-[#2e3a28]/15 px-4 py-2 flex flex-col gap-3 pt-4">
                           <h4 className="mb-4 text-[10px]! font-bold uppercase tracking-widest text-primary/70!">
                             Key Milestones
                           </h4>

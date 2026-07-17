@@ -12,15 +12,41 @@ enum Role {
   USER
 }
 
+// ---------- Updated User Model ----------
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  passwordHash String
-  role         Role          @default(USER)
-  isStaff      Boolean       @default(false)
-  memberships  UserToGroup[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String?   // Made optional for new applicants
+  role          Role      @default(USER)
+  isStaff       Boolean   @default(false)
+  
+  // New Membership Fields
+  firstName     String?
+  lastName      String?
+  phone         String?
+  faculty       String?
+  department    String?
+  level         String?
+
+  // Existing Relationships
+  memberships   UserToGroup[]
+  
+  // New Application Relationship
+  application   MembershipApplication?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// ---------- New Application Model ----------
+model MembershipApplication {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  receiptUrl   String
+  status       String   @default("PENDING") // PENDING, INTERVIEW_INVITED, APPROVED, REJECTED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Group {
