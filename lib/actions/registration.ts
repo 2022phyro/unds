@@ -22,10 +22,10 @@ export async function deleteRegistrationAction(
         await db.individualRegistration.delete({ where: { id } });
         break;
       case "PS_REG":
-        await db.psRegistration.delete({ where: { id } });
+        await db.pSRegistration.delete({ where: { id } });
         break;
       case "PS_ADJ":
-        await db.psAdjudicatorRegistration.delete({ where: { id } });
+        await db.pSAdjudicatorRegistration.delete({ where: { id } });
         break;
     }
     
