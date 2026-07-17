@@ -127,7 +127,7 @@ export default function EventsRegistryClient({
                 (window.location.href = `/events/${featuredEvent.id}`)
               }
             >
-              <div className="absolute right-0 top-0 bg-[#2e3a28] text-[#fcfbf9] font-ui text-[9px] tracking-widest px-4 py-1.5 rounded-bl-xs z-10">
+              <div className="absolute right-0 top-17.5 bg-[#2e3a28] text-[#fcfbf9] font-ui text-[9px] tracking-widest px-4 py-1.5 rounded-bl-xs z-10">
                 Featured
               </div>
 

@@ -37,7 +37,7 @@ export function SectionReveal({ children, className = "", delay = 0 }: SectionRe
       observer.disconnect();
     };
   }, []);
-
+  
   const style: CSSProperties = {
     animationDelay: `${delay}ms`,
   };
