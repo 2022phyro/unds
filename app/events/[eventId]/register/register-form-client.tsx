@@ -4,18 +4,7 @@ import { useActionState, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  ShieldCheck,
-  Info,
-  Calendar,
-  MapPin,
-  Landmark,
-  Clock,
-  User,
-  Gavel,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, Info, User, Gavel } from "lucide-react";
 import {
   registerTeamAction,
   registerIndividualAction,
@@ -272,7 +261,10 @@ export default function RegisterFormClient({
             ) : track === "PS" ? (
               mode === "ADJUDICATOR" ? (
                 /* Public Speaking Adjudicator Form */
-                <form action={psAdjudicatorAction} className="space-y-6">
+                <form
+                  action={psAdjudicatorAction}
+                  className="flex flex-col gap-4 space-y-6"
+                >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field
                       label="Full Name"
@@ -286,6 +278,11 @@ export default function RegisterFormClient({
                       placeholder="you@example.com"
                     />
                   </div>
+                  <Field
+                    label="Institution / Chapter / Faculty"
+                    name="institution"
+                    placeholder="e.g., University of Nigeria, Nsukka"
+                  />
                   {psAdjudicatorState.error && (
                     <p className="text-xs font-manrope text-red-700">
                       {psAdjudicatorState.error}
@@ -327,7 +324,10 @@ export default function RegisterFormClient({
               )
             ) : mode === "ADJUDICATOR" ? (
               /* Independent Debate Adjudicator Form (IA) */
-              <form action={adjudicatorAction} className="space-y-6">
+              <form
+                action={adjudicatorAction}
+                className="flex flex-col gap-4 space-y-6"
+              >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Field
                     label="Full Name"
@@ -341,6 +341,11 @@ export default function RegisterFormClient({
                     placeholder="you@example.com"
                   />
                 </div>
+                <Field
+                  label="Institution / Chapter / Faculty"
+                  name="institution"
+                  placeholder="e.g., University of Nigeria, Nsukka"
+                />
                 {adjudicatorState.error && (
                   <p className="text-xs font-manrope text-red-700">
                     {adjudicatorState.error}

@@ -40,6 +40,7 @@ export default function SiteFooter() {
                 width={100}
                 height={100}
                 className="h-10 w-10 shrink-0 object-contain sm:h-14 sm:w-14"
+                priority
               />
               <p className="min-w-0 font-heading text-xl font-semibold leading-none text-primary-dark sm:text-2xl">
                 University of Nigeria Debating Society

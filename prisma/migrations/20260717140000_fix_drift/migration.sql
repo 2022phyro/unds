@@ -1,4 +1,3 @@
-◇ injected env (11) from .env // tip: ⌘ override existing { override: true }
 -- AlterTable
 ALTER TABLE "User" ADD COLUMN     "department" TEXT,
 ADD COLUMN     "faculty" TEXT,

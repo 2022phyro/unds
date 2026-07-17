@@ -122,6 +122,7 @@ model AdjudicatorRegistration {
   tournamentId String
   name         String
   email        String
+  institution  String           // <--- Add this
   createdAt    DateTime         @default(now())
   tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 
@@ -156,6 +157,7 @@ model PSAdjudicatorRegistration {
   tournamentId String
   name         String
   email        String
+  institution  String           // <--- Add this
   createdAt    DateTime         @default(now())
   tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 

@@ -16,6 +16,7 @@ export const teamRegistrationSchema = z.object({
 export const adjudicatorRegistrationSchema = z.object({
   name: z.string().min(1, { error: "Name is required." }),
   email: z.email({ error: "Enter a valid email." }),
+  institution: z.string().min(1, { error: "Institution is required." }), // Add this
 });
 
 export const individualRegistrationSchema = z.object({
@@ -32,4 +33,5 @@ export const psRegistrationSchema = z.object({
 export const psAdjudicatorRegistrationSchema = z.object({
   name: z.string().min(1, { error: "Name is required." }),
   email: z.email({ error: "Enter a valid email." }),
+  institution: z.string().min(1, { error: "Institution is required." }), // Add this
 });

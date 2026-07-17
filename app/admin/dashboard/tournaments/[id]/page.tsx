@@ -65,6 +65,7 @@ export default async function EditTournamentPage({
         columns={[
           { header: "Name", accessorKey: "name" },
           { header: "Email", accessorKey: "email" },
+          { header: "Institution", accessorKey: "institution" },
         ]}
       />
 
@@ -76,7 +77,8 @@ export default async function EditTournamentPage({
         data={tournament.psRegistrations}
         columns={[
           { header: "Name", accessorKey: "name" },
-          { header: "Email", accessorKey: "email" },
+          { header: "Email", accessorKey: "email" },          { header: "Institution", accessorKey: "institution" },
+
         ]}
       />
 
@@ -89,6 +91,8 @@ export default async function EditTournamentPage({
         columns={[
           { header: "Name", accessorKey: "name" },
           { header: "Email", accessorKey: "email" },
+                    { header: "Email", accessorKey: "email" },
+          { header: "Institution", accessorKey: "institution" },
         ]}
       />
     </div>
