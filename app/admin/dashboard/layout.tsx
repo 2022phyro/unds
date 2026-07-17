@@ -11,11 +11,12 @@ const NAV_ITEMS = [
 ];
 
 export default async function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
-  const [albumCount, tournamentCount, openInquiries, subscriberCount] = await Promise.all([
+  const [albumCount, tournamentCount, openInquiries, subscriberCount , userCount] = await Promise.all([
     db.album.count(),
     db.tournamentConfig.count(),
     db.contactMessage.count({ where: { resolved: false } }),
     db.newsletterSubscriber.count(),
+    db.user.count(),
   ]);
 
   const counts: Record<string, number> = {
@@ -23,6 +24,7 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
     Tournaments: tournamentCount,
     Inquiries: openInquiries,
     Subscribers: subscriberCount,
+    Users: userCount, 
   };
 
   return (
@@ -46,7 +48,7 @@ export default async function AdminDashboardLayout({ children }: { children: Rea
           ))}
         </nav>
         <form action={logoutAction} className="pt-4 border-t border-[#2e3a28]/10">
-          <button type="submit" className="text-xs font-ui btn btn-primary tracking-wider text-red-500 cursor-pointer">
+          <button type="submit" className="text-xs! font-ui btn btn-primary tracking-tight text-red-500 cursor-pointer">
             Sign Out
           </button>
         </form>

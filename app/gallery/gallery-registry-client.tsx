@@ -48,6 +48,7 @@ export default function GalleryRegistryClient({
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+// Place this inside the body of your component temporarily
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 700);

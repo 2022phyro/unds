@@ -20,7 +20,7 @@ export default async function AdminEditPage({
   if (!user) notFound();
 
   return (
-    <main className="bg-[#fcfaf7] min-h-screen p-12 font-serif text-[#2e3a28]">
+    <main className="bg-surface min-h-screen p-12 font-serif text-[#2e3a28]">
       <h1 className="text-3xl mb-8">Editing: {user.firstName} {user.lastName}</h1>
       
       <div className="grid lg:grid-cols-2 gap-12">
@@ -28,7 +28,7 @@ export default async function AdminEditPage({
         <EditUserForm user={user} />
 
         {/* Right: Receipt Preview */}
-        <div className="bg-white border border-[#2e3a28]/20 p-8">
+        <div className="bg-surface border border-[#2e3a28]/20 p-8">
           <h2 className="font-bold text-lg mb-4 uppercase tracking-widest text-xs">Receipt Image</h2>
           {user.application?.receiptUrl ? (
             <div className="relative w-full aspect-[3/4] border border-[#2e3a28]/10">
@@ -39,7 +39,7 @@ export default async function AdminEditPage({
               />
             </div>
           ) : (
-            <div className="h-64 flex items-center justify-center bg-gray-50 border border-dashed border-gray-300">
+            <div className="h-64 flex items-center justify-center border border-dashed border-gray-300">
               <p className="text-sm opacity-50">No receipt uploaded.</p>
             </div>
           )}

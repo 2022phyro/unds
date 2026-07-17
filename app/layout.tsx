@@ -38,13 +38,13 @@ export const metadata: Metadata = {
   authors: [{ name: "UNDS Executive Council" }],
   creator: "UNDS Technical team",
   publisher: "University of Nigeria Debating Society",
-  metadataBase: new URL("https://unds-nigeria.vercel.app"), // Swap to your staging URL (e.g., Vercel) while testing if needed
+  metadataBase: new URL("https://unndebatesociety.xyz"), // Swap to your staging URL (e.g., Vercel) while testing if needed
 
   // Open Graph (Facebook, WhatsApp, LinkedIn, Discord previews)
   openGraph: {
     title: "Welcome to University of Nigeria Debating Society",
     description: "The proving ground for the sharpest minds. Speak, learn, grow, and win",
-    url: "https://unds-nigeria.vercel.app",
+    url: "https://unndebatesociety.xyz",
     siteName: "University of Nigeria Debating Society",
     locale: "en_NG",
     type: "website",

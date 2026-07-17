@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://unds-nigeria.vercel.app'; // Swap to your staging URL (e.g., Vercel) while testing if needed
+  const baseUrl = 'https://unndebatesociety.xyz'; // Swap to your staging URL (e.g., Vercel) while testing if needed
 
   // 1. Your static routes
   const routes = [

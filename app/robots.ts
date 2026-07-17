@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://unds-nigeria.vercel.app/sitemap.xml', // Explicitly links your generated sitemap
+    sitemap: 'https://unndebatesociety.xyz/sitemap.xml', // Explicitly links your generated sitemap
   };
 }
