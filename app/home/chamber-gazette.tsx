@@ -75,7 +75,7 @@ export async function ChamberGazette() {
               "Debating is a reading sport before it's a speaking sport."
             </p>
             <cite className="block text-xs font-mono not-italic text-text-muted">
-              — Raymond, ANUDC Champion '25
+              — Raymond, ANUDC Champion '23
             </cite>
           </blockquote>
         </div>
