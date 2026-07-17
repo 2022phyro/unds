@@ -40,7 +40,7 @@ export default function JoinPage() {
         </h1>
         <p className="text-lg sm:text-xl max-w-xl mx-auto leading-relaxed text-text-secondary mb-8">
           Whether you're ready to lead debates and represent UNDS, or you're
-          just exploring — you belong here.
+          just exploring, you belong here.
         </p>
 
         <div className="flex items-center justify-center gap-4 text-[10px] font-bold uppercase tracking-[0.25em] text-text-muted mb-2">

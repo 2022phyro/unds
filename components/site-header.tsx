@@ -141,7 +141,7 @@ export default function SiteHeader() {
               })}
             </div>
             <ThemeToggle />
-            <CornerClipButton href="join" className="font-garamond">
+            <CornerClipButton href="/join" className="font-garamond">
               Join Today
             </CornerClipButton>
           </nav>
