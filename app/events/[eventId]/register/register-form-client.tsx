@@ -286,7 +286,7 @@ export default function RegisterFormClient({
                     />
                   </div>
                   <Field
-                    label="Institution / Chapter / Faculty"
+                    label=" Faculty / Department"
                     name="institution"
                     placeholder="e.g. Civil Engineering/Engineering"
                   />
@@ -317,7 +317,7 @@ export default function RegisterFormClient({
                     />
                   </div>
                   <Field
-                    label="Institution / Chapter / Faculty"
+                    label=" Faculty / Department"
                     name="institution"
                     placeholder="e.g. Civil Engineering/Engineering"
                   />
@@ -349,7 +349,7 @@ export default function RegisterFormClient({
                   />
                 </div>
                 <Field
-                  label="Institution / Chapter / Faculty"
+                  label=" Faculty / Department"
                   name="institution"
                   placeholder="e.g. Civil Engineering/Engineering"
                 />
@@ -366,7 +366,7 @@ export default function RegisterFormClient({
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field
-                      label="Institution / Chapter / Faculty"
+                      label=" Faculty / Department"
                       name="institution"
                       placeholder="e.g. Civil Engineering/Engineering"
                     />

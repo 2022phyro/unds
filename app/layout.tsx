@@ -5,6 +5,7 @@ import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import { ThemeProvider } from "next-themes";
 import { HeroFireflies } from "@/components/fireflies";
+import { Analytics } from "@vercel/analytics/next";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
@@ -21,19 +22,19 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 
-
 export const metadata: Metadata = {
   title: {
     default: "University of Nigeria Debating Society // The Spartans",
     template: "%s | University of Nigeria Debating Society",
   },
-  description: "Home of intellectual discourse, oratorial excellence, and public speaking. We forge analytical thinkers and public advocates commanding global tournament circuits.",
+  description:
+    "Home of intellectual discourse, oratorial excellence, and public speaking. We forge analytical thinkers and public advocates commanding global tournament circuits.",
   keywords: [
-    "UNDS", 
-    "University of Nigeria Debating Society", 
-    "The Spartans", 
-    "Debate Union Nigeria", 
-    "British Parliamentary Debate"
+    "UNDS",
+    "University of Nigeria Debating Society",
+    "The Spartans",
+    "Debate Union Nigeria",
+    "British Parliamentary Debate",
   ],
   authors: [{ name: "UNDS Executive Council" }],
   creator: "UNDS Technical team",
@@ -43,7 +44,8 @@ export const metadata: Metadata = {
   // Open Graph (Facebook, WhatsApp, LinkedIn, Discord previews)
   openGraph: {
     title: "Welcome to University of Nigeria Debating Society",
-    description: "The proving ground for the sharpest minds. Speak, learn, grow, and win",
+    description:
+      "The proving ground for the sharpest minds. Speak, learn, grow, and win",
     url: "https://unndebatesociety.xyz",
     siteName: "University of Nigeria Debating Society",
     locale: "en_NG",
@@ -62,7 +64,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "University of Nigeria Debating Society // Home of the Spartans",
-    description: "Forge analytical clarity, master public speaking, and compete on international debating circuits.",
+    description:
+      "Forge analytical clarity, master public speaking, and compete on international debating circuits.",
     images: ["/banner.png"], // Your newly generated PNG banner from /public
   },
 
@@ -87,9 +90,6 @@ export const metadata: Metadata = {
   },
 };
 
-
-
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -98,7 +98,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning  
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${playfairDisplay.variable} ${ebGaramond.variable} ${manrope.variable} h-full antialiased`}
     >
@@ -110,11 +110,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SiteHeader />
-          <main className="relative flex-1">
-            {children}
-          </main>
+          <main className="relative flex-1">{children}</main>
           <SiteFooter />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

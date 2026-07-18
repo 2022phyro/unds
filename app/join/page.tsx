@@ -87,7 +87,7 @@ export default function JoinPage() {
   return (
     <main className="min-h-screen font-serif text-text-primary">
       {/* ─── HERO + PATH CHOOSER ────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-6 py-16 sm:py-24 text-center border-b border-[#2e3a28]/10 flex flex-col gap-4">
+      <section className="mx-auto px-6 lg:px-10 py-16 sm:py-24 text-center border-b border-[#2e3a28]/10 flex flex-col items-start gap-4">
         <span className="text-xs uppercase tracking-[0.3em] text-text-muted mb-4 block">
           Unity. Voice. Impact.
         </span>
@@ -105,9 +105,8 @@ export default function JoinPage() {
           <span className="h-px w-10 bg-[#2e3a28]/20" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4 text-left">
-          {/* Member path — dark accent panel */}
-          <div className="rounded-xs border border-[#2e3a28] bg-[color-mix(in_srgb,var(--surface)_70%,black)] p-8 flex flex-col items-center text-center gap-4">
+        <div className="flex flex-row items-center justify-center w-full">
+          {/* <div className="rounded-xs border max-w-150  border-[#2e3a28] bg-[color-mix(in_srgb,var(--surface)_70%,black)] p-8 flex flex-col items-center text-center gap-4">
             <span className="grid h-16 w-16 place-items-center rounded-full border border-[#fcfaf7]/30">
               <Shield className="h-7 w-7 text-[#fcfaf7]" />
             </span>
@@ -127,10 +126,10 @@ export default function JoinPage() {
               Begin Membership
               <ArrowRight className="h-4 w-4" />
             </Link>
-          </div>
+          </div> */}
 
           {/* Community path — light panel */}
-          <div className="rounded-xs border border-[#2e3a28]/20 bg-[color-mix(in_srgb,var(--surface)_95%,black)] p-8 flex flex-col items-center text-center gap-4">
+          {/* <div className="rounded-xs border border-[#2e3a28]/20 bg-[color-mix(in_srgb,var(--surface)_95%,black)] p-8 flex flex-col items-center text-center gap-4">
             <span className="grid h-16 w-16 place-items-center rounded-full border border-[#2e3a28]/25">
               <Users className="h-7 w-7 text-primary" />
             </span>
@@ -151,7 +150,7 @@ export default function JoinPage() {
               <MessageCircle className="h-4 w-4" />
               Join the UNDS Community
             </a>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -245,7 +244,7 @@ export default function JoinPage() {
           </div>
 
           <a
-            href="https://chat.whatsapp.com/LvI1vW1kB0f9L2EB3JgJ87?s=cl&p=a&ilr=1&amv=2"
+            href="/join/register"
             className="rounded-xs border border-[#2e3a28]/20 bg-[color-mix(in_srgb,var(--surface)_95%,black)] p-6 flex items-center gap-4 hover:border-[#2e3a28]/40 transition-colors"
           >
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[#2e3a28]/25">
