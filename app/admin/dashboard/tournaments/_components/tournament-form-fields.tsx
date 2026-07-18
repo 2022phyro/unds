@@ -3,18 +3,27 @@ import { ScheduleEditor } from "./schedule-editor";
 import { FaqEditor } from "./faq-editor";
 import type { TournamentConfig } from "@prisma/client";
 import type { ScheduleSlot, FaqEntry } from "@/lib/view-models/events";
+import { LinksEditor } from "./links-editor"; // Import your new component
 
 interface TournamentFormFieldsProps {
   tournament?: TournamentConfig;
 }
 
-export function TournamentFormFields({ tournament }: TournamentFormFieldsProps) {
+export function TournamentFormFields({
+  tournament,
+}: TournamentFormFieldsProps) {
   const schedule = (tournament?.schedule as unknown as ScheduleSlot[]) ?? [];
   const faqs = (tournament?.faqs as unknown as FaqEntry[]) ?? [];
-
+  const links =
+    (tournament?.links as unknown as { label: string; url: string }[]) ?? [];
   return (
     <>
-      <FormField label="Slug" name="slug" defaultValue={tournament?.slug} required />
+      <FormField
+        label="Slug"
+        name="slug"
+        defaultValue={tournament?.slug}
+        required
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <SelectField
           label="Type"
@@ -26,7 +35,13 @@ export function TournamentFormFields({ tournament }: TournamentFormFieldsProps) 
           label="Status"
           name="status"
           defaultValue={tournament?.status ?? "REGISTRATION_OPEN"}
-          options={["REGISTRATION_OPEN", "REGISTRATION_LOCKED", "COMPLETED", "ONGOING", "CLOSING_SOON"]}
+          options={[
+            "REGISTRATION_OPEN",
+            "REGISTRATION_LOCKED",
+            "COMPLETED",
+            "ONGOING",
+            "CLOSING_SOON",
+          ]}
         />
       </div>
       <FormField
@@ -36,10 +51,23 @@ export function TournamentFormFields({ tournament }: TournamentFormFieldsProps) 
         placeholder="Applications open • Closes in 18 days"
         required
       />
-      <FormField label="Scope Text" name="scopeText" defaultValue={tournament?.scopeText} placeholder="Open to everyone" required />
-      <FormField label="Title" name="title" defaultValue={tournament?.title} required />
+      <FormField
+        label="Scope Text"
+        name="scopeText"
+        defaultValue={tournament?.scopeText}
+        placeholder="Open to everyone"
+        required
+      />
+      <FormField
+        label="Title"
+        name="title"
+        defaultValue={tournament?.title}
+        required
+      />
       <div className="space-y-1">
-        <label className="font-ui text-[10px] tracking-widest text-text-muted">DESCRIPTION</label>
+        <label className="font-ui text-[10px] tracking-widest text-text-muted">
+          DESCRIPTION
+        </label>
         <textarea
           name="description"
           defaultValue={tournament?.description}
@@ -49,7 +77,13 @@ export function TournamentFormFields({ tournament }: TournamentFormFieldsProps) 
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <FormField label="Debate Format" name="debateFormat" defaultValue={tournament?.debateFormat} placeholder="BRITISH PARLIAMENTARY" required />
+        <FormField
+          label="Debate Format"
+          name="debateFormat"
+          defaultValue={tournament?.debateFormat}
+          placeholder="BRITISH PARLIAMENTARY"
+          required
+        />
         <SelectField
           label="Delivery Mode"
           name="deliveryMode"
@@ -57,14 +91,29 @@ export function TournamentFormFields({ tournament }: TournamentFormFieldsProps) 
           options={["ONLINE", "OFFLINE", "HYBRID"]}
         />
       </div>
-      <FormField label="Location" name="location" defaultValue={tournament?.location} required />
+      <FormField
+        label="Location"
+        name="location"
+        defaultValue={tournament?.location}
+        required
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <FormField label="Date String" name="dateString" defaultValue={tournament?.dateString} placeholder="OCT 22-25, 2026" required />
+        <FormField
+          label="Date String"
+          name="dateString"
+          defaultValue={tournament?.dateString}
+          placeholder="OCT 22-25, 2026"
+          required
+        />
         <FormField
           label="Sort Date"
           name="sortDate"
           type="date"
-          defaultValue={tournament?.sortDate ? tournament.sortDate.toISOString().slice(0, 10) : undefined}
+          defaultValue={
+            tournament?.sortDate
+              ? tournament.sortDate.toISOString().slice(0, 10)
+              : undefined
+          }
           required
         />
       </div>
@@ -101,16 +150,26 @@ export function TournamentFormFields({ tournament }: TournamentFormFieldsProps) 
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2e3a28]/10 pt-4">
         <label className="flex items-center gap-2 text-xs font-manrope">
-          <input type="checkbox" name="includesPS" defaultChecked={tournament?.includesPS} />
+          <input
+            type="checkbox"
+            name="includesPS"
+            defaultChecked={tournament?.includesPS}
+          />
           Tournament includes Public Speaking
         </label>
         <label className="flex items-center gap-2 text-xs font-manrope">
-          <input type="checkbox" name="psAdjudicatorsAllowed" defaultChecked={tournament?.psAdjudicatorsAllowed} />
+          <input
+            type="checkbox"
+            name="psAdjudicatorsAllowed"
+            defaultChecked={tournament?.psAdjudicatorsAllowed}
+          />
           Allow independent adjudicators to register for Public Speaking
         </label>
       </div>
       <div className="space-y-1">
-        <label className="font-ui text-[10px] tracking-widest text-text-muted">WHO SHOULD ATTEND (one per line)</label>
+        <label className="font-ui text-[10px] tracking-widest text-text-muted">
+          WHO SHOULD ATTEND (one per line)
+        </label>
         <textarea
           name="whoShouldAttend"
           defaultValue={tournament?.whoShouldAttend.join("\n")}
@@ -119,17 +178,31 @@ export function TournamentFormFields({ tournament }: TournamentFormFieldsProps) 
         />
       </div>
       <div className="space-y-1">
-        <label className="font-ui text-[10px] tracking-widest text-text-muted">SCHEDULE</label>
+        <label className="font-ui text-[10px] tracking-widest text-text-muted">
+          SCHEDULE
+        </label>
         <ScheduleEditor name="schedule" initialRows={schedule} />
       </div>
       <div className="space-y-1">
-        <label className="font-ui text-[10px] tracking-widest text-text-muted">FAQS</label>
+        <label className="font-ui text-[10px] tracking-widest text-text-muted">
+          FAQS
+        </label>
         <FaqEditor name="faqs" initialRows={faqs} />
       </div>
       <label className="flex items-center gap-2 text-xs font-manrope">
-        <input type="checkbox" name="isFeatured" defaultChecked={tournament?.isFeatured} />
+        <input
+          type="checkbox"
+          name="isFeatured"
+          defaultChecked={tournament?.isFeatured}
+        />
         Featured on /events
       </label>
+      <div className="space-y-1">
+        <label className="font-ui text-[10px] tracking-widest text-text-muted">
+          LINKS
+        </label>
+        <LinksEditor name="links" initialRows={links} />
+      </div>
     </>
   );
 }
@@ -147,8 +220,14 @@ function SelectField({
 }) {
   return (
     <div className="space-y-1">
-      <label className="font-ui text-[10px] tracking-widest text-text-muted">{label.toUpperCase()}</label>
-      <select name={name} defaultValue={defaultValue} className="w-full border border-[#2e3a28]/20 px-3 py-2 text-sm font-manrope">
+      <label className="font-ui text-[10px] tracking-widest text-text-muted">
+        {label.toUpperCase()}
+      </label>
+      <select
+        name={name}
+        defaultValue={defaultValue}
+        className="w-full border border-[#2e3a28]/20 px-3 py-2 text-sm font-manrope"
+      >
         {options.map((opt) => (
           <option key={opt} value={opt}>
             {opt}

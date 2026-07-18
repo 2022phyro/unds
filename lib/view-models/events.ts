@@ -64,6 +64,7 @@ export interface EventDetailView {
   schedule: ScheduleSlot[];
   faqs: FaqEntry[];
   includesPS: boolean;
+  links: { [key: string]: string }; // Add this line to define the links property
 }
 
 export function toEventDetail(tournament: TournamentConfig): EventDetailView {
@@ -81,6 +82,7 @@ export function toEventDetail(tournament: TournamentConfig): EventDetailView {
     schedule: (tournament.schedule as unknown as ScheduleSlot[]) ?? [],
     faqs: (tournament.faqs as unknown as FaqEntry[]) ?? [],
     includesPS: tournament.includesPS,
+    links: (tournament.links as unknown as { [key: string]: string }) ?? {}, // Add this line to include links
   };
 }
 
@@ -94,6 +96,7 @@ export interface RegisterEventView {
   includesPS: boolean;
   psAdjudicatorsAllowed: boolean;
   statusText: string;
+  links: { [key: string]: string }[]; // Add this line to define the links property
 }
 
 export function toRegisterEvent(tournament: TournamentConfig): RegisterEventView {
@@ -107,6 +110,8 @@ export function toRegisterEvent(tournament: TournamentConfig): RegisterEventView
     statusText: tournament.statusText,
     includesPS: tournament.includesPS,
     psAdjudicatorsAllowed: tournament.psAdjudicatorsAllowed,
+    links: (tournament.links as unknown as { [key: string]: string }[]) ?? [], // Add this line to include links
+
   };
 }
 

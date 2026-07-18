@@ -12,7 +12,7 @@ export default function EditTournamentForm({ tournament }: { tournament: Tournam
   const [state, formAction, isPending] = useActionState(updateWithId, initialState);
 
   return (
-    <form action={formAction} className="space-y-4">
+    <form action={formAction} className="space-y-4 flex flex-col gap-4">
       <TournamentFormFields tournament={tournament} />
       {state.error && <p className="text-xs font-manrope text-red-700">{state.error}</p>}
       <button

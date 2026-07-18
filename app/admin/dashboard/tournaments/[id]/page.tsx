@@ -65,6 +65,17 @@ export default async function EditTournamentPage({
           { header: "Institution", accessorKey: "institution" },
         ]}
       />
+      <RegistrationTable
+        title="Debate Individual Registrations"
+        type="INDIVIDUAL"
+        tournamentId={id}
+        data={tournament.individualRegistrations}
+        columns={[
+          { header: "Name", accessorKey: "name" },
+          { header: "Email", accessorKey: "email" },
+          { header: "Institution", accessorKey: "institution" },
+        ]}
+      />
 
       {/* Example for Adjudicators */}
       <RegistrationTable

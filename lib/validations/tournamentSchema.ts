@@ -53,6 +53,8 @@ export const tournamentSchema = z.object({
     ),
   schedule: parseJsonArray("Schedule"),
   faqs: parseJsonArray("FAQs"),
+  links: parseJsonArray("Links"),
+
   isFeatured: z
     .union([z.literal("on"), z.undefined()])
     .optional()

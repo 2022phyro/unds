@@ -4,7 +4,14 @@ import { useActionState, useState } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Info, User, Gavel } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Info,
+  User,
+  Gavel,
+  Users,
+} from "lucide-react";
 import {
   registerTeamAction,
   registerIndividualAction,
@@ -15,12 +22,14 @@ import {
 } from "@/lib/actions/tournaments";
 import type { RegisterEventView } from "@/lib/view-models/events";
 
+type Mode = "PARTICIPANT" | "ADJUDICATOR" | "INDIVIDUAL";
 interface RegisterFormClientProps {
   tournamentId: string;
   eventId: string;
   event: RegisterEventView;
   initialTrack: "DEBATE" | "PS";
   initialMode: "PARTICIPANT" | "ADJUDICATOR";
+  links: { [key: string]: string }; // Add this line to define the links prop
 }
 
 const initialState: ActionState = {};
@@ -50,21 +59,19 @@ export default function RegisterFormClient({
 
   // Resolve Mode from URL query params or Fallback properties
   const urlMode = searchParams.get("mode")?.toUpperCase();
+  console.log(event)
   const resolvedInitialMode =
-    urlMode === "ADJUDICATOR" || urlMode === "PARTICIPANT"
-      ? (urlMode as "PARTICIPANT" | "ADJUDICATOR")
+    urlMode === "ADJUDICATOR" ||
+    urlMode === "PARTICIPANT" ||
+    urlMode === "INDIVIDUAL"
+      ? (urlMode as Mode) // Now correctly casts to your Mode type
       : initialMode;
 
   const [track, setTrack] = useState<"DEBATE" | "PS">(resolvedInitialTrack);
-  const [mode, setMode] = useState<"PARTICIPANT" | "ADJUDICATOR">(
-    resolvedInitialMode,
-  );
+  const [mode, setMode] = useState<Mode>(resolvedInitialMode as Mode);
 
   // Helper to update URL params cleanly on interaction without triggering re-render loops
-  const updateUrlParams = (
-    newTrack: "DEBATE" | "PS",
-    newMode: "PARTICIPANT" | "ADJUDICATOR",
-  ) => {
+  const updateUrlParams = (newTrack: "DEBATE" | "PS", newMode: Mode) => {
     const params = new URLSearchParams(window.location.search);
     params.set("track", newTrack.toLowerCase());
     params.set("mode", newMode.toLowerCase());
@@ -77,11 +84,16 @@ export default function RegisterFormClient({
     updateUrlParams(nextTrack, "PARTICIPANT");
   };
 
-  const handleModeChange = (nextMode: "PARTICIPANT" | "ADJUDICATOR") => {
+  const targetKey = `${track}.${mode}`.toLowerCase();
+
+// 2. Find the object where the key matches
+const foundLink = event.links?.find(
+  (item) => item.label.toLowerCase() === targetKey
+);
+  const handleModeChange = (nextMode: Mode) => {
     setMode(nextMode);
     updateUrlParams(track, nextMode);
   };
-
   // Form State Actions Hooks
   const [teamState, teamAction, teamPending] = useActionState(
     registerTeamAction.bind(null, tournamentId),
@@ -120,9 +132,9 @@ export default function RegisterFormClient({
         : psState
       : mode === "ADJUDICATOR"
         ? adjudicatorState
-        : event.registrationType === "TEAM"
-          ? teamState
-          : individualState;
+        : mode === "INDIVIDUAL"
+          ? individualState
+          : teamState;
   const isSuccess = activeState.success === true;
 
   // Rule: N+1 or FIXED policies require team-associated adjudicators
@@ -187,42 +199,56 @@ export default function RegisterFormClient({
                 Registering As
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-sm">
-                {(["PARTICIPANT", "ADJUDICATOR"] as const).map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => handleModeChange(m)}
-                    className={`flex items-center gap-3 p-4 border rounded-xs text-left transition-all ${
-                      mode === m
-                        ? "border-[#2e3a28] bg-[#2e3a28]/5"
-                        : "border-[#2e3a28]/10 hover:border-[#2e3a28]/30"
-                    }`}
-                  >
-                    {/* Icons based on your design */}
-                    <div
-                      className={
-                        mode === m ? "text-[#2e3a28]" : "text-text-muted"
-                      }
-                    >
-                      {m === "PARTICIPANT" ? (
-                        <User size={20} />
-                      ) : (
-                        <Gavel size={20} />
-                      )}
-                    </div>
-                    <div>
-                      <div className="font-bold text-sm">
-                        {m === "PARTICIPANT"
-                          ? "Participant"
-                          : "Independent Adjudicator"}
-                      </div>
-                      <div className="text-[9px] text-text-muted">
-                        Register as a{" "}
-                        {m === "PARTICIPANT" ? "speaker" : "adjudicator"}
-                      </div>
-                    </div>
-                  </button>
-                ))}
+                {(["PARTICIPANT", "ADJUDICATOR", "INDIVIDUAL"] as const).map(
+                  (m) => {
+                    if (track === "PS" && m === "INDIVIDUAL") return null;
+
+                    return (
+                      <button
+                        key={m}
+                        type="button"
+                        onClick={() => handleModeChange(m)}
+                        className={`flex items-center gap-3 p-4 border rounded-xs text-left transition-all ${
+                          mode === m
+                            ? "border-[#2e3a28] bg-[#2e3a28]/5"
+                            : "border-[#2e3a28]/10 hover:border-[#2e3a28]/30"
+                        }`}
+                      >
+                        {/* Icons based on your design */}
+                        <div
+                          className={
+                            mode === m ? "text-[#2e3a28]" : "text-text-muted"
+                          }
+                        >
+                          {m === "PARTICIPANT" && track === "DEBATE" ? (
+                            <Users size={20} />
+                          ) : m === "ADJUDICATOR" ? (
+                            <Gavel size={20} />
+                          ) : (
+                            <User size={20} />
+                          )}
+                        </div>
+                        <div>
+                          <div className="font-bold text-sm">
+                            {m === "PARTICIPANT"
+                              ? "Participant"
+                              : m === "INDIVIDUAL"
+                                ? "Individual"
+                                : "Independent Adjudicator"}
+                          </div>
+                          <div className="text-[9px] text-text-muted">
+                            Register as a{" "}
+                            {m === "PARTICIPANT"
+                              ? "speaker"
+                              : m === "INDIVIDUAL"
+                                ? "individual"
+                                : "adjudicator"}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  },
+                )}
               </div>
             </div>
           </div>
@@ -245,24 +271,19 @@ export default function RegisterFormClient({
                     Registration Successful
                   </h4>
                   <p className="font-garamond text-sm text-text-secondary max-w-sm mx-auto leading-relaxed">
-                    Keep in touch with the tournament organizers for updates and next steps.
+                    Keep in touch with the tournament organizers for updates and
+                    next steps.
                   </p>
+                  {/* Dynamic Link */}
+                  {/* Dynamic Link with fallback */}
                   <a
-                    href="https://chat.whatsapp.com/L4kqJU1XBluKQiVJnyokyr"
+                    href={foundLink?.url ||  "#"}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-primary font-bold text-sm underline"
+                    className="btn btn-primary font-bold text-sm underline mt-4 block"
                   >
-                    Join Whatsapp Group
+                    Join the {mode.toLowerCase()} Group
                   </a>
-                </div>
-                <div className="pt-4">
-                  <Link
-                    href="/events"
-                    className="px-5 py-2.5 border border-[#2e3a28] font-manrope text-sm tracking-wider font-bold hover:bg-[#2e3a28] hover:text-white! transition-all"
-                  >
-                    Explore More Events
-                  </Link>
                 </div>
               </motion.div>
             ) : track === "PS" ? (
@@ -286,7 +307,7 @@ export default function RegisterFormClient({
                     />
                   </div>
                   <Field
-                    label=" Faculty / Department"
+                    label="Faculty / Department"
                     name="institution"
                     placeholder="e.g. Civil Engineering/Engineering"
                   />
@@ -317,7 +338,7 @@ export default function RegisterFormClient({
                     />
                   </div>
                   <Field
-                    label=" Faculty / Department"
+                    label="Faculty / Department"
                     name="institution"
                     placeholder="e.g. Civil Engineering/Engineering"
                   />
@@ -349,7 +370,7 @@ export default function RegisterFormClient({
                   />
                 </div>
                 <Field
-                  label=" Faculty / Department"
+                  label="Faculty / Department"
                   name="institution"
                   placeholder="e.g. Civil Engineering/Engineering"
                 />
@@ -360,13 +381,41 @@ export default function RegisterFormClient({
                 )}
                 <SubmitRow isPending={adjudicatorPending} />
               </form>
-            ) : event.registrationType === "TEAM" ? (
+            ) : mode === "INDIVIDUAL" ? (
+              <form action={individualAction} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field
+                    label="Full Legal Name"
+                    name="name"
+                    placeholder="Your Name"
+                  />
+                  <Field
+                    label="Contact Email"
+                    name="email"
+                    type="email"
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <Field
+                  label="Faculty / Department"
+                  name="institution"
+                  placeholder="e.g. Engineering"
+                />
+
+                {individualState.error && (
+                  <p className="text-xs font-manrope text-red-700">
+                    {individualState.error}
+                  </p>
+                )}
+                <SubmitRow isPending={individualPending} />
+              </form>
+            ) : (
               /* Team Registration Form (Plus Optional N+1/Fixed Institutional Adj) */
               <form action={teamAction} className="space-y-6 w-full">
                 <div className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field
-                      label=" Faculty / Department"
+                      label="Faculty / Department"
                       name="institution"
                       placeholder="e.g. Civil Engineering/Engineering"
                     />
@@ -446,29 +495,6 @@ export default function RegisterFormClient({
                   </p>
                 )}
                 <SubmitRow isPending={teamPending} />
-              </form>
-            ) : (
-              /* Individual Debate Participant Form */
-              <form action={individualAction} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field
-                    label="Full Legal Name"
-                    name="name"
-                    placeholder="Your First & Last Name"
-                  />
-                  <Field
-                    label="Contact Email Address"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                  />
-                </div>
-                {individualState.error && (
-                  <p className="text-xs font-manrope text-red-700">
-                    {individualState.error}
-                  </p>
-                )}
-                <SubmitRow isPending={individualPending} />
               </form>
             )}
           </div>

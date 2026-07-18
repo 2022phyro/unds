@@ -88,6 +88,7 @@ model TournamentConfig {
   whoShouldAttend            String[]                    @default([])
   schedule                   Json
   faqs                       Json
+  links                    Json                      @default("[]")
   isFeatured                 Boolean                     @default(false)
   createdAt                  DateTime                    @default(now())
   updatedAt                  DateTime                    @updatedAt
@@ -134,6 +135,7 @@ model IndividualRegistration {
   tournamentId String
   name         String
   email        String
+  institution  String           @default("") // <--- Added with default value
   createdAt    DateTime         @default(now())
   tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 

@@ -55,7 +55,6 @@ export async function updateTournamentAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireStaff();
-
   const parsed = tournamentSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
     return {
