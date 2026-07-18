@@ -29,7 +29,6 @@ interface RegisterFormClientProps {
   event: RegisterEventView;
   initialTrack: "DEBATE" | "PS";
   initialMode: "PARTICIPANT" | "ADJUDICATOR";
-  links: { [key: string]: string }; // Add this line to define the links prop
 }
 
 const initialState: ActionState = {};
