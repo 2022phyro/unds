@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { IconQuote } from "@tabler/icons-react";
 
 type Testimonial = {
   quote: string;
@@ -11,70 +12,78 @@ type Testimonial = {
   achievements: string;
 };
 
-type TestimonialsCarouselProps = {
+export function TestimonialsCarousel({
+  testimonials,
+}: {
   testimonials: Testimonial[];
-};
-
-export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps) {
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const previous = () => {
-    setActiveIndex((current) => (current - 1 + testimonials.length) % testimonials.length);
-  };
-
-  const next = () => {
+  const previous = () =>
+    setActiveIndex(
+      (current) => (current - 1 + testimonials.length) % testimonials.length,
+    );
+  const next = () =>
     setActiveIndex((current) => (current + 1) % testimonials.length);
-  };
 
   return (
-    <section 
-      className="w-full overflow-hidden relative"
-      aria-roledescription="carousel"
-      aria-label="Testimonials focus carousel"
+    <section
+      className="w-full relative py-12"
+      aria-label="Testimonials carousel"
     >
-      {/* --- WIDESCREEN SLIDER TRACK --- */}
-      <div className="relative w-full h-100 flex items-center justify-center">
+      {/* 1. Fixed Height Wrapper: Prevents layout jump */}
+      <div className="relative w-full h-[450px] flex items-center justify-center overflow-visible">
         <div className="flex items-center justify-center w-full h-full relative">
-          {testimonials.map((testimonial, index) => {
-            // Calculate relative offset position from the active center index
+          {testimonials.map((t, index) => {
             let offset = index - activeIndex;
-            
-            // Loop calculations over the array bounds cleanly
             if (offset < -1) offset += testimonials.length;
             if (offset > 1) offset -= testimonials.length;
 
             const isActive = offset === 0;
-            const isLeft = offset === -1;
-            const isRight = offset === 1;
-            const isHidden = !isActive && !isLeft && !isRight;
+            const isHidden = Math.abs(offset) > 1;
 
             return (
               <div
                 key={index}
                 onClick={() => !isActive && setActiveIndex(index)}
-                className={`absolute w-[90%] sm:w-[500px] transition-all duration-500 ease-out cursor-pointer select-none
-                  ${isActive ? "z-30 opacity-100 scale-100 blur-0 pointer-events-auto" : ""}
-                  ${isLeft ? "z-10 opacity-40 -translate-x-[60%] sm:-translate-x-[75%] scale-85 blur-[2px]" : ""}
-                  ${isRight ? "z-10 opacity-40 translate-x-[60%] sm:translate-x-[75%] scale-85 blur-[2px]" : ""}
-                  ${isHidden ? "opacity-0 scale-75 pointer-events-none z-0" : ""}
+                className={`absolute w-[90%] sm:w-[450px] transition-all duration-500 ease-out cursor-pointer select-none
+                  ${isActive ? "z-30 opacity-100 scale-100 blur-0" : "z-10 opacity-40 blur-[2px]"}
+                  ${offset === -1 ? "-translate-x-[60%] sm:-translate-x-[110%]" : ""}
+                  ${offset === 1 ? "translate-x-[60%] sm:translate-x-[110%]" : ""}
+                  ${isHidden ? "opacity-0 scale-75 pointer-events-none" : ""}
                 `}
               >
-                {/* Book Themed Card Frame */}
-                <article className="surface border border-y-border border-r-border border-l-border/60 p-6 sm:p-8 rounded-r-2xl rounded-l-xs shadow-md relative min-h-[240px] flex flex-col justify-between before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-border/20 before:rounded-l-xs bg-[var(--surface)]">
-                  <p className="font-manrope text-medium  italic leading-relaxed text-text-secondary">
-                    “{testimonial.quote}”
-                  </p>
+                {/* 2. Fixed height article with flex-col */}
+                <article className="h-[400px] flex flex-col p-8 rounded-2xl border border-border bg-[var(--surface)] shadow-lg">
+                  {/* Quote Section: flex-1 ensures it takes available space. line-clamp-6 cuts long text. */}
+                  <div className="flex-1 overflow-hidden flex-col items-center justify-center">
+                    <p className="font-manrope flex flex-col gap-3 items-start text-sm sm:text-medium italic leading-relaxed text-text-secondary line-clamp-[9]">
+                      <IconQuote className="scale-x-[-1]" />
+                      {t.quote}
+                    </p>
+                  </div>
 
-                  <div className="mt-6 flex items-center gap-3 border-t border-border/40 pt-4">
+                  {/* Footer Section: Locked to the bottom */}
+                  <div className="mt-6 pt-6 border-t border-border/40 flex items-center gap-4">
                     <img
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      className="h-20 w-20 rounded-full object-cover ring-1 ring-accent/35"
+                      src={t.avatar}
+                      alt={t.name}
+                      className="h-14 w-14 rounded-full object-cover ring-2 ring-accent/20"
                     />
-                    <div>
-                      <p className="text-sm font-semibold text-text-primary">{testimonial.name}</p>
-                      <p className="text-xs uppercase tracking-[0.2em] text-text-muted">{testimonial.role}</p>
-                      <p className="text-lg text-bold leading-tight whitespace-pre-line font-garamond text-text-muted">{testimonial.achievements}</p>
+                    <div className="flex-1 overflow-hidden">
+                      <p className="font-semibold text-text-primary text-sm truncate">
+                        {t.name}
+                      </p>
+                      <p className="text-[10px] uppercase tracking-wider text-text-muted truncate mb-1">
+                        {t.role}
+                      </p>
+
+                      {/* Achievement Badge */}
+                      {t.achievements && (
+                        <div className="w-fit text-[10px] whitespace-pre-line font-bold px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20 truncate max-w-full">
+                          {t.achievements}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </article>
@@ -84,38 +93,28 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
         </div>
       </div>
 
-      {/* --- UTILITY BUTTON INTERFACES & TRACK INDICATORS --- */}
-      <div className="max-w-6xl mx-auto px-6 mt-8 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={previous}
-            className="inline-flex h-10 w-10 items-center justify-center border border-border bg-surface-muted text-text-primary transition-colors hover:bg-surface rounded-md"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            onClick={next}
-            className="inline-flex h-10 w-10 items-center justify-center border border-border bg-surface-muted text-text-primary transition-colors hover:bg-surface rounded-md"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
-        </div>
-
-        {/* Flat Minimal Progression Metrics */}
-        <div className="flex items-center gap-2">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                index === activeIndex ? "w-8 bg-primary" : "w-2 bg-border hover:bg-text-muted/40"
-              }`}
+      {/* Navigation - Always in same place */}
+      <div className="flex justify-center items-center gap-6 mt-8">
+        <button
+          onClick={previous}
+          className="p-2 border rounded-full hover:bg-surface"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <div className="flex gap-2">
+          {testimonials.map((_, i) => (
+            <div
+              key={i}
+              className={`h-1.5 rounded-full transition-all ${i === activeIndex ? "w-6 bg-primary" : "w-1.5 bg-border"}`}
             />
           ))}
         </div>
+        <button
+          onClick={next}
+          className="p-2 border rounded-full hover:bg-surface"
+        >
+          <ChevronRight size={20} />
+        </button>
       </div>
     </section>
   );
