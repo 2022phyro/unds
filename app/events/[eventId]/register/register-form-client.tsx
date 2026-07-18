@@ -1,17 +1,10 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Info,
-  User,
-  Gavel,
-  Users,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, Gavel, User, Users } from "lucide-react";
 import {
   registerTeamAction,
   registerIndividualAction,
@@ -20,15 +13,19 @@ import {
   registerPSAdjudicatorAction,
   type ActionState,
 } from "@/lib/actions/tournaments";
+import { FORM_REGISTRY } from "@/components/forms/registration";
 import type { RegisterEventView } from "@/lib/view-models/events";
+import type { BaseFormProps } from "@/components/forms/shared";
 
 type Mode = "PARTICIPANT" | "ADJUDICATOR" | "INDIVIDUAL";
+type Track = "DEBATE" | "PS";
+
 interface RegisterFormClientProps {
   tournamentId: string;
   eventId: string;
   event: RegisterEventView;
-  initialTrack: "DEBATE" | "PS";
-  initialMode: "PARTICIPANT" | "ADJUDICATOR";
+  initialTrack: Track;
+  initialMode: Mode;
 }
 
 const initialState: ActionState = {};
@@ -47,53 +44,47 @@ export default function RegisterFormClient({
   const psAvailable = event.includesPS;
   const bothTracksAvailable = debateAvailable && psAvailable;
 
-  // Resolve Track from URL query params or Fallback properties
+  // Resolve initial track/mode from the URL once, on first render — mirrors
+  // v1. This is what lets us avoid a mount-time router.replace: if the URL
+  // already matches, there's nothing to sync.
   const urlTrack = searchParams.get("track")?.toUpperCase();
-  const resolvedInitialTrack =
+  const resolvedInitialTrack: Track =
     urlTrack === "DEBATE" && debateAvailable
       ? "DEBATE"
       : urlTrack === "PS" && psAvailable
         ? "PS"
         : initialTrack;
 
-  // Resolve Mode from URL query params or Fallback properties
   const urlMode = searchParams.get("mode")?.toUpperCase();
-  console.log(event)
-  const resolvedInitialMode =
-    urlMode === "ADJUDICATOR" ||
-    urlMode === "PARTICIPANT" ||
-    urlMode === "INDIVIDUAL"
-      ? (urlMode as Mode) // Now correctly casts to your Mode type
+  const resolvedInitialMode: Mode =
+    urlMode === "ADJUDICATOR" || urlMode === "PARTICIPANT" || urlMode === "INDIVIDUAL"
+      ? (urlMode as Mode)
       : initialMode;
 
-  const [track, setTrack] = useState<"DEBATE" | "PS">(resolvedInitialTrack);
-  const [mode, setMode] = useState<Mode>(resolvedInitialMode as Mode);
+  const [track, setTrack] = useState<Track>(resolvedInitialTrack);
+  const [mode, setMode] = useState<Mode>(resolvedInitialMode);
 
-  // Helper to update URL params cleanly on interaction without triggering re-render loops
-  const updateUrlParams = (newTrack: "DEBATE" | "PS", newMode: Mode) => {
+  // Only called from user-triggered handlers below — never from an effect —
+  // so there's no redundant replace on mount and no extra render cycle.
+  const updateUrlParams = (nextTrack: Track, nextMode: Mode) => {
     const params = new URLSearchParams(window.location.search);
-    params.set("track", newTrack.toLowerCase());
-    params.set("mode", newMode.toLowerCase());
+    params.set("track", nextTrack.toLowerCase());
+    params.set("mode", nextMode.toLowerCase());
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
-  const handleTrackChange = (nextTrack: "DEBATE" | "PS") => {
+  const handleTrackChange = (nextTrack: Track) => {
     setTrack(nextTrack);
     setMode("PARTICIPANT");
     updateUrlParams(nextTrack, "PARTICIPANT");
   };
 
-  const targetKey = `${track}.${mode}`.toLowerCase();
-
-// 2. Find the object where the key matches
-const foundLink = event.links?.find(
-  (item) => item.label.toLowerCase() === targetKey
-);
   const handleModeChange = (nextMode: Mode) => {
     setMode(nextMode);
     updateUrlParams(track, nextMode);
   };
-  // Form State Actions Hooks
+
+  // --- Action Hooks (unconditional — required by Rules of Hooks) ---
   const [teamState, teamAction, teamPending] = useActionState(
     registerTeamAction.bind(null, tournamentId),
     initialState,
@@ -102,46 +93,54 @@ const foundLink = event.links?.find(
     registerIndividualAction.bind(null, tournamentId),
     initialState,
   );
-  const [adjudicatorState, adjudicatorAction, adjudicatorPending] =
-    useActionState(
-      registerAdjudicatorAction.bind(null, tournamentId),
-      initialState,
-    );
+  const [adjudicatorState, adjudicatorAction, adjudicatorPending] = useActionState(
+    registerAdjudicatorAction.bind(null, tournamentId),
+    initialState,
+  );
   const [psState, psAction, psPending] = useActionState(
     registerPSAction.bind(null, tournamentId),
     initialState,
   );
-  const [psAdjudicatorState, psAdjudicatorAction, psAdjudicatorPending] =
-    useActionState(
-      registerPSAdjudicatorAction.bind(null, tournamentId),
-      initialState,
-    );
+  const [psAdjudicatorState, psAdjudicatorAction, psAdjudicatorPending] = useActionState(
+    registerPSAdjudicatorAction.bind(null, tournamentId),
+    initialState,
+  );
+  const targetKey = `${track}.${mode}`.toUpperCase();
 
-  const showAdjudicatorToggle =
-    (track === "PS" && event.psAdjudicatorsAllowed) ||
-    (track === "DEBATE" &&
-      event.registrationType === "TEAM" &&
-      (event.adjudicatorPolicy === "N_PLUS_ONE" ||
-        event.adjudicatorPolicy === "FIXED"));
+  const formPropsMap: Record<string, BaseFormProps> = useMemo(
+    () => ({
+      "DEBATE.PARTICIPANT": { state: teamState, action: teamAction, isPending: teamPending, event },
+      "DEBATE.INDIVIDUAL": { state: individualState, action: individualAction, isPending: individualPending, event },
+      "DEBATE.ADJUDICATOR": { state: adjudicatorState, action: adjudicatorAction, isPending: adjudicatorPending, event },
+      "PS.PARTICIPANT": { state: psState, action: psAction, isPending: psPending, event },
+      "PS.ADJUDICATOR": { state: psAdjudicatorState, action: psAdjudicatorAction, isPending: psAdjudicatorPending, event },
+    }),
+    [
+      teamState, teamAction, teamPending,
+      individualState, individualAction, individualPending,
+      adjudicatorState, adjudicatorAction, adjudicatorPending,
+      psState, psAction, psPending,
+      psAdjudicatorState, psAdjudicatorAction, psAdjudicatorPending,
+      event,
+    ],
+  );
 
-  const activeState =
-    track === "PS"
-      ? mode === "ADJUDICATOR"
-        ? psAdjudicatorState
-        : psState
-      : mode === "ADJUDICATOR"
-        ? adjudicatorState
-        : mode === "INDIVIDUAL"
-          ? individualState
-          : teamState;
-  const isSuccess = activeState.success === true;
+  const ActiveForm = FORM_REGISTRY[targetKey];
+  const activeProps = formPropsMap[targetKey];
+  const isSuccess = activeProps?.state.success === true;
 
-  // Rule: N+1 or FIXED policies require team-associated adjudicators
-  const requiresInstitutionalAdjudicator =
-    track === "DEBATE" &&
-    event.registrationType === "TEAM" &&
-    (event.adjudicatorPolicy === "N_PLUS_ONE" ||
-      event.adjudicatorPolicy === "FIXED");
+  // Same "which follow-up link matches this mode" logic as v1, ported over
+  // since the success screen needs it regardless of which form is active.
+  const foundLink = useMemo(() => {
+    const key = `${track}.${mode}`.toLowerCase();
+    return event.links?.find((item) => item.label.toLowerCase() === key);
+  }, [event.links, track, mode]);
+
+  const showAdjudicatorToggle = true
+    // (track === "PS" && event.psAdjudicatorsAllowed) ||
+    // (track === "DEBATE" &&
+    //   event.registrationType === "TEAM" &&
+    //   (event.adjudicatorPolicy === "N_PLUS_ONE" || event.adjudicatorPolicy === "FIXED"));
 
   return (
     <div className="w-full text-text-primary min-h-screen p-6 gap-3 flex flex-col">
@@ -155,19 +154,16 @@ const foundLink = event.links?.find(
         </Link>
       </header>
 
-      <div className="flex gap-3 max-w-6xl w-full flex-col md:px-4 items-stretch md:gap-10">
-        {/* Left Side: Tournament Metadata */}
-        <div className="lg:col-span-4 space-y-6 flex flex-col gap-5">
-          <div className=" rounded-xs space-y4  text-left">
-            <div>
-              <h2 className="font-playfair! text-3xl! font-semibold text-text-primary tracking-normal leading-relaxed">
-                {event.title}
-              </h2>
-            </div>
+      <div className="flex gap-3   w-full flex-col items-stretch md:gap-10">
+        {/* Left Side: Tournament Metadata + Controls */}
+        <div className="w-full space-y-6 flex flex-col gap-5">
+          <div className="rounded-xs text-left">
+            <h2 className="font-playfair! text-3xl! font-semibold text-text-primary tracking-normal leading-relaxed">
+              {event.title}
+            </h2>
           </div>
-          {/* ─── DYNAMIC REGISTRATION SELECTION ────────────────────────── */}
+
           <div className="space-y-8 flex flex-col gap-7 border-b border-border pb-4">
-            {/* Registration Type Toggle: Only show if both are available */}
             {bothTracksAvailable && (
               <div className="space-y-2 flex flex-col gap-3">
                 <label className="block text-xs font-bold font-ui uppercase tracking-widest text-text-muted">
@@ -192,33 +188,27 @@ const foundLink = event.links?.find(
               </div>
             )}
 
-            {/* Registering As Toggle: Only show if that track allows both modes */}
-            <div className="space-y-2 flex flex-col gap-3">
-              <label className="block text-xs font-bold font-ui uppercase tracking-widest text-text-muted">
-                Registering As
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-sm">
-                {(["PARTICIPANT", "ADJUDICATOR", "INDIVIDUAL"] as const).map(
-                  (m) => {
+            {showAdjudicatorToggle && (
+              <div className="space-y-2 flex flex-col gap-3">
+                <label className="block text-xs font-bold font-ui uppercase tracking-widest text-text-muted">
+                  Registering As
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-sm">
+                  {(["PARTICIPANT", "ADJUDICATOR", "INDIVIDUAL"] as const).map((m) => {
                     if (track === "PS" && m === "INDIVIDUAL") return null;
-
+                    const active = mode === m;
                     return (
                       <button
                         key={m}
                         type="button"
                         onClick={() => handleModeChange(m)}
                         className={`flex items-center gap-3 p-4 border rounded-xs text-left transition-all ${
-                          mode === m
+                          active
                             ? "border-[#2e3a28] bg-[#2e3a28]/5"
                             : "border-[#2e3a28]/10 hover:border-[#2e3a28]/30"
                         }`}
                       >
-                        {/* Icons based on your design */}
-                        <div
-                          className={
-                            mode === m ? "text-[#2e3a28]" : "text-text-muted"
-                          }
-                        >
+                        <div className={active ? "text-[#2e3a28]" : "text-text-muted"}>
                           {m === "PARTICIPANT" && track === "DEBATE" ? (
                             <Users size={20} />
                           ) : m === "ADJUDICATOR" ? (
@@ -246,300 +236,51 @@ const foundLink = event.links?.find(
                         </div>
                       </button>
                     );
-                  },
-                )}
+                  })}
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side: Dynamic Form Layout */}
-        <div className="lg:col-span-8 flex flex-col gap-3 w-full max-w-sm  rounded-xs overflow-hidden">
-          <div className="text-left">
-            {isSuccess ? (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="py-12 flex flex-col items-center text-center space-y-4"
-              >
-                <div className="w-12 h-12 rounded-full bg-[#2e3a28]/10 text-primary flex items-center justify-center">
-                  <CheckCircle2 className="w-6 h-6" />
-                </div>
-                <div className="space-y-1">
-                  <h4 className="font-garamond text-xl font-bold tracking-wide">
-                    Registration Successful
-                  </h4>
-                  <p className="font-garamond text-sm text-text-secondary max-w-sm mx-auto leading-relaxed">
-                    Keep in touch with the tournament organizers for updates and
-                    next steps.
-                  </p>
-                  {/* Dynamic Link */}
-                  {/* Dynamic Link with fallback */}
-                  <a
-                    href={foundLink?.url ||  "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary font-bold text-sm underline mt-4 block"
-                  >
-                    Join the {mode.toLowerCase()} Group
-                  </a>
-                </div>
-              </motion.div>
-            ) : track === "PS" ? (
-              mode === "ADJUDICATOR" ? (
-                /* Public Speaking Adjudicator Form */
-                <form
-                  action={psAdjudicatorAction}
-                  className="flex flex-col gap-4 space-y-6"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field
-                      label="Full Name"
-                      name="name"
-                      placeholder="Your First & Last Name"
-                    />
-                    <Field
-                      label="Contact Email"
-                      name="email"
-                      type="email"
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                  <Field
-                    label="Faculty / Department"
-                    name="institution"
-                    placeholder="e.g. Civil Engineering/Engineering"
-                  />
-                  {psAdjudicatorState.error && (
-                    <p className="text-xs font-manrope text-red-700">
-                      {psAdjudicatorState.error}
-                    </p>
-                  )}
-                  <SubmitRow isPending={psAdjudicatorPending} />
-                </form>
-              ) : (
-                /* Public Speaking Participant Form */
-                <form
-                  action={psAction}
-                  className="space-y-6 flex flex-col gap-3"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field
-                      label="Full Legal Name"
-                      name="name"
-                      placeholder="Your First & Last Name"
-                    />
-                    <Field
-                      label="Contact Email Address"
-                      name="email"
-                      type="email"
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                  <Field
-                    label="Faculty / Department"
-                    name="institution"
-                    placeholder="e.g. Civil Engineering/Engineering"
-                  />
-                  {psState.error && (
-                    <p className="text-xs font-manrope text-red-700">
-                      {psState.error}
-                    </p>
-                  )}
-                  <SubmitRow isPending={psPending} />
-                </form>
-              )
-            ) : mode === "ADJUDICATOR" ? (
-              /* Independent Debate Adjudicator Form (IA) */
-              <form
-                action={adjudicatorAction}
-                className="flex flex-col gap-4 space-y-6"
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field
-                    label="Full Name"
-                    name="name"
-                    placeholder="Your First & Last Name"
-                  />
-                  <Field
-                    label="Contact Email"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                  />
-                </div>
-                <Field
-                  label="Faculty / Department"
-                  name="institution"
-                  placeholder="e.g. Civil Engineering/Engineering"
-                />
-                {adjudicatorState.error && (
-                  <p className="text-xs font-manrope text-red-700">
-                    {adjudicatorState.error}
-                  </p>
-                )}
-                <SubmitRow isPending={adjudicatorPending} />
-              </form>
-            ) : mode === "INDIVIDUAL" ? (
-              <form action={individualAction} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field
-                    label="Full Legal Name"
-                    name="name"
-                    placeholder="Your Name"
-                  />
-                  <Field
-                    label="Contact Email"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                  />
-                </div>
-                <Field
-                  label="Faculty / Department"
-                  name="institution"
-                  placeholder="e.g. Engineering"
-                />
-
-                {individualState.error && (
-                  <p className="text-xs font-manrope text-red-700">
-                    {individualState.error}
-                  </p>
-                )}
-                <SubmitRow isPending={individualPending} />
-              </form>
-            ) : (
-              /* Team Registration Form (Plus Optional N+1/Fixed Institutional Adj) */
-              <form action={teamAction} className="space-y-6 w-full">
-                <div className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <Field
-                      label="Faculty / Department"
-                      name="institution"
-                      placeholder="e.g. Civil Engineering/Engineering"
-                    />
-                    <Field
-                      label="Team Name"
-                      name="teamName"
-                      placeholder="e.g., UNN Alpha"
-                    />
-                  </div>
-
-                  {/* Speaker 1 Details */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2e3a28]/5 pt-4">
-                    <Field
-                      label="Speaker 1 Name"
-                      name="player1Name"
-                      placeholder="Full Name"
-                    />
-                    <Field
-                      label="Speaker 1 Email"
-                      name="player1Email"
-                      type="email"
-                      placeholder="speaker1@example.com"
-                    />
-                  </div>
-
-                  {/* Speaker 2 Details */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#2e3a28]/5 pt-4">
-                    <Field
-                      label="Speaker 2 Name"
-                      name="player2Name"
-                      placeholder="Full Name"
-                    />
-                    <Field
-                      label="Speaker 2 Email"
-                      name="player2Email"
-                      type="email"
-                      placeholder="speaker2@example.com"
-                    />
-                  </div>
-
-                  {/* Institutional Adjudicator Dynamic Section */}
-                  {requiresInstitutionalAdjudicator && (
-                    <div className="border-t border-[#2e3a28]/10 pt-5 mt-5 space-y-4">
-                      <div className="flex items-start gap-2 text-xs text-text-muted bg-[color-mix(in_srgb,var(--surface)_90%,black)] p-3 rounded-xs border border-[#2e3a28]/10">
-                        <Info className="w-4 h-4 shrink-0 text-primary" />
-                        <div>
-                          <strong className="text-text-primary">
-                            Institutional Adjudicator Required:
-                          </strong>{" "}
-                          This tournament enforces an{" "}
-                          <strong>
-                            {event.adjudicatorPolicy?.replace("_", " ")}
-                          </strong>{" "}
-                          policy. Your team's registration must register an
-                          associated institutional adjudicator below.
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <Field
-                          label="Adjudicator Full Name"
-                          name="adjName"
-                          placeholder="Adj Name"
-                        />
-                        <Field
-                          label="Adjudicator Email"
-                          name="adjEmail"
-                          type="email"
-                          placeholder="adj@example.com"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-                {teamState.error && (
-                  <p className="text-xs font-manrope text-red-700">
-                    {teamState.error}
-                  </p>
-                )}
-                <SubmitRow isPending={teamPending} />
-              </form>
             )}
           </div>
         </div>
+
+        {/* Right Side: Registry Output */}
+        <div className="w-full md:w-2/3 flex flex-col gap-3 rounded-xs overflow-hidden">
+          {isSuccess ? (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="py-12 flex flex-col items-center text-center space-y-4"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#2e3a28]/10 text-primary flex items-center justify-center">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-garamond text-xl font-bold tracking-wide">
+                  Registration Successful
+                </h4>
+                <p className="font-garamond text-sm text-text-secondary max-w-sm mx-auto leading-relaxed">
+                  Keep in touch with the tournament organizers for updates and
+                  next steps.
+                </p>
+                <a
+                  href={foundLink?.url || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary font-bold text-sm underline mt-4 block"
+                >
+                  Join the {mode.toLowerCase()} Group
+                </a>
+              </div>
+            </motion.div>
+          ) : ActiveForm && activeProps ? (
+            <ActiveForm {...activeProps} />
+          ) : (
+            <p className="text-sm text-text-muted">
+              Select a registration option to begin.
+            </p>
+          )}
+        </div>
       </div>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  placeholder,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-}) {
-  return (
-    <div className="space-y-1.5 flex flex-col gap-1">
-      <label className="block font-manrope text-sm text-text-secondary">
-        {label}
-      </label>
-      <input
-        type={type}
-        name={name}
-        required
-        placeholder={placeholder}
-        className="w-full rounded-xs border border-gray-700  px-3 py-2 text-xs text-text-primary focus:outline-hidden focus:border-[#2e3a28] font-manrope transition-colors"
-      />
-    </div>
-  );
-}
-
-function SubmitRow({ isPending }: { isPending: boolean }) {
-  return (
-    <div className="pt-4 border-t border-[#2e3a28]/10 flex items-center w-full justify-between">
-      <button
-        type="submit"
-        disabled={isPending}
-        className="w-full rounded-xs btn btn-primary px-6 py-3 h-12 font-manrope text-sm! tracking-widest font-black shadow-xs hover:bg-[#1f281b] transition-colors disabled:opacity-40 cursor-pointer"
-      >
-        {isPending ? "Submitting..." : "Register"}
-      </button>
     </div>
   );
 }
