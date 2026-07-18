@@ -6,6 +6,7 @@ import SiteHeader from "@/components/site-header";
 import { ThemeProvider } from "next-themes";
 import { HeroFireflies } from "@/components/fireflies";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
@@ -114,6 +115,7 @@ export default function RootLayout({
           <SiteFooter />
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
