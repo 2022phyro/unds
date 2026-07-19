@@ -18,7 +18,7 @@ export default async function AlbumDetailsPage({ params }: AlbumPageProps) {
 
   return (
     <div className="w-full text-text-primary min-h-screen font-manrope text-left">
-      <div className="max-w-6xl flex flex-col gap-3 mx-auto px-4 py-12 sm:px-6 lg:px-8 space-y-12">
+      <div className="flex flex-col gap-3 mx-auto px-4 py-12 sm:px-6 lg:px-8 space-y-12">
 
         {/* ─── BACK NAVIGATION BAR ────────────────────────────────────── */}
         <div className="flex items-center gap-2 text-xs font-ui  font-bold tracking-widest text-text-muted border w-40 p-2">

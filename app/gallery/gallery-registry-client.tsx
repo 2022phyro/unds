@@ -76,7 +76,7 @@ export default function GalleryRegistryClient({
 
   return (
     <div className="w-full min-h-screen bg-surface text-text-primary transition-colors">
-      <main className="max-w-[1400px] mx-auto px-3 sm:px-6 md:px-12 py-8 sm:py-12">
+      <div className="mx-auto px-3 sm:px-6 md:px-12 py-8 sm:py-12">
         {/* ─── FEATURED HERO ──────────────────────────────────────────── */}
         {featuredAlbum && (
           <Link
@@ -299,7 +299,7 @@ export default function GalleryRegistryClient({
             No albums match your current filters.
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 }

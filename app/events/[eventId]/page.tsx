@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/bookmark-button";
 import { db } from "@/lib/db";
 import { toEventDetail } from "@/lib/view-models/events";
 
+export const revalidate = 86400;
+
 interface EventDetailsPageProps {
   params: Promise<{ eventId: string }>;
 }
@@ -41,7 +43,7 @@ export default async function EventDetailsPage({
             <span className="inline-block text-[10px] font-ui  tracking-[0.2em] bg-[#2e3a28]/5 border border-[#2e3a28]/15 text-primary px-2.5 py-0.5 rounded-xs font-bold">
               {event.format}
             </span>
-            <h1 className="font-playfdair text-3xl! sm:text-5xl font-black tracking-tight text-text-primary leading-tight">
+            <h1 className="font-playfair text-3xl! sm:text-5xl font-black tracking-tight text-text-primary leading-tight">
               {event.title}
             </h1>
           </div>
@@ -76,7 +78,7 @@ export default async function EventDetailsPage({
                   <span className="block font-ui text-[9px] text-text-muted  tracking-wider">
                     Registration Clock
                   </span>
-                  <span className="font-bold text-red-700">
+                  <span className="font-bold text-red-600 dark:text-red-400">
                     {event.deadlineText}
                   </span>
                 </div>

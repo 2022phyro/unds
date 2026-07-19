@@ -5,8 +5,11 @@ import Link from "next/link";
 import HourglassLoader from "@/components/ui/hourglass"; // Adjust path as needed
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/bookmark-button/button";
+import { useRouter } from "next/navigation";
 
 export default function NotFound() {
+  const router = useRouter();
+
   return (
     <div className="w-full min-h-screen text-[#2e3a28] font-manrope flex flex-col justify-center items-center px-6 relative overflow-hidden">
       
@@ -53,7 +56,7 @@ export default function NotFound() {
           <Button 
             className="w-40 h-10 border"
             aria-label="Go Home"
-            onClick={() => window.location.href = "/"}
+            onClick={() => router.push("/")}
           >
             Go Home
           </Button>

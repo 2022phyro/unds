@@ -68,7 +68,7 @@ export default function AlbumLightboxClient({
   return (
     <>
       {/* Responsive Mosaic Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 auto-rows-40 sm:auto-rows-50 grid-flow-row-dense">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 auto-rows-40 sm:auto-rows-50 grid-flow-row-dense">
         {paginatedPhotos.map((photo, index) => {
           // Calculate pseudo-random spanning classes based on index to form a beautiful, repeatable mosaic
           const isWide = index % 4 === 0;

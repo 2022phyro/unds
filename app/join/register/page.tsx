@@ -5,6 +5,7 @@ import { submitMembershipApplication } from "@/lib/actions/membership";
 import { SubmitButton } from "@/components/submit-button";
 import { Shield, CheckCircle2, ArrowLeft } from "lucide-react";
 import { FileUploadField } from "@/components/ui/file-upload";
+import { useRouter } from "next/navigation";
 
 const theme = {
   bg: "bg-[#fcfaf7]",
@@ -18,7 +19,7 @@ export default function RegisterPage() {
     message: "", 
     redirectUrl: "" 
   });
-  
+  const router = useRouter();
   const [seconds, setSeconds] = useState(5);
 
   // Redirect Timer
@@ -29,7 +30,7 @@ export default function RegisterPage() {
       }, 1000);
 
       if (seconds === 0) {
-        window.location.href = state.redirectUrl;
+        router.push(state.redirectUrl);
       }
       return () => clearInterval(timer);
     }

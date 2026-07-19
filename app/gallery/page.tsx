@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import GalleryRegistryClient, { type AlbumMeta } from "./gallery-registry-client";
 
-export const revalidate = 0;
+export const revalidate = 86400;
 
 export default async function GalleryExhibitionPage() {
   const albums = await db.album.findMany({ orderBy: { year: "desc" } });

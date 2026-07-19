@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { motion } from "framer-motion";
+import Link from "next/link";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import {
   Search,
@@ -9,7 +9,6 @@ import {
   MapPin,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
   HelpCircle,
   Award,
   Mail,
@@ -32,7 +31,6 @@ const FILTERS = [
   { id: "ROUTINE", label: "Weekly Loops" },
 ] as const;
 
-// Splits a display string like "AUG 07 // 6:00 PM" into { month: "AUG", day: "07" }
 function parseDateBadge(dateString: string) {
   const [main] = dateString.split(" // ");
   const parts = main.trim().split(" ");
@@ -41,20 +39,13 @@ function parseDateBadge(dateString: string) {
   return { month, day };
 }
 
-// TODO: if RegistryEventView gains a raw sortable date (e.g. mirroring
-// tournamentConfig.sortDate), wire it in here. Until then this assumes
-// `events` arrives pre-sorted chronologically from the server, and filtering
-// preserves that order (it does, since .filter() doesn't reorder).
 function sortEvents(list: RegistryEventView[]) {
   return list;
 }
 
-export default function EventsRegistryClient({
-  events,
-}: EventsRegistryClientProps) {
+export default function EventsRegistryClient({ events }: EventsRegistryClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilter, setActiveFilter] =
-    useState<(typeof FILTERS)[number]["id"]>("ALL");
+  const [activeFilter, setActiveFilter] = useState<(typeof FILTERS)[number]["id"]>("ALL");
   const [currentPage, setCurrentPage] = useState(1);
   const [isRegistryLoading, setIsRegistryLoading] = useState(false);
 
@@ -85,14 +76,8 @@ export default function EventsRegistryClient({
     return filteredEvents.slice(start, start + ITEMS_PER_PAGE);
   }, [filteredEvents, currentPage]);
 
-  const featuredEvent = useMemo(
-    () => events.find((e) => e.isFeatured),
-    [events],
-  );
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredEvents.length / ITEMS_PER_PAGE),
-  );
+  const featuredEvent = useMemo(() => events.find((e) => e.isFeatured), [events]);
+  const totalPages = Math.max(1, Math.ceil(filteredEvents.length / ITEMS_PER_PAGE));
 
   const triggerShift = (action: () => void) => {
     setIsRegistryLoading(true);
@@ -118,26 +103,24 @@ export default function EventsRegistryClient({
       </div>
 
       <div className="px-4 sm:px-8 lg:px-20 space-y-32 flex flex-col gap-8">
-        {/* ─── ③ FEATURED EVENT ───────────────────────────────────────── */}
+        {/* ─── FEATURED EVENT ───────────────────────────────────────── */}
         {featuredEvent && (
-          <div>
-            <div
-              className="relativeborder border-[#2e3a28] bg-surface/50 shadow-xs rounded-xs cursor-pointer overflow-hidden group transition-all duration-300 hover:shadow-md"
-              onClick={() =>
-                (window.location.href = `/events/${featuredEvent.id}`)
-              }
+          <div className="relative">
+            {/* The whole card is a real Link now — gets hover/viewport
+                prefetching for free, and there's no separate onClick div
+                for a nested button's click to conflict with. */}
+            <Link
+              href={`/events/${featuredEvent.id}`}
+              className="block relative border border-[#2e3a28] bg-surface/50 shadow-xs rounded-xs overflow-hidden group transition-all duration-300 hover:shadow-md"
             >
-              <div className="absolute right-0 top-17.5 bg-[#2e3a28] text-[#fcfbf9] font-ui text-[9px] tracking-widest px-4 py-1.5 rounded-bl-xs z-10">
+              <div className="absolute right-0 top-0 bg-[#2e3a28] text-[#fcfbf9] font-ui text-[9px] tracking-widest px-4 py-1.5 rounded-bl-xs z-10">
                 Featured
               </div>
 
-              <div className="grid grid-cols-1  gap-6 p-6 md:p-8 items-center">
-                {/* Date block */}
+              <div className="grid grid-cols-1 gap-6 p-6 md:p-8 items-center">
                 <div className="flex md:flex-col items-baseline md:items-start gap-2 md:gap-0 md:border-l-2 border-primary md:pl-4">
                   {(() => {
-                    const { month, day } = parseDateBadge(
-                      featuredEvent.dateString,
-                    );
+                    const { month, day } = parseDateBadge(featuredEvent.dateString);
                     return (
                       <span className="font-garamond text-3xl md:text-4xl leading-none text-text-primary">
                         <span className="block text-xs font-ui font-bold tracking-widest text-primary mb-1">
@@ -149,11 +132,9 @@ export default function EventsRegistryClient({
                   })()}
                 </div>
 
-                {/* Content */}
                 <div className="space-y-3 min-w-0">
                   <span className="inline-flex items-center gap-1.5 font-ui text-xs text-primary font-bold tracking-wider">
-                    <Trophy className="w-3.5 h-3.5" />{" "}
-                    {eyebrowFor(featuredEvent.type)}
+                    <Trophy className="w-3.5 h-3.5" /> {eyebrowFor(featuredEvent.type)}
                   </span>
                   <h2 className="font-garamond text-2xl md:text-4xl font-bold tracking-tight group-hover:text-primary transition-colors duration-200">
                     {featuredEvent.title}
@@ -167,37 +148,37 @@ export default function EventsRegistryClient({
                       {featuredEvent.location}
                     </span>
                     <span>• {featuredEvent.format}</span>
-                    <span className="text-primary font-bold">
-                      • {featuredEvent.statusText}
-                    </span>
+                    <span className="text-primary font-bold">• {featuredEvent.statusText}</span>
                   </div>
                 </div>
 
-                {/* CTA */}
                 <div className="md:self-center">
-                  <Button
-                    className="font-manrope w-full md:w-auto capitalize font-medium"
-                    aria-label="Register for Event"
-                  >
-                    {featuredEvent.status === "REGISTRATION_OPEN"
-                      ? "Register Now"
-                      : "View Details"}
-                  </Button>
+                  {/* stopPropagation isn't actually needed anymore since
+                      there's no separate onClick on an ancestor — but kept
+                      as a safety net in case this Button internally renders
+                      its own <a>/<Link>, so a click resolves to exactly one
+                      navigation target instead of two nested ones firing. */}
+                  <span onClick={(e) => e.stopPropagation()} className="inline-block">
+                    <Button
+                      className="font-manrope w-full md:w-auto capitalize font-medium"
+                      aria-label="Register for Event"
+                    >
+                      {featuredEvent.status === "REGISTRATION_OPEN" ? "Register Now" : "View Details"}
+                    </Button>
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         )}
 
-        {/* ─── ④ CHRONOLOGICAL EVENTS LIST (merged card grid + timeline) ── */}
+        {/* ─── CHRONOLOGICAL EVENTS LIST ── */}
         <div className="relative flex flex-col gap-3 pt-10 min-h-87.5 w-full">
           <div className="flex items-baseline gap-3 justify-between">
-            <h3 className="font-garamond text-2xl font-light tracking-wide">
-              Upcoming Events
-            </h3>
+            <h3 className="font-garamond text-2xl font-light tracking-wide">Upcoming Events</h3>
           </div>
-          {/* ─── ② STICKY SEARCH + FILTER BAR ───────────────────────────── */}
-          <div className=" border-b border-[#2e3a28]/10 bg-[color-mix(in_srgb,var(--surface)_95%,black)] backdrop-blur-md">
+
+          <div className="border-b border-[#2e3a28]/10 bg-[color-mix(in_srgb,var(--surface)_95%,black)] backdrop-blur-md">
             <div className="px-4 sm:px-8 lg:px-20 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               <div className="relative flex-1 min-w-0 sm:max-w-xs">
                 <input
@@ -243,19 +224,16 @@ export default function EventsRegistryClient({
               // No matches located in this cycle
             </div>
           ) : (
-            <div className="divide-y divide-[#2e3a28]/80 border flex flex-col gap-3 border-[#2e3a28]/15 rounded-xs bg-[color-mix(in_srgb,var(--surface)_95%,black)] overflow-hidden">
+            <div className="divide-y divide-[#2e3a28]/10 border flex flex-col border-[#2e3a28]/15 rounded-xs bg-[color-mix(in_srgb,var(--surface)_95%,black)] overflow-hidden">
               {paginatedEvents.map((event) => {
                 const { month, day } = parseDateBadge(event.dateString);
                 return (
-                  <div
+                  <Link
+                    href={`/events/${event.id}`}
                     key={event.id}
-                    onClick={() =>
-                      (window.location.href = `/events/${event.id}`)
-                    }
-                    className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 px-4 sm:px-6 py-4 sm:py-5 cursor-pointer transition-colors hover:bg-[#2e3a28]/3"
+                    className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 px-4 sm:px-6 py-4 sm:py-5 transition-colors hover:bg-[#2e3a28]/[0.03]"
                   >
-                    {/* Date badge */}
-                    <div className="flex sm:flex-col items-baseline sm:items-start  gap-2 sm:gap-0 sm:w-16 shrink-0">
+                    <div className="flex sm:flex-col items-baseline sm:items-start gap-2 sm:gap-0 sm:w-16 shrink-0">
                       <span className="text-[10px] font-ui font-bold tracking-widest text-primary uppercase">
                         {month}
                       </span>
@@ -264,7 +242,6 @@ export default function EventsRegistryClient({
                       </span>
                     </div>
 
-                    {/* Content */}
                     <div className="flex-1 min-w-0 space-y-1">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         <span className="text-[9px] font-ui font-bold tracking-widest text-primary uppercase">
@@ -286,9 +263,8 @@ export default function EventsRegistryClient({
                       </div>
                     </div>
 
-                    {/* Arrow */}
                     <ArrowRight className="hidden sm:block w-4 h-4 text-text-muted shrink-0 transition-all group-hover:translate-x-1 group-hover:text-primary" />
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -301,35 +277,25 @@ export default function EventsRegistryClient({
               </span>
               <div className="flex items-stretch gap-1 font-ui text-[11px]">
                 <button
-                  onClick={() =>
-                    triggerShift(() => setCurrentPage((p) => p - 1))
-                  }
+                  onClick={() => triggerShift(() => setCurrentPage((p) => p - 1))}
                   disabled={currentPage === 1 || isRegistryLoading}
                   className="p-2 rounded-xs border border-[#2e3a28]/30 bg-[color-mix(in_srgb,var(--surface)_95%,black)] disabled:opacity-20 cursor-pointer"
                 >
-                  <ChevronLeft
-                    className="w-3.5 h-3.5 text-foreground"
-                    strokeWidth={3}
-                  />
+                  <ChevronLeft className="w-3.5 h-3.5 text-foreground" strokeWidth={3} />
                 </button>
                 <button
-                  onClick={() =>
-                    triggerShift(() => setCurrentPage((p) => p + 1))
-                  }
+                  onClick={() => triggerShift(() => setCurrentPage((p) => p + 1))}
                   disabled={currentPage === totalPages || isRegistryLoading}
                   className="p-2 rounded-xs border border-[#2e3a28]/30 bg-[color-mix(in_srgb,var(--surface)_95%,black)] disabled:opacity-20 cursor-pointer"
                 >
-                  <ChevronRight
-                    className="w-3.5 h-3.5 text-foreground"
-                    strokeWidth={3}
-                  />
+                  <ChevronRight className="w-3.5 h-3.5 text-foreground" strokeWidth={3} />
                 </button>
               </div>
             </div>
           )}
         </div>
 
-        {/* ─── ⑤ ORIENTATION LEAF ─────────────────────────────────────── */}
+        {/* ─── ORIENTATION LEAF ─────────────────────────────────────── */}
         <SectionReveal className="w-full">
           <div className="border border-[#2e3a28] bg-[color-mix(in_srgb,var(--surface)_70%,black)] p-6 sm:p-8 md:p-12 rounded-xs grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative overflow-hidden">
             <div className="absolute right-4 bottom-4 opacity-5 pointer-events-none">
@@ -337,8 +303,7 @@ export default function EventsRegistryClient({
             </div>
             <div className="md:col-span-8 space-y-4 text-left z-10">
               <span className="inline-flex items-center gap-1.5 text-[10px] font-ui tracking-widest text-primary font-bold">
-                <HelpCircle className="w-3.5 h-3.5" /> First time standing at
-                the podium?
+                <HelpCircle className="w-3.5 h-3.5" /> First time standing at the podium?
               </span>
               <h2 className="font-garamond text-2xl sm:text-3xl font-light text-text-primary">
                 No prior case-building experience required.
@@ -351,64 +316,46 @@ export default function EventsRegistryClient({
               </p>
             </div>
             <div className="md:col-span-4 flex md:justify-end justify-start z-10">
-              <button
-                onClick={() =>
-                  (window.location.href =
-                    "/Ottawa WUDC Debating & Judging Manual.pdf")
-                }
+              {/* Static file → plain anchor, not router.push. Using the
+                  client router for a non-route asset like a PDF is the
+                  wrong tool and forces an unnecessary client-side
+                  navigation attempt against something that isn't a page. */}
+              <a
+                href="/WUDC Debating & Judging Manual.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-3 border border-[#2e3a28] bg-text-primary text-text-inverse text-xs font-ui tracking-wider font-bold transition-colors hover:bg-[#2e3a28] hover:text-[#fcfbf9]"
               >
                 Read the Manual →
-              </button>
+              </a>
             </div>
           </div>
         </SectionReveal>
 
-        {/* ─── ⑥ PAST LAURELS ARCHIVE ─────────────────────────────────── */}
+        {/* ─── PAST LAURELS ARCHIVE ─────────────────────────────────── */}
         <SectionReveal className="flex flex-col gap-2 border-t border-[#2e3a28]/10 pt-16 space-y-8">
-          <h2 className="font-garamond text-2xl font-light tracking-wide text-left">
-            Past Highlights
-          </h2>
+          <h2 className="font-garamond text-2xl font-light tracking-wide text-left">Past Highlights</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
             {[
-              {
-                title: "ANUDC 2023",
-                metric: "Overall Champions",
-                desc: "Swept away the competition in both open and novice streams.",
-              },
-              {
-                title: "ANUDC 2025",
-                metric: "Novice Runners-Up",
-                desc: "100% breaks into the outrounds, presented award-winning adjudicators, and novice runnerups",
-              },
-              {
-                title: "Meet The Spartans 2.0",
-                metric: "Internals",
-                desc: "Organized and hosted the largest internal debate tournament in the society's history yet, with 40+ participants.",
-              },
+              { title: "ANUDC 2023", metric: "Overall Champions", desc: "Swept away the competition in both open and novice streams." },
+              { title: "ANUDC 2025", metric: "Novice Runners-Up", desc: "100% breaks into the outrounds, presented award-winning adjudicators, and novice runnerups" },
+              { title: "Meet The Spartans 2.0", metric: "Internals", desc: "Organized and hosted the largest internal debate tournament in the society's history yet, with 40+ participants." },
             ].map((item, idx) => (
-              <div
-                key={idx}
-                className="border border-[#2e3a28]/20 bg-[color-mix(in_srgb,var(--surface)_95%,black)] p-6 rounded-xs space-y-3"
-              >
+              <div key={idx} className="border border-[#2e3a28]/20 bg-[color-mix(in_srgb,var(--surface)_95%,black)] p-6 rounded-xs space-y-3">
                 <div className="flex items-center justify-between text-primary">
                   <Award className="w-4 h-4 opacity-70" />
                   <span className="font-ui text-[9px] tracking-widest bg-[#2e3a28]/5 px-2 py-0.5 rounded-xs font-bold">
                     {item.metric}
                   </span>
                 </div>
-                <h4 className="font-garamond text-lg font-bold text-text-primary">
-                  {item.title}
-                </h4>
-                <p className="font-garamond text-xs text-text-secondary leading-relaxed">
-                  {item.desc}
-                </p>
+                <h4 className="font-garamond text-lg font-bold text-text-primary">{item.title}</h4>
+                <p className="font-garamond text-xs text-text-secondary leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
         </SectionReveal>
 
-        {/* ─── ⑦ STAY UPDATED DISPATCH ────────────────────────────────── */}
+        {/* ─── STAY UPDATED DISPATCH ────────────────────────────────── */}
         <SectionReveal className="border-t border-[#2e3a28]/10 pt-16 pb-16 max-w-xl mx-auto text-center space-y-6">
           <div className="inline-flex p-3 rounded-full bg-[#2e3a28]/5 text-primary">
             <Mail className="w-5 h-5" />
