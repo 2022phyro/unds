@@ -1,36 +1,40 @@
 "use client";
 
 import React, { useState } from "react";
+import Image, { ImageProps } from "next/image";
 
-interface CloudinaryImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface CloudinaryImageProps extends Omit<ImageProps, "src" | "width" | "height"> {
   src: string;
-  width?: number; // Target width for optimization
-  aspectRatio?: string; // Optional custom aspect ratio styling (e.g., "video", "square")
+  width?: number; // Target width for Cloudinary optimization
+  height?: number; // Optional numeric height if using explicit sizing
+  aspectRatio?: string; 
+  priority?: boolean; 
 }
 
 export function CloudinaryImage({
   src,
   alt = "Image",
-  width = 800,
+  width = 800, // Used for Cloudinary URL API optimization
+  height,
   className = "",
   aspectRatio,
+  priority = false,
   ...props
 }: CloudinaryImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Robust helper to transform any Cloudinary URL dynamically
   const optimizedSrc = React.useMemo(() => {
     if (!src || !src.includes("cloudinary.com")) return src;
-    
-    // Safety check: Avoid double transformations if already modified
     if (src.includes("f_auto,q_auto")) return src;
 
-    // Inject optimization parameters (f_auto, q_auto, width constraint, and limiting constraint)
     return src.replace(
       /\/upload\/(v\d+\/)?/,
       `/upload/f_auto,q_auto,w_${width},c_limit/$1`
     );
   }, [src, width]);
+
+  // FIX: Force layout fill if no explicit height is provided to match "w-full h-full"
+  const isUsingFill = !height;
 
   return (
     <div 
@@ -38,11 +42,18 @@ export function CloudinaryImage({
         aspectRatio ? `aspect-${aspectRatio}` : ""
       }`}
     >
-      <img
+      <Image
         src={optimizedSrc}
         alt={alt}
+        // If filling, pass undefined so Next.js uses container CSS layout
+        width={!isUsingFill ? width : undefined}
+        height={!isUsingFill ? height : undefined}
+        fill={isUsingFill}
+        priority={priority}
         onLoad={() => setIsLoaded(true)}
-        className={`${className}`}
+        className={`transition-opacity duration-300 ${
+          isLoaded ? "opacity-100" : "opacity-0"
+        } ${className}`}
         {...props}
       />
     </div>

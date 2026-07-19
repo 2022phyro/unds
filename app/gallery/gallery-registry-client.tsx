@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useDeferredValue } from "react";
 import Link from "next/link";
-import { SectionReveal } from "@/components/ui/section-reveal";
-import HourglassLoader from "@/components/ui/hourglass";
 import {
   Search,
   ArrowRight,
@@ -19,7 +17,6 @@ export interface AlbumMeta {
   title: string;
   dateString: string;
   photoCount: number;
-  location: string;
   imageUrl: string;
   subtitle: string;
   institutions?: string[];
@@ -36,6 +33,7 @@ const CATEGORIES = [
   "SOCIALS",
   "AWARDS",
 ] as const;
+
 const YEARS = ["ALL", 2026, 2025, 2024, 2023] as const;
 
 export default function GalleryRegistryClient({
@@ -47,19 +45,20 @@ export default function GalleryRegistryClient({
   const [activeYear, setActiveYear] = useState<(typeof YEARS)[number]>("ALL");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-// Place this inside the body of your component temporarily
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 700);
-    return () => clearTimeout(timer);
-  }, [activeCategory, activeYear, searchQuery]);
+  // Performance: Deferred value keeps search snappy while typing
+  const deferredQuery = useDeferredValue(searchQuery);
+
+  // Usability: Calculate active filters for UI badges
+  const activeFilterCount =
+    (activeCategory !== "ALL" ? 1 : 0) + (activeYear !== "ALL" ? 1 : 0);
 
   const filteredAlbums = useMemo(() => {
+    const query = deferredQuery.toLowerCase();
     const filtered = albums.filter((album) => {
       const matchesSearch =
-        album.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        album.subtitle.toLowerCase().includes(searchQuery.toLowerCase());
+        album.title.toLowerCase().includes(query) ||
+        album.subtitle.toLowerCase().includes(query);
       const matchesCategory =
         activeCategory === "ALL" || album.category === activeCategory;
       const matchesYear = activeYear === "ALL" || album.year === activeYear;
@@ -68,11 +67,9 @@ export default function GalleryRegistryClient({
     return [...filtered].sort((a, b) =>
       sortOrder === "newest" ? b.year - a.year : a.year - b.year,
     );
-  }, [albums, searchQuery, activeCategory, activeYear, sortOrder]);
+  }, [albums, deferredQuery, activeCategory, activeYear, sortOrder]);
 
   const featuredAlbum = albums[0];
-  const activeFilterCount =
-    (activeCategory !== "ALL" ? 1 : 0) + (activeYear !== "ALL" ? 1 : 0);
 
   return (
     <div className="w-full min-h-screen bg-surface text-text-primary transition-colors">
@@ -81,14 +78,16 @@ export default function GalleryRegistryClient({
         {featuredAlbum && (
           <Link
             href={`/gallery/${featuredAlbum.id}`}
-            className="group relative block mb-8 sm:mb-12 h-[340px] sm:h-[420px] md:h-[480px] overflow-hidden rounded-xl sm:rounded-2xl border border-text-primary/10"
+            className="group relative block mb-8 sm:mb-12 h-85 sm:h-[420px] md:h-[480px] overflow-hidden rounded-xl sm:rounded-2xl border border-text-primary/10"
           >
             <CloudinaryImage
               src={featuredAlbum.imageUrl}
               alt={featuredAlbum.title}
+              priority={true} // Optimized for LCP
+              width={800}
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent" />
 
             <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8 md:p-10 text-white">
               <span className="text-[10px] uppercase tracking-[0.25em] text-white/70 mb-3 block">
@@ -105,7 +104,7 @@ export default function GalleryRegistryClient({
                   {featuredAlbum.photoCount} Photographs ·{" "}
                   {featuredAlbum.dateString}
                 </span>
-                <span className="inline-flex items-center gap-2 text-black Trounded-sm bg-white px-4 py-2 ...">
+                <span className="inline-flex items-center gap-2 text-black rounded-sm bg-white px-4 py-2">
                   Explore Album
                   <ArrowRight className="h-3.5 w-3.5" />
                 </span>
@@ -117,7 +116,7 @@ export default function GalleryRegistryClient({
         {/* ─── SEARCH + FILTERS ──────────────────────────────────────── */}
         <section className="sticky top-0 z-30 mb-10 sm:mb-16 border-b border-text-primary/10 bg-surface/95 backdrop-blur-md pb-6 flex flex-col gap-2 pt-4">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-            {/* Search — always visible */}
+            {/* Search */}
             <div className="relative w-full sm:w-1/3">
               <label
                 htmlFor="search"
@@ -138,7 +137,7 @@ export default function GalleryRegistryClient({
               </div>
             </div>
 
-            {/* Filters toggle — mobile only */}
+            {/* Filters Toggle Mobile */}
             <button
               type="button"
               onClick={() => setFiltersOpen((v) => !v)}
@@ -160,7 +159,7 @@ export default function GalleryRegistryClient({
               />
             </button>
 
-            {/* Filters — always visible on desktop */}
+            {/* Desktop Filters */}
             <div className="hidden sm:flex flex-col items-end gap-3">
               <div className="flex items-center gap-2 flex-wrap justify-end">
                 {CATEGORIES.map((cat) => (
@@ -206,7 +205,8 @@ export default function GalleryRegistryClient({
               </div>
             </div>
           </div>
-          {/* Filters — mobile collapsible panel */}
+
+          {/* Mobile Collapsible Panel */}
           {filtersOpen && (
             <div
               id="filter-panel"
@@ -257,17 +257,19 @@ export default function GalleryRegistryClient({
         </section>
 
         {/* ─── ALBUM GRID ──────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-6">
           {filteredAlbums.map((album) => (
             <Link
               href={`/gallery/${album.id}`}
               key={album.id}
               className="group block relative bg-surface-secondary border border-text-primary/5 rounded-sm overflow-hidden hover:border-text-primary/20 transition-all"
             >
-              <div className="aspect-[16/10] overflow-hidden">
+              <div className="aspect-16/10 overflow-hidden">
                 <CloudinaryImage
                   src={album.imageUrl}
                   alt={album.title}
+                  width={800}
+                  priority={false}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
