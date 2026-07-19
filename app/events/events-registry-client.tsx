@@ -324,7 +324,7 @@ export default function EventsRegistryClient({ events }: EventsRegistryClientPro
                 href="/WUDC Debating & Judging Manual.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 border border-[#2e3a28] bg-text-primary text-text-inverse text-xs font-ui tracking-wider font-bold transition-colors hover:bg-[#2e3a28] hover:text-[#fcfbf9]"
+                className="px-6 py-3 border border-[#2e3a28] btn-primary text-xs font-ui tracking-wider font-bold transition-colors hover:bg-[#2e3a28] hover:text-[#fcfbf9]"
               >
                 Read the Manual →
               </a>
