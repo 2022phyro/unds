@@ -51,6 +51,8 @@ export default async function EditTournamentPage({
           { header: "Speaker 1", accessorKey: "player1" }, // Matches renderCell logic
           { header: "Speaker 2", accessorKey: "player2" }, // Matches renderCell logic
         ]}
+        exportUrl={`/api/admin/export-entrants?tournamentId=${id}&type=TEAM`}
+        exportLabel="Export Teams CSV"
       />
 
       {/* Example for Adjudicators */}
@@ -64,6 +66,8 @@ export default async function EditTournamentPage({
           { header: "Email", accessorKey: "email" },
           { header: "Institution", accessorKey: "institution" },
         ]}
+        exportUrl={`/api/admin/export-entrants?tournamentId=${id}&type=ADJ`}
+        exportLabel="Export Judges CSV"
       />
       <RegistrationTable
         title="Debate Individual Registrations"
@@ -75,6 +79,8 @@ export default async function EditTournamentPage({
           { header: "Email", accessorKey: "email" },
           { header: "Institution", accessorKey: "institution" },
         ]}
+        exportUrl={`/api/admin/export-entrants?tournamentId=${id}&type=INDIVIDUAL`}
+        exportLabel="Export Individuals CSV"
       />
 
       {/* Example for Adjudicators */}
@@ -88,6 +94,8 @@ export default async function EditTournamentPage({
           { header: "Email", accessorKey: "email" },
           { header: "Institution", accessorKey: "institution" },
         ]}
+        exportUrl={`/api/admin/export-entrants?tournamentId=${id}&type=PS_REG`}
+        exportLabel="Export PS CSV"
       />
 
       <RegistrationTable
@@ -101,6 +109,8 @@ export default async function EditTournamentPage({
           { header: "Email", accessorKey: "email" },
           { header: "Institution", accessorKey: "institution" },
         ]}
+        exportUrl={`/api/admin/export-entrants?tournamentId=${id}&type=PS_ADJ`}
+        exportLabel="Export PS Judges CSV"
       />
     </div>
   );

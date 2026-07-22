@@ -54,7 +54,7 @@ export function RegistrationTable({
         {exportUrl && (
           <a
             href={exportUrl}
-            className="px-4 py-2 bg-[#2e3a28] text-white text-xs font-ui tracking-wider font-bold"
+            className="px-4 py-2 bg-surface text-white text-xs font-ui tracking-wider font-bold"
           >
             {exportLabel ?? "Export CSV"}
           </a>

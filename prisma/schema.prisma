@@ -98,7 +98,6 @@ model TournamentConfig {
   adjudicationRegistrationLocked Boolean  @default(false) // Debate Adjudicators
   psRegistrationLocked           Boolean  @default(false) // Public Speaking stream
   psAdjudicationLocked           Boolean  @default(false) // Public Speaking Adju
-  // adjudicationCoreDesk    String[]
   adjudicatorRegistrations   AdjudicatorRegistration[]
   individualRegistrations    IndividualRegistration[]
   psAdjudicatorRegistrations PSAdjudicatorRegistration[]
