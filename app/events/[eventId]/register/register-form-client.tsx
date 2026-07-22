@@ -15,7 +15,7 @@ import {
 } from "@/lib/actions/tournaments";
 import { FORM_REGISTRY } from "@/components/forms/registration";
 import type { RegisterEventView } from "@/lib/view-models/events";
-import type { BaseFormProps } from "@/components/forms/shared";
+import type { BaseFormProps } from "@/components/forms/shared"; 
 
 type Mode = "PARTICIPANT" | "ADJUDICATOR" | "INDIVIDUAL";
 type Track = "DEBATE" | "PS";
@@ -137,10 +137,6 @@ export default function RegisterFormClient({
   }, [event.links, track, mode]);
 
   const showAdjudicatorToggle = true
-    // (track === "PS" && event.psAdjudicatorsAllowed) ||
-    // (track === "DEBATE" &&
-    //   event.registrationType === "TEAM" &&
-    //   (event.adjudicatorPolicy === "N_PLUS_ONE" || event.adjudicatorPolicy === "FIXED"));
 
   return (
     <div className="w-full text-text-primary min-h-screen p-6 gap-3 flex flex-col">
@@ -280,6 +276,32 @@ export default function RegisterFormClient({
             </p>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+export function OptionNotAvailable({ message }: { message: string }) {
+  return (
+    <div className="w-full text-text-primary min-h-screen p-6 gap-3 flex flex-col">
+      <header className="w-full pt-4 flex items-center justify-between">
+        <Link
+          href={`/events`}
+          className="group inline-flex items-center gap-1.5 font-manrope text-sm! font-bold tracking-tighter text-text-muted hover:text-text-primary transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+          Back to Events
+        </Link>
+      </header>
+
+      <div className="flex flex-col items-center justify-center w-full h-full mt-20">
+        <Gavel size={48} className="text-[#2e3a28]/30 mb-4" />
+        <h2 className="font-garamond text-xl font-bold text-text-primary tracking-wide mb-2">
+          Registration Not Available
+        </h2>
+        <p className="font-garamond text-sm text-text-secondary max-w-sm mx-auto leading-relaxed text-center">
+          {message}
+        </p>
       </div>
     </div>
   );

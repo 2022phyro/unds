@@ -1,8 +1,18 @@
 import type { TournamentConfig } from "@prisma/client";
 
 const MONTHS = [
-  "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
-  "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER",
+  "JANUARY",
+  "FEBRUARY",
+  "MARCH",
+  "APRIL",
+  "MAY",
+  "JUNE",
+  "JULY",
+  "AUGUST",
+  "SEPTEMBER",
+  "OCTOBER",
+  "NOVEMBER",
+  "DECEMBER",
 ];
 
 export interface RegistryEventView {
@@ -21,7 +31,9 @@ export interface RegistryEventView {
   isFeatured?: boolean;
 }
 
-export function toRegistryEvent(tournament: TournamentConfig): RegistryEventView {
+export function toRegistryEvent(
+  tournament: TournamentConfig,
+): RegistryEventView {
   return {
     id: tournament.slug,
     type: tournament.type,
@@ -65,6 +77,10 @@ export interface EventDetailView {
   faqs: FaqEntry[];
   includesPS: boolean;
   links: { [key: string]: string }; // Add this line to define the links property
+  registrationLocked: boolean;
+  adjudicationRegistrationLocked: boolean;
+  psRegistrationLocked: boolean;
+  psAdjudicationLocked: boolean;
 }
 
 export function toEventDetail(tournament: TournamentConfig): EventDetailView {
@@ -83,6 +99,10 @@ export function toEventDetail(tournament: TournamentConfig): EventDetailView {
     faqs: (tournament.faqs as unknown as FaqEntry[]) ?? [],
     includesPS: tournament.includesPS,
     links: (tournament.links as unknown as { [key: string]: string }) ?? {}, // Add this line to include links
+    registrationLocked: tournament.registrationLocked,
+    adjudicationRegistrationLocked: tournament.adjudicationRegistrationLocked,
+    psRegistrationLocked: tournament.psRegistrationLocked,
+    psAdjudicationLocked: tournament.psAdjudicationLocked,
   };
 }
 
@@ -97,9 +117,15 @@ export interface RegisterEventView {
   psAdjudicatorsAllowed: boolean;
   statusText: string;
   links: { [key: string]: string }[]; // Add this line to define the links property
+  registrationLocked: boolean;
+  adjudicationRegistrationLocked: boolean;
+  psRegistrationLocked: boolean;
+  psAdjudicationLocked: boolean;
 }
 
-export function toRegisterEvent(tournament: TournamentConfig): RegisterEventView {
+export function toRegisterEvent(
+  tournament: TournamentConfig,
+): RegisterEventView {
   return {
     title: tournament.title,
     format: tournament.debateFormat,
@@ -111,7 +137,10 @@ export function toRegisterEvent(tournament: TournamentConfig): RegisterEventView
     includesPS: tournament.includesPS,
     psAdjudicatorsAllowed: tournament.psAdjudicatorsAllowed,
     links: (tournament.links as unknown as { [key: string]: string }[]) ?? [], // Add this line to include links
-
+    registrationLocked: tournament.registrationLocked,
+    adjudicationRegistrationLocked: tournament.adjudicationRegistrationLocked,
+    psRegistrationLocked: tournament.psRegistrationLocked,
+    psAdjudicationLocked: tournament.psAdjudicationLocked,
   };
 }
 
@@ -122,7 +151,9 @@ export interface UpcomingEventView {
   title: string;
 }
 
-export function toUpcomingEvent(tournament: TournamentConfig): UpcomingEventView {
+export function toUpcomingEvent(
+  tournament: TournamentConfig,
+): UpcomingEventView {
   const timeMatch = tournament.dateString.match(/\d{1,2}:\d{2}/);
   return {
     id: tournament.slug,

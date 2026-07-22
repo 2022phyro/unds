@@ -55,6 +55,7 @@ export async function updateTournamentAction(
   formData: FormData,
 ): Promise<ActionState> {
   await requireStaff();
+  console.log("DAta", formData);
   const parsed = tournamentSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
     return {
@@ -89,7 +90,11 @@ export async function registerTeamAction(
 ): Promise<ActionState> {
   const allowed = await checkRateLimit("register-team");
   if (!allowed) return { error: "Too many attempts. Try again in a minute." };
-
+  const tournament = await db.tournamentConfig.findUnique({ where: { id: tournamentId } });
+  
+  if (!tournament || tournament.registrationLocked) {
+    return { error: "Debate and adjudication registration is currently closed." };
+  }
   const rawData = Object.fromEntries(formData);
   const parsed = teamRegistrationSchema.safeParse(rawData);
   if (!parsed.success) {
@@ -129,6 +134,11 @@ export async function registerAdjudicatorAction(
 ): Promise<ActionState> {
   const allowed = await checkRateLimit("register-adjudicator");
   if (!allowed) return { error: "Too many attempts. Try again in a minute." };
+  const tournament = await db.tournamentConfig.findUnique({ where: { id: tournamentId } });
+  
+  if (!tournament || tournament.adjudicationRegistrationLocked) {
+    return { error: "Debate and adjudication registration is currently closed." };
+  }
 
   const parsed = adjudicatorRegistrationSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
@@ -157,7 +167,10 @@ export async function registerIndividualAction(
 ): Promise<ActionState> {
   const allowed = await checkRateLimit("register-individual");
   if (!allowed) return { error: "Too many attempts. Try again in a minute." };
-
+  const tournament = await db.tournamentConfig.findUnique({ where: { id: tournamentId } });
+  if (!tournament || tournament.registrationLocked) {
+    return { error: "Debate and adjudication registration is currently closed." };
+  }
   const parsed = individualRegistrationSchema.safeParse(
     Object.fromEntries(formData),
   );
@@ -193,7 +206,10 @@ export async function registerPSAction(
       error: parsed.error.issues[0]?.message ?? "Invalid registration.",
     };
   }
-
+  const tournament = await db.tournamentConfig.findUnique({ where: { id: tournamentId } });
+  if (!tournament || tournament.psRegistrationLocked) {
+    return { error: "Public Speaking registration is currently closed." };
+  }
   try {
     await db.pSRegistration.create({ data: { tournamentId, ...parsed.data } });
   } catch {
@@ -214,7 +230,10 @@ export async function registerPSAdjudicatorAction(
 ): Promise<ActionState> {
   const allowed = await checkRateLimit("register-ps-adjudicator");
   if (!allowed) return { error: "Too many attempts. Try again in a minute." };
-
+  const tournament = await db.tournamentConfig.findUnique({ where: { id: tournamentId } });
+  if (!tournament || tournament.psAdjudicationLocked  ) {
+    return { error: "Public Speaking adjudication registration is currently closed." };
+  }
   const parsed = psAdjudicatorRegistrationSchema.safeParse(
     Object.fromEntries(formData),
   );

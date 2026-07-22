@@ -22,13 +22,17 @@ const AdjudicatorForm = dynamic(
   () => import("./adjudicator-form").then((m) => m.AdjudicatorForm),
   { loading: FormSkeleton },
 );
+const PSAdjudicatorForm = dynamic(
+  () => import("./ps-adjudication").then((m) => m.AdjudicatorForm),
+  { loading: FormSkeleton },
+);
 
 export const FORM_REGISTRY: Record<string, ComponentType<BaseFormProps>> = {
   "DEBATE.PARTICIPANT": DebateTeamForm,
   "DEBATE.INDIVIDUAL": IndividualForm,
   "PS.PARTICIPANT": PSTeamForm,
+  "PS.ADJUDICATOR": PSAdjudicatorForm,
   "DEBATE.ADJUDICATOR": AdjudicatorForm,
-  "PS.ADJUDICATOR": AdjudicatorForm,
 };
 
 export type FormKeys = keyof typeof FORM_REGISTRY;

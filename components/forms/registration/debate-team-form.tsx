@@ -1,8 +1,36 @@
-import { Info } from "lucide-react";
+import { Info, Lock } from "lucide-react";
 import { BaseFormProps, Field, FieldRow, SubmitRow } from "../shared";
 import { FormError } from "../shared/form-error";
 
 export function DebateTeamForm({ state, action, isPending, event }: BaseFormProps) {
+  const isLocked = event.registrationLocked;
+
+  if (isLocked) {
+    return (
+      <div className="w-full bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28] p-8 rounded-xs flex flex-col items-center text-center gap-4 my-6">
+        <div className="w-12 h-12 rounded-xs bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+          <Lock className="w-5 h-5" />
+        </div>
+        <div className="space-y-1">
+          <h3 className="font-garamond text-xl font-bold text-text-primary">
+            Debate Registration Closed
+          </h3>
+          <p className="font-garamond text-sm text-text-secondary max-w-md leading-relaxed">
+            Team debate registration for this event is currently closed. Please contact the tournament organizers or the adjudication desk if you have inquiries.
+          </p>
+        </div>
+        <div className="pt-2">
+          <a
+            href="https://wa.me/qr/7OO5DRWMWX6JF1"
+            className="inline-flex items-center justify-center font-ui text-xs tracking-wider border border-primary/30 text-primary hover:bg-primary/5 transition-colors px-4 py-2.5 rounded-xs font-semibold"
+          >
+            Contact Adjudication Desk
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   const requiresInstitutionalAdjudicator =
     event.registrationType === "TEAM" &&
     (event.adjudicatorPolicy === "N_PLUS_ONE" ||

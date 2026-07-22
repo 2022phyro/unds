@@ -8,7 +8,8 @@ export function AdjudicatorForm({
   isPending,
   event,
 }: BaseFormProps) {
-  const isLocked = event.adjudicationRegistrationLocked;
+  // Check if registration is locked using your granular flag schema
+  const isLocked = event.psAdjudicationLocked ?? !event.psAdjudicatorsAllowed;
 
   if (isLocked) {
     return (
@@ -21,7 +22,9 @@ export function AdjudicatorForm({
             Adjudication Registration Closed
           </h3>
           <p className="font-garamond text-sm text-text-secondary max-w-md leading-relaxed">
-            Adjudicator registration for this event is currently closed. Please contact the tournament organizers or the adjudication desk if you have inquiries.
+            Public Speaking adjudicator registration is currently closed. Please
+            contact the tournament organizers or the adjudication desk if you
+            require special accommodation.
           </p>
         </div>
         <div className="pt-2">

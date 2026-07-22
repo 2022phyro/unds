@@ -88,12 +88,17 @@ model TournamentConfig {
   whoShouldAttend            String[]                    @default([])
   schedule                   Json
   faqs                       Json
-  links                    Json                      @default("[]")
   isFeatured                 Boolean                     @default(false)
   createdAt                  DateTime                    @default(now())
   updatedAt                  DateTime                    @updatedAt
   includesPS                 Boolean                     @default(false)
   psAdjudicatorsAllowed      Boolean                     @default(false)
+  links                      Json                        @default("[]")
+  registrationLocked             Boolean  @default(false) // Debate / Main stream
+  adjudicationRegistrationLocked Boolean  @default(false) // Debate Adjudicators
+  psRegistrationLocked           Boolean  @default(false) // Public Speaking stream
+  psAdjudicationLocked           Boolean  @default(false) // Public Speaking Adju
+  // adjudicationCoreDesk    String[]
   adjudicatorRegistrations   AdjudicatorRegistration[]
   individualRegistrations    IndividualRegistration[]
   psAdjudicatorRegistrations PSAdjudicatorRegistration[]
@@ -123,8 +128,8 @@ model AdjudicatorRegistration {
   tournamentId String
   name         String
   email        String
-  institution  String           // <--- Add this
   createdAt    DateTime         @default(now())
+  institution  String
   tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 
   @@unique([tournamentId, email])
@@ -135,8 +140,8 @@ model IndividualRegistration {
   tournamentId String
   name         String
   email        String
-  institution  String           @default("") // <--- Added with default value
   createdAt    DateTime         @default(now())
+  institution  String           @default("")
   tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 
   @@unique([tournamentId, email])
@@ -159,8 +164,8 @@ model PSAdjudicatorRegistration {
   tournamentId String
   name         String
   email        String
-  institution  String           // <--- Add this
   createdAt    DateTime         @default(now())
+  institution  String
   tournament   TournamentConfig @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 
   @@unique([tournamentId, email])

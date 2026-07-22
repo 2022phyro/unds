@@ -165,6 +165,40 @@ export function TournamentFormFields({
           />
           Allow independent adjudicators to register for Public Speaking
         </label>
+        {/* Adjudicator registration lock */}
+                <label className="flex items-center gap-2 text-xs font-manrope">
+          <input
+            type="checkbox"
+            name="registrationLocked"
+            defaultChecked={tournament?.registrationLocked}
+          />
+          Tournament debate  registration locked
+        </label>
+                <label className="flex items-center gap-2 text-xs font-manrope">
+          <input
+            type="checkbox"
+            name="adjudicationRegistrationLocked"
+            defaultChecked={tournament?.adjudicationRegistrationLocked}
+          />
+          Tournament adjudicator registration locked
+        </label>
+                <label className="flex items-center gap-2 text-xs font-manrope">
+          <input
+            type="checkbox"
+            name="psRegistrationLocked"
+            defaultChecked={tournament?.psRegistrationLocked}
+          />
+          Tournament Public Speaking  registration locked
+        </label>
+                <label className="flex items-center gap-2 text-xs font-manrope">
+          <input
+            type="checkbox"
+            name="psAdjudicationLocked"
+            defaultChecked={tournament?.psAdjudicationLocked}
+          />
+          Tournament Public Speaking adjudication registration locked
+        </label>
+  
       </div>
       <div className="space-y-1">
         <label className="font-ui text-[10px] tracking-widest text-text-muted">

@@ -59,4 +59,20 @@ export const tournamentSchema = z.object({
     .union([z.literal("on"), z.undefined()])
     .optional()
     .transform((value) => value === "on"),
+  registrationLocked: z
+    .union([z.literal("on"), z.undefined()])
+    .optional()
+    .transform((value) => value === "on"),
+  adjudicationRegistrationLocked: z
+    .union([z.literal("on"), z.undefined()])
+    .optional()
+    .transform((value) => value === "on"),
+  psRegistrationLocked: z
+    .union([z.literal("on"), z.undefined()])
+    .optional()
+    .transform((value) => value === "on"),
+  psAdjudicationLocked: z
+    .union([z.literal("on"), z.undefined()])
+    .optional()
+    .transform((value) => value === "on"),
 });
