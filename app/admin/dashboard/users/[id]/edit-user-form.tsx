@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { updateUser } from "@/lib/actions/admin";
+import { CloudinaryImage } from "@/components/cl-image";
 
 export function EditUserForm({
   user,
@@ -21,10 +22,16 @@ export function EditUserForm({
       action={action}
       className="border border-[#2e3a28]/20 flex flex-col gap-6 p-8 "
     >
-        {user.application && (
+      {user.application && (
         <div className="bg-surface flex flex-col gap-3 p-4 border border-[#2e3a28]/10">
-          <label className="font-bold uppercase text-xs tracking-widest block mb-2">Application Status</label>
-          <select name="applicationStatus" defaultValue={user.application.status} className="w-full p-3 border border-primary ">
+          <label className="font-bold uppercase text-xs tracking-widest block mb-2">
+            Application Status
+          </label>
+          <select
+            name="applicationStatus"
+            defaultValue={user.application.status}
+            className="w-full p-3 border border-primary "
+          >
             <option value="PENDING">Pending</option>
             <option value="APPROVED">Approved</option>
             <option value="REJECTED">Rejected</option>
