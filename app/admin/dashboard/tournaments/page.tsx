@@ -27,7 +27,7 @@ export default async function AdminTournamentsPage() {
         </h1>
         <Link
           href="/admin/dashboard/tournaments/new"
-          className="px-4 py-2 bg-[#2e3a28] text-white text-xs font-ui tracking-wider font-bold"
+          className="px-4 py-2 bg-[#2e3a28] text-white! text-xs font-ui tracking-wider font-bold"
         >
           + New Tournament
         </Link>
