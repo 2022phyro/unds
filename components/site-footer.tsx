@@ -22,7 +22,7 @@ const footerLinks = [
 ];
 
 const contactLinks = [
-  { href: "https://wa.me/qr/7OO5DRWMWX6JF1", label: "WhatsApp", icon: IconBrandWhatsapp },
+  { href: "https://wa.me/8083804754", label: "WhatsApp", icon: IconBrandWhatsapp },
   { href: "https://www.instagram.com/undebatesociety", label: "Instagram", icon: IconBrandInstagram },
   { href: "https://x.com/UNDebateSociety", label: "Twitter", icon: IconBrandX },
   { href: "https://www.linkedin.com/company/university-of-nigeria-debating-society-unds/", label: "LinkedIn", icon: IconBrandLinkedin },

@@ -10,7 +10,7 @@ export function AdjudicatorForm({
 }: BaseFormProps) {
   // Check if registration is locked using your granular flag schema
   const isLocked = event.psAdjudicationLocked ?? !event.psAdjudicatorsAllowed;
-
+  const PS_CORE = event.links?.find((item) => item.label === "ps.core");
   if (isLocked) {
     return (
       <div className="w-full bg-[color-mix(in_srgb,var(--surface)_95%,black)] border border-[#2e3a28] p-8 rounded-xs flex flex-col items-center text-center gap-4 my-6">
@@ -29,7 +29,7 @@ export function AdjudicatorForm({
         </div>
         <div className="pt-2">
           <a
-            href="https://wa.me/qr/7OO5DRWMWX6JF1"
+            href={PS_CORE?.url || "#"}
             className="inline-flex items-center justify-center font-ui text-xs tracking-wider border border-primary/30 text-primary hover:bg-primary/5 transition-colors px-4 py-2.5 rounded-xs font-semibold"
           >
             Contact Adjudication Desk

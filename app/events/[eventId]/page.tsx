@@ -22,6 +22,7 @@ export default async function EventDetailsPage({
   if (!tournament) notFound();
 
   const event = toEventDetail(tournament);
+  const ADJ_CORE = event.links?.find((item) => item.label === "adj.core");
 
   return (
     <div className="w-full text-text-primary min-h-screen">
@@ -252,7 +253,7 @@ export default async function EventDetailsPage({
         <div className="border-t border-[#2e3a28]/10 pt-10 text-center font-ui text-[11px] text-text-muted  tracking-wider">
           Direct questions or accommodation adjustments toward the{" "}
           <a
-          href="https://wa.me/qr/7OO5DRWMWX6JF1"
+          href={ADJ_CORE?.url || "#"}
             className="text-primary! text-sm font-bold hover:text-primary/60! transition-colors"
           >
             Adjudication Core Desk

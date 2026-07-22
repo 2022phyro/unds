@@ -4,6 +4,7 @@ import { FormError } from "../shared/form-error";
 
 export function DebateTeamForm({ state, action, isPending, event }: BaseFormProps) {
   const isLocked = event.registrationLocked;
+  const DEBATE_CORE = event.links?.find((item) => item.label === "debate.core");
 
   if (isLocked) {
     return (
@@ -21,7 +22,7 @@ export function DebateTeamForm({ state, action, isPending, event }: BaseFormProp
         </div>
         <div className="pt-2">
           <a
-            href="https://wa.me/qr/7OO5DRWMWX6JF1"
+            href={DEBATE_CORE?.url || "#"}
             className="inline-flex items-center justify-center font-ui text-xs tracking-wider border border-primary/30 text-primary hover:bg-primary/5 transition-colors px-4 py-2.5 rounded-xs font-semibold"
           >
             Contact Adjudication Desk

@@ -76,7 +76,7 @@ export interface EventDetailView {
   schedule: ScheduleSlot[];
   faqs: FaqEntry[];
   includesPS: boolean;
-  links: { [key: string]: string }; // Add this line to define the links property
+  links: { [key: string]: string }[]; // Add this line to define the links property
   registrationLocked: boolean;
   adjudicationRegistrationLocked: boolean;
   psRegistrationLocked: boolean;
@@ -98,7 +98,7 @@ export function toEventDetail(tournament: TournamentConfig): EventDetailView {
     schedule: (tournament.schedule as unknown as ScheduleSlot[]) ?? [],
     faqs: (tournament.faqs as unknown as FaqEntry[]) ?? [],
     includesPS: tournament.includesPS,
-    links: (tournament.links as unknown as { [key: string]: string }) ?? {}, // Add this line to include links
+    links: (tournament.links as unknown as { [key: string]: string }[]) ?? {}, // Add this line to include links
     registrationLocked: tournament.registrationLocked,
     adjudicationRegistrationLocked: tournament.adjudicationRegistrationLocked,
     psRegistrationLocked: tournament.psRegistrationLocked,
