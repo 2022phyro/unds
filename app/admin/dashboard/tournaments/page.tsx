@@ -13,6 +13,7 @@ export default async function AdminTournamentsPage() {
           adjudicatorRegistrations: true,
           individualRegistrations: true,
           psRegistrations: true,
+          psAdjudicatorRegistrations: true,
         },
       },
     },
@@ -41,7 +42,9 @@ export default async function AdminTournamentsPage() {
               <th className="p-2">Status</th>
               <th className="p-2">Teams</th>
               <th className="p-2">Adjudicators</th>
+              <th className="p-2">Individuals</th>
               <th className="p-2">PS</th>
+              <th className="p-2">PS Adjudicators</th>
               <th className="p-2" />
             </tr>
           </thead>
@@ -53,9 +56,9 @@ export default async function AdminTournamentsPage() {
                 <td className="p-2">{t.status}</td>
                 <td className="p-2">{t._count.teamRegistrations}</td>
                 <td className="p-2">{t._count.adjudicatorRegistrations}</td>
-                <td className="p-2">
-                  {t.includesPS ? t._count.psRegistrations : "—"}
-                </td>
+                <td className="p-2">{t._count.individualRegistrations}</td>
+                <td className="p-2">{t.includesPS ? t._count.psRegistrations : "—"}</td>
+                <td className="p-2">{t.includesPS ? t._count.psAdjudicatorRegistrations : "—"}</td>
                 <td className="p-2">
                   <div className="flex gap-3">
                     <Link
